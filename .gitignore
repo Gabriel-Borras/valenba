@@ -11,6 +11,9 @@ __pycache__/
 .venv/
 venv/
 ENV/
+*.db
+*.sqlite
+*.sqlite3
 
 # Modelos pesados de Prophet (>4GB en total)
 Entrenamiento/Modelos_Entrenados/*.pkl

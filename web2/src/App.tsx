@@ -19,7 +19,17 @@ import {
   Check,
   X,
   Clock,
-  Percent
+  Percent,
+  Mail,
+  Lock,
+  LogOut,
+  UserPlus,
+  LogIn,
+  CheckCircle2,
+  AlertCircle,
+  Eye,
+  EyeOff,
+  ShieldCheck
 } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup, Tooltip, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -84,10 +94,123 @@ const ESTACIONES_ROTAS = [105, 146, 168, 299];
 const URL_BACKEND = '/api/predict'; // Reemplazar con endpoint real (ej. ngrok, AWS, heroku)
 const CARTO_API_KEY = 'cb1_4b0r_1_40b4b36cd0db9ee62d5d48d2';
 
+// Resolver de URL de API preparado para Producción (Vercel / Dominio propio / Local)
+export const getApiUrl = (endpoint: string) => {
+  const envUrl = (import.meta as any).env?.VITE_API_URL;
+  if (envUrl) {
+    const cleanBase = envUrl.endsWith('/') ? envUrl.slice(0, -1) : envUrl;
+    const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+    return `${cleanBase}${cleanEndpoint}`;
+  }
+  const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  return `http://${window.location.hostname}:8000${cleanEndpoint}`;
+};
+
 export default function App() {
   // --- ESTADO DE NAVEGACION ---
   const [currentView, setCurrentView] = useState<'home' | 'map'>('home');
   const [showHowItWorks, setShowHowItWorks] = useState(false);
+
+  // --- ESTADO DE USUARIO / AUTENTICACIÓN ---
+  interface UserProfile {
+    name: string;
+    email: string;
+    password?: string;
+    createdAt?: string;
+  }
+
+  const [currentUser, setCurrentUser] = useState<UserProfile | null>(() => {
+    try {
+      const saved = localStorage.getItem('valenba_current_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+
+  const [isUserDrawerOpen, setIsUserDrawerOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
+  const [authName, setAuthName] = useState('');
+  const [authEmail, setAuthEmail] = useState('');
+  const [authPassword, setAuthPassword] = useState('');
+  const [authError, setAuthError] = useState<string | null>(null);
+  const [authSuccess, setAuthSuccess] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleAuthSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setAuthError(null);
+    setAuthSuccess(null);
+
+    const emailTrimmed = authEmail.trim().toLowerCase();
+    const passTrimmed = authPassword.trim();
+
+    if (!emailTrimmed || !passTrimmed) {
+      setAuthError('Por favor completa todos los campos.');
+      return;
+    }
+
+    try {
+      if (authMode === 'register') {
+        const nameTrimmed = authName.trim();
+        if (!nameTrimmed) {
+          setAuthError('Por favor indica tu nombre.');
+          return;
+        }
+        if (passTrimmed.length < 4) {
+          setAuthError('La contraseña debe tener al menos 4 caracteres.');
+          return;
+        }
+
+        const res = await fetch(getApiUrl('/api/auth/register'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: nameTrimmed, email: emailTrimmed, password: passTrimmed })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.detail || 'Error al crear la cuenta.');
+        }
+
+        const sessionUser = data.user;
+        localStorage.setItem('valenba_current_user', JSON.stringify(sessionUser));
+        setCurrentUser(sessionUser);
+        setAuthSuccess('¡Cuenta registrada con éxito en la base de datos!');
+        setAuthName('');
+        setAuthEmail('');
+        setAuthPassword('');
+      } else {
+        const res = await fetch(getApiUrl('/api/auth/login'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: emailTrimmed, password: passTrimmed })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.detail || 'Credenciales incorrectas.');
+        }
+
+        const sessionUser = data.user;
+        localStorage.setItem('valenba_current_user', JSON.stringify(sessionUser));
+        setCurrentUser(sessionUser);
+        if (Array.isArray(data.favorites)) {
+          setFavorites(data.favorites);
+        }
+        setAuthSuccess(`¡Bienvenido de nuevo, ${sessionUser.name}!`);
+        setAuthEmail('');
+        setAuthPassword('');
+      }
+    } catch (err: any) {
+      setAuthError(err.message || 'Error de conexión con el servidor.');
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('valenba_current_user');
+    setCurrentUser(null);
+    setAuthSuccess(null);
+    setAuthError(null);
+  };
 
   // --- ESTADO DEL MAPA ---
   interface MapStation {
@@ -106,13 +229,27 @@ export default function App() {
 
 
 
-  // EFECTO PARA CARGOS DE DATOS REALES DEL MAPA
+  // EFECTO PARA CARGOS DE DATOS REALES DEL MAPA Y FAVORITAS
   useEffect(() => {
-    fetch(`http://${window.location.hostname}:8000/api/estaciones`)
+    fetch(getApiUrl('/api/estaciones'))
       .then(res => res.json())
       .then(data => setMapStations(data))
       .catch(console.error);
   }, []);
+
+  // Sincronizar favoritas de la base de datos si el usuario está logueado
+  useEffect(() => {
+    if (currentUser?.email) {
+      fetch(getApiUrl(`/api/user/favorites?email=${encodeURIComponent(currentUser.email)}`))
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data) && data.length > 0) {
+            setFavorites(data);
+          }
+        })
+        .catch(console.error);
+    }
+  }, [currentUser?.email]);
 
   // --- ESTADO DEL FORMULARIO ---
   const [stationId, setStationId] = useState<string>('');
@@ -212,11 +349,19 @@ export default function App() {
     const cleanId = getCleanId(id.toString());
     if (!cleanId) return;
     setFavorites(prev => {
-      if (prev.some(f => f.id && getCleanId(f.id.toString()) === cleanId)) {
-        return prev.filter(f => f.id && getCleanId(f.id.toString()) !== cleanId);
-      } else {
-        return [...prev, { id: cleanId }];
+      const exists = prev.some(f => f.id && getCleanId(f.id.toString()) === cleanId);
+      const updated = exists 
+        ? prev.filter(f => f.id && getCleanId(f.id.toString()) !== cleanId)
+        : [...prev, { id: cleanId }];
+
+      if (currentUser?.email) {
+        fetch(getApiUrl('/api/user/favorites'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: currentUser.email, station_id: cleanId })
+        }).catch(console.error);
       }
+      return updated;
     });
   };
 
@@ -284,7 +429,7 @@ export default function App() {
         fecha_solicitada: dateTime
       };
 
-      const response = await fetch(`http://${window.location.hostname}:8000/predecir`, {
+      const response = await fetch(getApiUrl('/predecir'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -319,27 +464,32 @@ export default function App() {
       <header className="bg-white shadow-sm border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
           <div className="flex items-center gap-8">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 cursor-pointer" onClick={() => setCurrentView('home')}>
               <div className="w-10 h-10 bg-[#2f3b5c] rounded-full flex items-center justify-center">
                 <Bike className="text-white w-6 h-6" />
               </div>
               <span className="text-2xl font-black text-[#2f3b5c] tracking-tight italic">
-                valenbisi
+                valenBA
               </span>
             </div>
             
             <nav className="hidden md:flex items-center gap-6 text-sm font-bold text-slate-700">
               <button onClick={() => setCurrentView('map')} className={`transition-colors ${currentView === 'map' ? 'text-[#2f3b5c] border-b-2 border-[#2f3b5c]' : 'hover:text-[#2f3b5c]'}`}>MAPA</button>
-              <button onClick={() => setShowHowItWorks(true)} className="hover:text-[#2f3b5c] transition-colors">¿CÓMO FUNCIONA?</button>
             </nav>
           </div>
 
-          <div className="flex items-center gap-6">
-            <button className="hidden md:flex items-center justify-center w-10 h-10 rounded-full border border-slate-300 hover:bg-slate-50 transition-colors">
-              <User className="w-5 h-5 text-[#2f3b5c]" />
-            </button>
-            <button className="md:hidden p-2">
-              <Menu className="w-6 h-6 text-slate-700" />
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => setIsUserDrawerOpen(true)}
+              className="flex items-center gap-2.5 px-3 py-2 rounded-full border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all text-slate-700 shadow-sm"
+              title={currentUser ? `Perfil de ${currentUser.name}` : 'Iniciar sesión o registrarse'}
+            >
+              <div className="w-8 h-8 rounded-full bg-[#2f3b5c] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
+                {currentUser ? currentUser.name.charAt(0).toUpperCase() : <User className="w-4 h-4 text-white" />}
+              </div>
+              <span className="hidden sm:inline text-xs font-bold truncate max-w-[130px]">
+                {currentUser ? currentUser.name : 'Iniciar Sesión'}
+              </span>
             </button>
           </div>
         </div>
@@ -1140,6 +1290,288 @@ export default function App() {
                   Entendido
                 </button>
               </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* DRAWER LATERAL DE USUARIO / AUTENTICACIÓN */}
+      <AnimatePresence>
+        {isUserDrawerOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[120] bg-slate-900/40 backdrop-blur-sm flex justify-end"
+            onClick={() => setIsUserDrawerOpen(false)}
+          >
+            <motion.div 
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 26, stiffness: 240 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white w-full max-w-md h-full shadow-2xl flex flex-col p-6 md:p-8 overflow-y-auto"
+            >
+              {/* Encabezado del Drawer */}
+              <div className="flex items-center justify-between pb-6 border-b border-slate-100">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#2f3b5c]/10 text-[#2f3b5c] flex items-center justify-center font-bold text-sm">
+                    {currentUser ? currentUser.name.charAt(0).toUpperCase() : <User className="w-5 h-5" />}
+                  </div>
+                  <div>
+                    <h3 className="font-extrabold text-[#2f3b5c] text-lg leading-tight">
+                      {currentUser ? 'Mi Cuenta' : 'Acceso ValenBA'}
+                    </h3>
+                    <p className="text-xs text-slate-400 font-medium">
+                      {currentUser ? currentUser.email : 'Gestiona tus favoritas y alertas'}
+                    </p>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => setIsUserDrawerOpen(false)} 
+                  className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Contenido según estado: Logueado vs Formulario */}
+              {currentUser ? (
+                /* --- VISTA DE PERFIL DE USUARIO LOGUEADO --- */
+                <div className="py-6 space-y-6 flex-1 flex flex-col justify-between">
+                  <div className="space-y-6">
+                    {/* Tarjeta de perfil */}
+                    <div className="bg-gradient-to-br from-[#2f3b5c] to-[#1e263d] text-white p-5 rounded-2xl shadow-lg relative overflow-hidden">
+                      <div className="relative z-10 space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] font-extrabold tracking-wider uppercase px-2.5 py-1 rounded-full bg-white/20 text-white backdrop-blur-sm">
+                            Usuario ValenBA
+                          </span>
+                          <span className="text-xs text-slate-300 font-mono">
+                            Desde {currentUser.createdAt || '2026'}
+                          </span>
+                        </div>
+                        <div>
+                          <h4 className="text-xl font-black">{currentUser.name}</h4>
+                          <p className="text-xs text-slate-300 font-mono">{currentUser.email}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Resumen de Favoritas */}
+                    <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                          <Star className="w-4 h-4 text-yellow-500 fill-yellow-400" />
+                          Tus Estaciones Favoritas ({favorites.length})
+                        </h4>
+                        <button 
+                          onClick={() => {
+                            setCurrentView('map');
+                            setShowOnlyFavorites(true);
+                            setIsUserDrawerOpen(false);
+                          }}
+                          className="text-[11px] font-bold text-[#2f3b5c] hover:underline"
+                        >
+                          Ver en mapa →
+                        </button>
+                      </div>
+
+                      {favorites.length === 0 ? (
+                        <p className="text-xs text-slate-400 font-medium py-2">
+                          Aún no has guardado ninguna estación favorita. Pulsa la estrella en cualquier estación para fijarla aquí.
+                        </p>
+                      ) : (
+                        <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+                          {favorites.map((fav) => {
+                            const station = mapStations.find(s => s.id.toString() === fav.id.toString());
+                            return (
+                              <div key={fav.id} className="bg-white p-2.5 rounded-xl border border-slate-200/70 flex items-center justify-between gap-2 text-xs">
+                                <div className="min-w-0">
+                                  <p className="font-bold text-slate-800 truncate">{fav.customName || station?.name || `Estación ${fav.id}`}</p>
+                                  <span className="text-[10px] font-mono text-slate-400">ID: {fav.id}</span>
+                                </div>
+                                <button 
+                                  onClick={() => {
+                                    setStationId(fav.id.toString());
+                                    setCurrentView('home');
+                                    setIsUserDrawerOpen(false);
+                                  }}
+                                  className="text-[10px] font-bold bg-slate-100 hover:bg-[#2f3b5c] hover:text-white px-2.5 py-1 rounded-lg transition-colors shrink-0"
+                                >
+                                  Predecir
+                                </button>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Ventajas de la cuenta */}
+                    <div className="space-y-2.5 text-xs text-slate-500">
+                      <div className="flex items-center gap-2">
+                        <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
+                        <span>Sincronización local activa en este navegador</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                        <span>Acceso ilimitado a modelos predictivos Prophet</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Botón Cerrar Sesión */}
+                  <div className="pt-4 border-t border-slate-100">
+                    <button
+                      onClick={handleLogout}
+                      className="w-full bg-red-50 hover:bg-red-100 text-red-600 font-bold text-sm py-3 rounded-xl transition-colors flex items-center justify-center gap-2"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      Cerrar Sesión
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                /* --- VISTA DE FORMULARIO (LOGIN / REGISTRO) --- */
+                <div className="py-6 space-y-6 flex-1 flex flex-col justify-between">
+                  <div className="space-y-6">
+                    {/* Selector de Pestañas Login vs Registro */}
+                    <div className="bg-slate-100 p-1 rounded-xl flex">
+                      <button
+                        onClick={() => { setAuthMode('login'); setAuthError(null); setAuthSuccess(null); }}
+                        className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+                          authMode === 'login' ? 'bg-white text-[#2f3b5c] shadow-sm' : 'text-slate-500 hover:text-slate-800'
+                        }`}
+                      >
+                        <LogIn className="w-3.5 h-3.5" />
+                        Iniciar Sesión
+                      </button>
+                      <button
+                        onClick={() => { setAuthMode('register'); setAuthError(null); setAuthSuccess(null); }}
+                        className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+                          authMode === 'register' ? 'bg-white text-[#2f3b5c] shadow-sm' : 'text-slate-500 hover:text-slate-800'
+                        }`}
+                      >
+                        <UserPlus className="w-3.5 h-3.5" />
+                        Crear Cuenta
+                      </button>
+                    </div>
+
+                    {/* Mensajes de Alerta */}
+                    {authError && (
+                      <div className="bg-red-50 border border-red-200 text-red-700 text-xs p-3 rounded-xl flex items-start gap-2">
+                        <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-500" />
+                        <span>{authError}</span>
+                      </div>
+                    )}
+                    {authSuccess && (
+                      <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs p-3 rounded-xl flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-emerald-500" />
+                        <span>{authSuccess}</span>
+                      </div>
+                    )}
+
+                    {/* Formulario */}
+                    <form onSubmit={handleAuthSubmit} className="space-y-4">
+                      {authMode === 'register' && (
+                        <div className="space-y-1.5">
+                          <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
+                            Nombre Completo
+                          </label>
+                          <div className="relative">
+                            <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                            <input
+                              type="text"
+                              required
+                              placeholder="Nombre completo"
+                              value={authName}
+                              onChange={(e) => setAuthName(e.target.value)}
+                              className="w-full text-xs pl-10 pr-3 py-2.5 border border-slate-200 rounded-xl outline-none bg-slate-50/50 focus:bg-white focus:ring-2 focus:ring-[#2f3b5c]/20 focus:border-[#2f3b5c]"
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="space-y-1.5">
+                        <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
+                          Correo Electrónico
+                        </label>
+                        <div className="relative">
+                          <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                          <input
+                            type="email"
+                            required
+                            placeholder="tu_correo@email.com"
+                            value={authEmail}
+                            onChange={(e) => setAuthEmail(e.target.value)}
+                            className="w-full text-xs pl-10 pr-3 py-2.5 border border-slate-200 rounded-xl outline-none bg-slate-50/50 focus:bg-white focus:ring-2 focus:ring-[#2f3b5c]/20 focus:border-[#2f3b5c]"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
+                          Contraseña
+                        </label>
+                        <div className="relative">
+                          <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                          <input
+                            type={showPassword ? 'text' : 'password'}
+                            required
+                            placeholder="Mínimo 4 caracteres"
+                            value={authPassword}
+                            onChange={(e) => setAuthPassword(e.target.value)}
+                            className="w-full text-xs pl-10 pr-10 py-2.5 border border-slate-200 rounded-xl outline-none bg-slate-50/50 focus:bg-white focus:ring-2 focus:ring-[#2f3b5c]/20 focus:border-[#2f3b5c]"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 p-0.5"
+                          >
+                            {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                          </button>
+                        </div>
+                      </div>
+
+                      <button
+                        type="submit"
+                        className="w-full bg-[#2f3b5c] hover:bg-[#1f2840] text-white font-bold text-xs py-3.5 rounded-xl transition-all shadow-md shadow-[#2f3b5c]/20 flex items-center justify-center gap-2 mt-2"
+                      >
+                        {authMode === 'login' ? (
+                          <>
+                            <LogIn className="w-4 h-4" />
+                            Entrar a mi Cuenta
+                          </>
+                        ) : (
+                          <>
+                            <UserPlus className="w-4 h-4" />
+                            Registrarme Gratis
+                          </>
+                        )}
+                      </button>
+                    </form>
+                  </div>
+
+                  {/* Pie del formulario */}
+                  <div className="text-center pt-4 border-t border-slate-100">
+                    <p className="text-xs text-slate-400 font-medium">
+                      {authMode === 'login' ? '¿Aún no tienes cuenta?' : '¿Ya tienes una cuenta registrada?'}{' '}
+                      <button
+                        onClick={() => {
+                          setAuthMode(authMode === 'login' ? 'register' : 'login');
+                          setAuthError(null);
+                          setAuthSuccess(null);
+                        }}
+                        className="font-bold text-[#2f3b5c] hover:underline"
+                      >
+                        {authMode === 'login' ? 'Regístrate aquí' : 'Inicia sesión'}
+                      </button>
+                    </p>
+                  </div>
+                </div>
+              )}
             </motion.div>
           </motion.div>
         )}
