@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+/* Estilos personalizados para los marcadores de Leaflet */
+.custom-bike-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Base del pin circular */
+.marker-pin {
+  width: 36px;
+  height: 36px;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 2px solid #cbd5e1 !important; /* border-slate-300 */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important; /* shadow-lg */
+  transition: all 0.2s ease-in-out !important;
+}
+
+/* Estación normal: azul */
+.marker-pin-normal {
+  background-color: #2f3b5c !important;
+  color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Estación favorita: amarillo/oro */
+.marker-pin-favorite {
+  background-color: #fbbf24 !important; /* bg-amber-400 */
+  color: #0f172a !important; /* text-slate-900 */
+  border-color: #fde047 !important; /* border-yellow-300 */
+}
+
+/* Sombra/Anillo de selección (ring-4 equivalent) */
+.marker-pin-normal.selected {
+  box-shadow: 0 0 0 4px rgba(47, 59, 92, 0.3) !important;
+}
+
+.marker-pin-favorite.selected {
+  box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.4) !important;
+}
+
+/* Puntero triangular inferior */
+.marker-arrow {
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 6px;
+  height: 6px;
+  z-index: -10;
+}
+
+.marker-arrow-normal {
+  background-color: #2f3b5c !important;
+}
+
+.marker-arrow-favorite {
+  background-color: #fbbf24 !important;
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Predictor Valenbisi",
+  "description": "Aplicación predictiva de disponibilidad de bicicletas públicas utilizando modelos de Machine Learning (Prophet).",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}

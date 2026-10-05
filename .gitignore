@@ -1,0 +1,36 @@
+# Node / Frontend
+web2/node_modules/
+web2/dist/
+*.local
+
+# Python / Backend
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+ENV/
+
+# Modelos pesados de Prophet (>4GB en total)
+Entrenamiento/Modelos_Entrenados/*.pkl
+Modelos_Entrenados/*.pkl
+*.pkl
+
+# Datasets masivos históricos
+Datasets/Datasets_Listos_Prophet/
+Datasets/*.csv
+
+# Archivos comprimidos de respaldo
+*.rar
+*.zip
+
+# Entorno y credenciales
+.env
+.env.*
+
+# Sistema y editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

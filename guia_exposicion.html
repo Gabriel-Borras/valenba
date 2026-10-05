@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Base para Improvisación - ValenBisi Predictor</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #2563eb;
+            font-size: 2.5rem;
+            border-bottom: 3px solid #e2e8f0;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        .slide-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 6px solid #2563eb;
+        }
+        .slide-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .slide-number {
+            background: #2563eb;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            margin-right: 1rem;
+        }
+        .slide-title {
+            font-size: 1.5rem;
+            color: #0f172a;
+            margin: 0;
+        }
+        .meta-info {
+            background: #f1f5f9;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 2rem;
+        }
+        .meta-column {
+            flex: 1;
+        }
+        .meta-label {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .meta-text {
+            font-size: 0.95rem;
+            color: #334155;
+            font-weight: 500;
+        }
+        .content-section {
+            margin-bottom: 1.5rem;
+        }
+        .content-title {
+            color: #2563eb;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        .concept-list {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+        .concept-list li {
+            margin-bottom: 0.8rem;
+        }
+        .concept-def {
+            background-color: #fffbeb;
+            border-left: 3px solid #f59e0b;
+            padding: 0.5rem 1rem;
+            margin-top: 0.3rem;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.95rem;
+            color: #78350f;
+        }
+        .highlight {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .thread {
+            border-left: 3px solid #10b981;
+            color: #047857;
+            background: #ecfdf5;
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+        .thread strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #065f46;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🎙️ Guía de Exposición: El Viaje del Dato al Producto</h1>
+    <p style="font-size: 1.1rem; color: #475569; margin-bottom: 3rem;">
+        Esta base está pensada para que no memorices, sino que interiorices el rol que juegas en cada diapositiva. Tú eres el encargado de conectar la sociología (cómo se mueve la gente), con las matemáticas puras (Prophet y Monte Carlo) y acabar vendiendo el producto final (Despliegue).
+    </p>
+
+    <!-- SLIDE 13 -->
+    <div class="slide-card">
+        <div class="slide-header">
+            <div class="slide-number">13</div>
+            <h2 class="slide-title">Ingeniería de Datos: Laborables vs Festivos</h2>
+        </div>
+        <div class="meta-info">
+            <div class="meta-column">
+                <div class="meta-label">¿Qué pasa antes?</div>
+                <div class="meta-text">Un compañero acaba de explicar la limpieza de datos (estaciones fantasma y eliminadas). La audiencia ya sabe que los datos están limpios.</div>
+            </div>
+            <div class="meta-column">
+                <div class="meta-label">¿Qué pasa después?</div>
+                <div class="meta-text">👉 <strong>Sigues tú.</strong> Avanzas de forma fluida a la siguiente diapo.</div>
+            </div>
+        </div>
+        <div class="content-section">
+            <div class="content-title">Conceptos Clave a Explicar</div>
+            <ul class="concept-list">
+                <li>El uso del sistema Valenbisi posee un <strong>fuerte componente rutinario</strong>.</li>
+                <li>Los días laborables muestran <strong>picos agresivos de estrés</strong> (08:00h y 18:00h).</li>
+                <li>Los festivos presentan una <strong>distribución plana y suave</strong>, indicativa de uso recreacional.</li>
+            </ul>
+        </div>
+        <div class="thread">
+            <strong>🧵 Hilo Conductor y Resumen de la Diapositiva:</strong> 
+            "Para predecir el futuro, primero teníamos que demostrar empíricamente que los ciudadanos obedecen a rutinas medibles." <br><br>
+            <em>Resumen visual:</em> En esta diapositiva, enfrentas directamente las dos gráficas de uso. Explicas cómo la Inteligencia Artificial necesita nutrirse de la certeza de que el ciudadano repite comportamientos. Si el uso fuera siempre aleatorio, sería impredecible.
+        </div>
+    </div>
+
+    <!-- SLIDE 14 -->
+    <div class="slide-card">
+        <div class="slide-header">
+            <div class="slide-number">14</div>
+            <h2 class="slide-title">Ingeniería de Datos: El Clima</h2>
+        </div>
+        <div class="meta-info">
+            <div class="meta-column">
+                <div class="meta-label">¿Qué pasa antes?</div>
+                <div class="meta-text">Vienes de tu propia explicación sobre las marcadas rutinas del calendario.</div>
+            </div>
+            <div class="meta-column">
+                <div class="meta-label">¿Qué pasa después?</div>
+                <div class="meta-text">👉 <strong>Sigues tú.</strong> La diapositiva actual es la antesala a la de Lógica Difusa.</div>
+            </div>
+        </div>
+        <div class="content-section">
+            <div class="content-title">Conceptos Clave a Explicar</div>
+            <ul class="concept-list">
+                <li>El clima es el único factor capaz de <strong>alterar y romper</strong> la rutina laboral/ocio.</li>
+                <li>Obtención del histórico meteorológico a través de la API <span class="highlight">Open-Meteo</span>.</li>
+                <li>Uso de técnicas de <strong>Interpolación y Resample</strong> para acoplar el clima horario al intervalo de 15 minutos de las bicis.</li>
+            </ul>
+        </div>
+        <div class="thread">
+            <strong>🧵 Hilo Conductor y Resumen de la Diapositiva:</strong> 
+            "Una rutina laboral perfecta se destruye con una tormenta; por eso teníamos que inyectar el entorno ambiental en el modelo." <br><br>
+            <em>Resumen visual:</em> Aquí relatas brevemente las 3 fases mecánicas de recolección de los datos climáticos antes de pasárselos a la IA, destacando el esfuerzo en acoplar temporalmente variables de distinto origen.
+        </div>
+    </div>
+
+    <!-- SLIDE 15 -->
+    <div class="slide-card">
+        <div class="slide-header">
+            <div class="slide-number">15</div>
+            <h2 class="slide-title">Lógica Difusa</h2>
+        </div>
+        <div class="meta-info">
+            <div class="meta-column">
+                <div class="meta-label">¿Qué pasa antes?</div>
+                <div class="meta-text">Vienes de explicar la obtención cruda del clima en la diapo anterior.</div>
+            </div>
+            <div class="meta-column">
+                <div class="meta-label">¿Qué pasa después?</div>
+                <div class="meta-text">🛑 <strong>Cambio de turno.</strong> Otro compañero explicará el problema técnico del "Cruce asíncrono" (Diapo 16).</div>
+            </div>
+        </div>
+        <div class="content-section">
+            <div class="content-title">Conceptos Clave a Explicar</div>
+            <ul class="concept-list">
+                <li>Las máquinas entienden números enteros, pero no la <strong>sensación térmica humana</strong>.</li>
+                <li>Aplicación de <strong>Funciones de Pertenencia</strong> (Lógica Difusa).</li>
+                <li>Transformación abstracta: 12ºC se convierte en "50% Clima Ideal, 50% Clima Frío".</li>
+            </ul>
+        </div>
+        <div class="thread">
+            <strong>🧵 Hilo Conductor y Resumen de la Diapositiva:</strong> 
+            "Humanizamos el dato enseñando a la Inteligencia Artificial a sentir frío o calor como nosotros." <br><br>
+            <em>Resumen visual:</em> Basándote en el gráfico de áreas, explicas visualmente cómo un simple dato meteorológico se descompone en probabilidades de comportamiento humano (frío, calor, ideal), permitiendo que la IA entienda el clima como un incentivo psicológico.
+        </div>
+    </div>
+
+    <!-- SLIDE 19 -->
+    <div class="slide-card">
+        <div class="slide-header">
+            <div class="slide-number">19</div>
+            <h2 class="slide-title">Aislando el Entorno: 273 Mini-Cerebros</h2>
+        </div>
+        <div class="meta-info">
+            <div class="meta-column">
+                <div class="meta-label">¿Qué pasa antes?</div>
+                <div class="meta-text">Alguien acaba de dar paso al bloque oficial de "El Modelo: Prophet" (Diapo 18). Entras tú directamente en materia.</div>
+            </div>
+            <div class="meta-column">
+                <div class="meta-label">¿Qué pasa después?</div>
+                <div class="meta-text">👉 <strong>Sigues tú.</strong> Avanzas hacia las entrañas matemáticas en la siguiente.</div>
+            </div>
+        </div>
+        <div class="content-section">
+            <div class="content-title">Conceptos Clave a Explicar</div>
+            <ul class="concept-list">
+                <li>El gran problema de la <strong>generalización algorítmica</strong> en sistemas locales.</li>
+                <li>Promediar una estación universitaria (que se vacía) con una residencial (que se llena) a las 08:00h genera un error letal en ambas predicciones.</li>
+                <li>Despliegue arquitectónico de <span class="highlight">273 modelos predictivos independientes</span>.</li>
+            </ul>
+        </div>
+        <div class="thread">
+            <strong>🧵 Hilo Conductor y Resumen de la Diapositiva:</strong> 
+            "La hiper-localización es la única vía al éxito predictivo; el entorno aísla y define al modelo." <br><br>
+            <em>Resumen visual:</em> Esta diapositiva rompe el mito de crear un "súper modelo único". Utilizas el gráfico donde dos líneas (universidad vs residencia) chocan para justificar por qué decidisteis tratar cada estación como un micro-universo aislado en la ciudad.
+        </div>
+    </div>
+
+    <!-- SLIDE 20 -->
+    <div class="slide-card">
+        <div class="slide-header">
+            <div class="slide-number">20</div>
+            <h2 class="slide-title">Parámetros de Entrenamiento</h2>
+        </div>
+        <div class="meta-info">
+            <div class="meta-column">
+                <div class="meta-label">¿Qué pasa antes?</div>
+                <div class="meta-text">Vienes de justificar el despliegue de los 273 modelos independientes.</div>
+            </div>
+            <div class="meta-column">
+                <div class="meta-label">¿Qué pasa después?</div>
+                <div class="meta-text">🛑 <strong>Cambio de turno.</strong> Otro compañero va a explicar el descubrimiento del impacto negativo del viento (Diapo 21).</div>
+            </div>
+        </div>
+        <div class="content-section">
+            <div class="content-title">Conceptos Clave a Explicar</div>
+            <ul class="concept-list">
+                <li><strong>Congelación de Tendencia</strong> (<span class="highlight">changepoint=0.001</span>): Obliga al modelo a centrarse en el ciclo diario, ya que la estación de bicis no crece físicamente a largo plazo.</li>
+                <li><strong>Brújula Trigonométrica</strong> (Seno/Coseno): Evita el salto o discontinuidad matemática entre las 23:59h y las 00:00h, enseñando a la IA que el día es un reloj circular y fluido.</li>
+                <li><strong>Órdenes de Fourier condicionales</strong>.
+                    <div class="concept-def"><strong>¿Qué es el Orden de Fourier?</strong> Son series matemáticas en forma de ondas que la IA usa para calcar subidas y bajadas. Un orden muy alto (30) hace que la curva sea extremadamente flexible y nerviosa (ideal para clavar los picos agresivos del martes laborable). Un orden bajo (10) hace la curva más suave y rígida (perfecto para la paz del domingo).</div>
+                </li>
+                <li><strong>Crecimiento Lineal puro:</strong> Desactivamos el crecimiento logístico nativo de Prophet porque después aplicamos nuestra propia transformación Logit matemática a todo el dataset.</li>
+            </ul>
+        </div>
+        <div class="thread">
+            <strong>🧵 Hilo Conductor y Resumen de la Diapositiva:</strong> 
+            "No usamos a Prophet como una caja negra, le hicimos Ingeniería de Algoritmo para obligar a la matemática a respetar los tiempos físicos de la ciudad." <br><br>
+            <em>Resumen visual:</em> Es la diapositiva del código. Enseñas abiertamente las 4 "tuercas" exactas que ajustasteis manualmente dentro del algoritmo de Meta para domar las predicciones y adaptarlas al mobiliario urbano.
+        </div>
+    </div>
+
+    <!-- SLIDE 24 -->
+    <div class="slide-card">
+        <div class="slide-header">
+            <div class="slide-number">24</div>
+            <h2 class="slide-title">Simulaciones de Monte Carlo</h2>
+        </div>
+        <div class="meta-info">
+            <div class="meta-column">
+                <div class="meta-label">¿Qué pasa antes?</div>
+                <div class="meta-text">Alguien acaba de explicar cómo la Transformación Logit y la Sigmoide evitan que la gráfica rompa el techo de la estación.</div>
+            </div>
+            <div class="meta-column">
+                <div class="meta-label">¿Qué pasa después?</div>
+                <div class="meta-text">🛑 <strong>Cambio de turno.</strong> Otro compañero explica cómo se afina la Probabilidad y Varianza en la Diapo 25.</div>
+            </div>
+        </div>
+        <div class="content-section">
+            <div class="content-title">Conceptos Clave a Explicar</div>
+            <ul class="concept-list">
+                <li>Abandono de la "predicción de un número exacto" por el altísimo riesgo de equivocarse.</li>
+                <li>Generación computacional de <span class="highlight">10.000 simulaciones de multiversos</span> por cada consulta, usando la desviación estándar que nos daba Prophet.</li>
+                <li>Uso de la fuerza bruta estadística para diluir el ruido matemático.</li>
+                <li>Establecimiento de un <strong>umbral empírico de éxito</strong> del 12% de la capacidad de la estación para considerar que habrá bici de forma 100% segura.</li>
+            </ul>
+        </div>
+        <div class="thread">
+            <strong>🧵 Hilo Conductor y Resumen de la Diapositiva:</strong> 
+            "Asumimos la incertidumbre humana y la dominamos con fuerza bruta estadística para garantizar veredictos fiables." <br><br>
+            <em>Resumen visual:</em> Presentas el gran cambio de paradigma del proyecto: pasáis de intentar predecir que "habrá 3 bicis exactas" a poder afirmar categóricamente que "hay un 85% de probabilidades de que el viaje sea un éxito".
+        </div>
+    </div>
+
+    <!-- SLIDE 34 -->
+    <div class="slide-card">
+        <div class="slide-header">
+            <div class="slide-number">34</div>
+            <h2 class="slide-title">Validación Cruzada (Evaluación)</h2>
+        </div>
+        <div class="meta-info">
+            <div class="meta-column">
+                <div class="meta-label">¿Qué pasa antes?</div>
+                <div class="meta-text">Alguien ha dado paso a la gran sección de "Evaluación del modelo" (Diapo 33, Título).</div>
+            </div>
+            <div class="meta-column">
+                <div class="meta-label">¿Qué pasa después?</div>
+                <div class="meta-text">👉 <strong>Sigues tú.</strong> Bajarás estos grandes números a grafos en la siguiente diapo.</div>
+            </div>
+        </div>
+        <div class="content-section">
+            <div class="content-title">Conceptos Clave a Explicar</div>
+            <ul class="concept-list">
+                <li>Sometimos al sistema al estrés de <strong>ocultarle meses enteros</strong> de datos para ver si era capaz de predecirlos.</li>
+                <li><strong>Score Global (77.5%)</strong>.
+                    <div class="concept-def"><strong>¿Qué es el Score (similar a R²)?</strong> Es el porcentaje de acierto crudo del modelo. Si decimos 77.5%, significa que casi el 80% de toda la variabilidad y caos de bicicletas de Valencia está puramente explicada por nuestra matemática. En estaciones ricas, sube a más del 90%.</div>
+                </li>
+                <li><strong>MAE de 4.45 bicicletas</strong>.
+                    <div class="concept-def"><strong>¿Qué es el MAE?</strong> Error Absoluto Medio. Significa que, en promedio, el modelo se equivoca por solo unas 4 bicicletas al predecir la realidad. En una estación de 20 a 40 anclajes, fallar por 4 bicis es un nivel de precisión operativo excelente.</div>
+                </li>
+                <li><strong>RMSE de 5.78</strong>.
+                    <div class="concept-def"><strong>¿Qué es el RMSE?</strong> La Raíz del Error Cuadrático Medio. Es como el MAE, pero castigando brutalmente los "errores garrafales". Como el 5.78 está muy cerca del 4.45 del MAE, significa que el modelo es estable y casi nunca sufre "idas de olla" (predicciones absurdas) en la vida real.</div>
+                </li>
+            </ul>
+        </div>
+        <div class="thread">
+            <strong>🧵 Hilo Conductor y Resumen de la Diapositiva:</strong> 
+            "La hora de la verdad: rendición de cuentas técnica donde demostramos con números duros la solidez del sistema." <br><br>
+            <em>Resumen visual:</em> Es la diapositiva de la medalla. Te centras en exponer que, a nivel global, un MAE por debajo de 5 bicicletas (acompañado de un buen RMSE) justifica plenamente la viabilidad operativa y comercial del proyecto.
+        </div>
+    </div>
+
+    <!-- SLIDE 35 -->
+    <div class="slide-card">
+        <div class="slide-header">
+            <div class="slide-number">35</div>
+            <h2 class="slide-title">Identificando Patrones</h2>
+        </div>
+        <div class="meta-info">
+            <div class="meta-column">
+                <div class="meta-label">¿Qué pasa antes?</div>
+                <div class="meta-text">Vienes de explicar los potentes números de la Validación Cruzada global.</div>
+            </div>
+            <div class="meta-column">
+                <div class="meta-label">¿Qué pasa después?</div>
+                <div class="meta-text">🛑 <strong>Cambio de turno.</strong> Otro compañero leerá probablemente el Título de "Despliegue Web" (Diapo 36), y te devolverá la palabra para la arquitectura.</div>
+            </div>
+        </div>
+        <div class="content-section">
+            <div class="content-title">Conceptos Clave a Explicar</div>
+            <ul class="concept-list">
+                <li>Agrupación empírica en grafos de red: el algoritmo no es infalible uniformemente.</li>
+                <li><span class="highlight">Mejores Resultados (Score > 0.90):</span> Se congregan masivamente en entornos universitarios y de negocios por la rigidez horaria extrema.</li>
+                <li><span class="highlight">Peores Resultados (Score < 0.70):</span> Se dispersan en zonas de periferia residencial profunda, donde el ocio y el tiempo libre añaden una capa alta de aleatoriedad.</li>
+            </ul>
+        </div>
+        <div class="thread">
+            <strong>🧵 Hilo Conductor y Resumen de la Diapositiva:</strong> 
+            "Cerrando el círculo sociológico inicial: El algoritmo triunfa donde reina la rutina y sufre donde reina el caos humano." <br><br>
+            <em>Resumen visual:</em> Muestras las dos redes diametralmente opuestas y validas frente al tribunal, por última vez, que la esencia de todo este trabajo matemático siempre ha residido en la predecibilidad del comportamiento ciudadano.
+        </div>
+    </div>
+
+    <!-- SLIDE 37 -->
+    <div class="slide-card">
+        <div class="slide-header">
+            <div class="slide-number">37</div>
+            <h2 class="slide-title">Despliegue Web (Arquitectura)</h2>
+        </div>
+        <div class="meta-info">
+            <div class="meta-column">
+                <div class="meta-label">¿Qué pasa antes?</div>
+                <div class="meta-text">Acaban de dar paso a la sección de Despliegue en la diapo de título previa. </div>
+            </div>
+            <div class="meta-column">
+                <div class="meta-label">¿Qué pasa después?</div>
+                <div class="meta-text">🛑 <strong>Has terminado tu exposición.</strong> Cedes el turno final a quien haga el cierre con las Conclusiones del Proyecto (Diapo 38 en adelante).</div>
+            </div>
+        </div>
+        <div class="content-section">
+            <div class="content-title">Conceptos Clave a Explicar</div>
+            <ul class="concept-list">
+                <li>Arquitectura moderna de microservicios: nada de sistemas estáticos.</li>
+                <li><span class="highlight">Frontend React+Vite:</span> Creación de una SPA extremadamente rápida con UI interactiva.</li>
+                <li><span class="highlight">Backend FastAPI:</span> Ecosistema Python asíncrono que cruza los modelos .pkl y la API climática en milisegundos.</li>
+                <li>Diseño minimalista: Toda la magia estadística oculta tras una operativa de menos de 3 clics para el usuario.</li>
+            </ul>
+        </div>
+        <div class="thread">
+            <strong>🧵 Hilo Conductor y Resumen de la Diapositiva:</strong> 
+            "Convertimos la Ciencia de Datos más abstracta en un producto informático moderno, funcional y accesible al ciudadano real." <br><br>
+            <em>Resumen visual:</em> Enseñas los logos y bloques de la arquitectura de la aplicación real. Es tu broche final: el instante donde pasas de científico de datos a ingeniero de software que entrega una aplicación tangible.
+        </div>
+    </div>
+
+</body>
+</html>
