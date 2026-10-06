@@ -74,6 +74,10 @@ export interface Translations {
   bikesTag: string;
   namePrompt: string;
   activeStationsCount: string;
+  tabViewMap: string;
+  tabViewPrediction: string;
+  btnBackToMap: string;
+  mapIntegratedHint: string;
 
   // Station Combobox
   comboboxPlaceholder: string;
@@ -205,6 +209,10 @@ export const translations: Record<Language, Translations> = {
     bikesTag: "bicis",
     namePrompt: "Nom...",
     activeStationsCount: "276 estacions actives",
+    tabViewMap: "Veure Mapa",
+    tabViewPrediction: "Veure Predicció",
+    btnBackToMap: "Tornar al Mapa",
+    mapIntegratedHint: "Fes clic en qualsevol estació per a seleccionar-la",
 
     comboboxPlaceholder: "Cerca per carrer, número o ID (ex. 114)...",
     comboboxClear: "Esborrar selecció",
@@ -332,6 +340,10 @@ export const translations: Record<Language, Translations> = {
     bikesTag: "bicis",
     namePrompt: "Nombre...",
     activeStationsCount: "276 estaciones activas",
+    tabViewMap: "Ver Mapa",
+    tabViewPrediction: "Ver Predicción",
+    btnBackToMap: "Volver al Mapa",
+    mapIntegratedHint: "Haz clic en cualquier estación para seleccionarla",
 
     comboboxPlaceholder: "Busca por calle, número o ID (ej. 114)...",
     comboboxClear: "Borrar selección",
@@ -459,6 +471,10 @@ export const translations: Record<Language, Translations> = {
     bikesTag: "bikes",
     namePrompt: "Name...",
     activeStationsCount: "276 active stations",
+    tabViewMap: "View Map",
+    tabViewPrediction: "View Prediction",
+    btnBackToMap: "Back to Map",
+    mapIntegratedHint: "Click any station on the map to select it",
 
     comboboxPlaceholder: "Search by street, number or ID (e.g. 114)...",
     comboboxClear: "Clear selection",
