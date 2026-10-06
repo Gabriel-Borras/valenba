@@ -50,6 +50,8 @@ L.Icon.Default.mergeOptions({
 });
 
 import { translations, Language } from './translations';
+import { StationCombobox } from './components/StationCombobox';
+import { TimeScrubber } from './components/TimeScrubber';
 
 // Banderas SVG en alta resolución
 const FlagES = () => (
@@ -367,20 +369,26 @@ export default function App() {
     }
   }, [currentUser?.email]);
 
-  // --- ESTADO DEL FORMULARIO ---
-  const [stationId, setStationId] = useState<string>('');
-  const [dateTime, setDateTime] = useState<string>('');
-
   // --- LIMITES DE FECHA ---
-  const { minDate, maxDate } = useMemo(() => {
+  const { minDate, maxDate, defaultDateTime } = useMemo(() => {
     const pad = (n: number) => n.toString().padStart(2, '0');
     const format = (d: Date) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
     
     const now = new Date();
+    const remainder = 15 - (now.getMinutes() % 15);
+    const roundedNow = new Date(now.getTime() + (remainder === 0 ? 15 : remainder) * 60 * 1000);
     const future = new Date(now.getTime() + 6 * 24 * 60 * 60 * 1000); // 6 days in future (within open-meteo 7-day forecast)
     
-    return { minDate: format(now), maxDate: format(future) };
+    return { 
+      minDate: format(now), 
+      maxDate: format(future),
+      defaultDateTime: format(roundedNow)
+    };
   }, []);
+
+  // --- ESTADO DEL FORMULARIO ---
+  const [stationId, setStationId] = useState<string>('');
+  const [dateTime, setDateTime] = useState<string>(() => defaultDateTime);
 
   // --- INTERFACES ---
   interface FavoriteStation {
@@ -657,53 +665,31 @@ export default function App() {
 
             <form onSubmit={handlePredict} className="space-y-6">
               
-              {/* INPUT ESTACIÓN */}
+              {/* SELECTOR DE ESTACIÓN PROPIO (REEMPLAZA A DATALIST NATIVO) */}
               <div className="space-y-2">
                 <div className="flex justify-between items-end">
-                  <label className="block text-sm font-bold text-slate-700 uppercase tracking-wider" htmlFor="input_calle">
+                  <label className="block text-sm font-bold text-slate-700 uppercase tracking-wider">
                     {t.formStationLabel}
                   </label>
+                  <span className="text-xs text-slate-400 font-medium">
+                    276 estaciones activas
+                  </span>
                 </div>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <MapPin className="h-5 w-5 text-slate-400" />
-                  </div>
-                  <input
-                    id="input_calle"
-                    list="lista_calles"
-                    type="text"
-                    required
-                    value={stationId}
-                    onChange={(e) => setStationId(e.target.value)}
-                    className="block w-full pl-10 pr-12 py-3 border border-slate-300 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-[#2f3b5c] focus:border-transparent transition-all outline-none font-medium text-lg"
-                    placeholder={t.formStationPlaceholder}
-                  />
-                  <datalist id="lista_calles">
-                    {calles.map((calle, idx) => (
-                      <option key={idx} value={calle}>{calle}</option>
-                    ))}
-                  </datalist>
-                  {stationId && currentStationStr && (
-                    <button
-                      type="button"
-                      onClick={() => toggleFavorite(currentStationStr)}
-                      className="absolute inset-y-0 right-0 pr-3 flex items-center focus:outline-none group"
-                      title={isCurrentFavorite ? "Quitar de favoritos" : "Añadir a favoritos"}
-                    >
-                      <Star 
-                        className={`w-6 h-6 transition-all ${
-                          isCurrentFavorite 
-                            ? 'text-yellow-400 fill-yellow-400 drop-shadow-sm scale-110' 
-                            : 'text-slate-300 hover:text-yellow-400 hover:scale-110'
-                        }`} 
-                      />
-                    </button>
-                  )}
-                </div>
-                <div className="flex justify-between items-start">
-                  <p className="text-xs text-slate-500 font-medium">Consulta el ID en el mapa oficial.</p>
-                </div>
-                
+
+                <StationCombobox
+                  stations={mapStations}
+                  value={stationId}
+                  onChange={setStationId}
+                  favorites={favorites}
+                  onToggleFavorite={toggleFavorite}
+                  brokenStations={ESTACIONES_ROTAS}
+                  placeholder={t.formStationPlaceholder}
+                  onSelectStation={(st) => {
+                    setMapCenter([st.lat, st.lng]);
+                    setMapZoom(16);
+                  }}
+                />
+
                 {/* FAVORITAS (CHIPS) */}
                 {favorites.length > 0 && (
                   <div className="pt-2 flex flex-wrap gap-2 items-center">
@@ -765,26 +751,17 @@ export default function App() {
                 )}
               </div>
 
-              {/* INPUT FECHA Y HORA */}
+              {/* SELECTOR TEMPORAL CONTINUO (TIME SCRUBBER #4) */}
               <div className="space-y-2">
-                <label className="block text-sm font-bold text-slate-700 uppercase tracking-wider" htmlFor="input_fecha">
+                <label className="block text-sm font-bold text-slate-700 uppercase tracking-wider">
                   {t.formDateLabel}
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <CalendarClock className="h-5 w-5 text-slate-400" />
-                  </div>
-                  <input
-                    id="input_fecha"
-                    type="datetime-local"
-                    required
-                    min={minDate}
-                    max={maxDate}
-                    value={dateTime}
-                    onChange={(e) => setDateTime(e.target.value)}
-                    className="block w-full pl-10 pr-3 py-3 border border-slate-300 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-[#2f3b5c] focus:border-transparent transition-all outline-none font-medium text-lg"
-                  />
-                </div>
+                <TimeScrubber
+                  value={dateTime}
+                  onChange={setDateTime}
+                  minDate={minDate}
+                  maxDate={maxDate}
+                />
               </div>
 
               {/* ERROR ALERT */}
