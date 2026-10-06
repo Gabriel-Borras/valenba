@@ -47,6 +47,47 @@ L.Icon.Default.mergeOptions({
   shadowUrl: iconShadow,
 });
 
+import { translations, Language } from './translations';
+
+// Banderas SVG en alta resolución
+const FlagES = () => (
+  <svg className="w-5 h-3.5 rounded-sm shadow-sm border border-slate-200/80 shrink-0" viewBox="0 0 750 500">
+    <rect width="750" height="500" fill="#c60b1e" />
+    <rect width="750" height="250" y="125" fill="#ffc400" />
+  </svg>
+);
+
+const FlagVA = () => (
+  <svg className="w-5 h-3.5 rounded-sm shadow-sm border border-slate-200/80 shrink-0" viewBox="0 0 750 500">
+    <rect width="750" height="500" fill="#ffc400" />
+    <rect y="55.5" width="750" height="55.5" fill="#c60b1e" />
+    <rect y="166.6" width="750" height="55.5" fill="#c60b1e" />
+    <rect y="277.7" width="750" height="55.5" fill="#c60b1e" />
+    <rect y="388.8" width="750" height="55.5" fill="#c60b1e" />
+    <rect width="180" height="500" fill="#0047AB" />
+    <path d="M40 320 L140 320 L130 200 L90 240 L50 200 Z" fill="#ffd700" opacity="0.9" />
+    <circle cx="50" cy="190" r="10" fill="#ffd700" />
+    <circle cx="90" cy="180" r="12" fill="#ffd700" />
+    <circle cx="130" cy="190" r="10" fill="#ffd700" />
+    <rect x="50" y="300" width="80" height="15" rx="3" fill="#c60b1e" />
+  </svg>
+);
+
+const FlagUK = () => (
+  <svg className="w-5 h-3.5 rounded-sm shadow-sm border border-slate-200/80 shrink-0" viewBox="0 0 60 30">
+    <clipPath id="flag_uk_s">
+      <path d="M0,0 v30 h60 v-30 z"/>
+    </clipPath>
+    <g clipPath="url(#flag_uk_s)">
+      <path d="M0,0 v30 h60 v-30 z" fill="#012169"/>
+      <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" strokeWidth="6"/>
+      <path d="M0,0 L60,30 M60,0 L0,30" clipPath="url(#flag_uk_s)" stroke="#C8102E" strokeWidth="4"/>
+      <path d="M30,0 v30 M0,15 h60" stroke="#fff" strokeWidth="10"/>
+      <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" strokeWidth="6"/>
+    </g>
+  </svg>
+);
+
 // Custom Leaflet Dynamic Icon function
 const getStationIcon = (stationId: string, cap: number, isSelected: boolean, isFavorite?: boolean) => {
   const pinClass = isFavorite ? 'marker-pin-favorite' : 'marker-pin-normal';
@@ -110,6 +151,79 @@ export default function App() {
   // --- ESTADO DE NAVEGACION ---
   const [currentView, setCurrentView] = useState<'home' | 'map'>('home');
   const [showHowItWorks, setShowHowItWorks] = useState(false);
+
+  // --- ESTADO DE IDIOMA / TRADUCCIÓN ---
+  const [currentLang, setCurrentLang] = useState<Language>(() => {
+    try {
+      const saved = localStorage.getItem('valenba_language') as Language;
+      return (saved && ['va', 'es', 'en'].includes(saved)) ? saved : 'va';
+    } catch {
+      return 'va';
+    }
+  });
+
+  const changeLanguage = (lang: Language) => {
+    setCurrentLang(lang);
+    try {
+      localStorage.setItem('valenba_language', lang);
+    } catch {}
+  };
+
+  const t = translations[currentLang];
+
+  const LanguageSelector = () => (
+    <div className="flex flex-col items-center gap-2 py-3 my-2 border-t border-b border-slate-100 bg-slate-50/70 rounded-2xl px-4">
+      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+        {t.drawerSelectLang}
+      </span>
+      <div className="flex items-center justify-center gap-3">
+        {/* España (Izquierda) */}
+        <button
+          type="button"
+          onClick={() => changeLanguage('es')}
+          title="Español"
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border transition-all ${
+            currentLang === 'es'
+              ? 'bg-white border-[#2f3b5c] shadow-md ring-2 ring-[#2f3b5c]/10 scale-105'
+              : 'border-transparent hover:border-slate-200 hover:bg-white/80 opacity-60 hover:opacity-100'
+          }`}
+        >
+          <FlagES />
+          <span className={`text-xs font-black ${currentLang === 'es' ? 'text-[#2f3b5c]' : 'text-slate-500'}`}>ES</span>
+        </button>
+
+        {/* Valencia / Cuatribarra (En Medio - Por defecto) */}
+        <button
+          type="button"
+          onClick={() => changeLanguage('va')}
+          title="Valencià (Per defecte)"
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border transition-all ${
+            currentLang === 'va'
+              ? 'bg-white border-[#2f3b5c] shadow-md ring-2 ring-[#2f3b5c]/10 scale-105'
+              : 'border-transparent hover:border-slate-200 hover:bg-white/80 opacity-60 hover:opacity-100'
+          }`}
+        >
+          <FlagVA />
+          <span className={`text-xs font-black ${currentLang === 'va' ? 'text-[#2f3b5c]' : 'text-slate-500'}`}>VAL</span>
+        </button>
+
+        {/* Reino Unido (Derecha) */}
+        <button
+          type="button"
+          onClick={() => changeLanguage('en')}
+          title="English"
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border transition-all ${
+            currentLang === 'en'
+              ? 'bg-white border-[#2f3b5c] shadow-md ring-2 ring-[#2f3b5c]/10 scale-105'
+              : 'border-transparent hover:border-slate-200 hover:bg-white/80 opacity-60 hover:opacity-100'
+          }`}
+        >
+          <FlagUK />
+          <span className={`text-xs font-black ${currentLang === 'en' ? 'text-[#2f3b5c]' : 'text-slate-500'}`}>EN</span>
+        </button>
+      </div>
+    </div>
+  );
 
   // --- ESTADO DE USUARIO / AUTENTICACIÓN ---
   interface UserProfile {
@@ -474,7 +588,7 @@ export default function App() {
             </div>
             
             <nav className="hidden md:flex items-center gap-6 text-sm font-bold text-slate-700">
-              <button onClick={() => setCurrentView('map')} className={`transition-colors ${currentView === 'map' ? 'text-[#2f3b5c] border-b-2 border-[#2f3b5c]' : 'hover:text-[#2f3b5c]'}`}>MAPA</button>
+              <button onClick={() => setCurrentView('map')} className={`transition-colors ${currentView === 'map' ? 'text-[#2f3b5c] border-b-2 border-[#2f3b5c]' : 'hover:text-[#2f3b5c]'}`}>{t.navMap}</button>
             </nav>
           </div>
 
@@ -482,13 +596,13 @@ export default function App() {
             <button 
               onClick={() => setIsUserDrawerOpen(true)}
               className="flex items-center gap-2.5 px-3 py-2 rounded-full border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all text-slate-700 shadow-sm"
-              title={currentUser ? `Perfil de ${currentUser.name}` : 'Iniciar sesión o registrarse'}
+              title={currentUser ? `Perfil de ${currentUser.name}` : t.navUserLogin}
             >
               <div className="w-8 h-8 rounded-full bg-[#2f3b5c] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
                 {currentUser ? currentUser.name.charAt(0).toUpperCase() : <User className="w-4 h-4 text-white" />}
               </div>
               <span className="hidden sm:inline text-xs font-bold truncate max-w-[130px]">
-                {currentUser ? currentUser.name : 'Iniciar Sesión'}
+                {currentUser ? currentUser.name : t.navUserLogin}
               </span>
             </button>
           </div>
@@ -504,11 +618,10 @@ export default function App() {
             <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '32px 32px' }}></div>
             <div className="max-w-7xl mx-auto relative z-10">
               <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-4">
-                Previsión de Disponibilidad
+                {t.heroTitle}
               </h1>
               <p className="text-lg text-slate-300 max-w-2xl font-medium">
-                Nuestro motor de IA analiza datos históricos y meteorológicos para estimar
-                si habrá bicicletas disponibles cuando las necesites.
+                {t.heroSubtitle}
               </p>
             </div>
           </div>
@@ -525,7 +638,7 @@ export default function App() {
           <div className="p-6 md:p-8">
             <h2 className="text-2xl font-extrabold text-[#2f3b5c] mb-6 flex items-center gap-2">
               <MapIcon className="w-6 h-6" />
-              Configurar Predicción
+              {t.formTitle}
             </h2>
 
             <form onSubmit={handlePredict} className="space-y-6">
@@ -534,7 +647,7 @@ export default function App() {
               <div className="space-y-2">
                 <div className="flex justify-between items-end">
                   <label className="block text-sm font-bold text-slate-700 uppercase tracking-wider" htmlFor="input_calle">
-                    Calle o ID de la Estación
+                    {t.formStationLabel}
                   </label>
                 </div>
                 <div className="relative">
@@ -549,7 +662,7 @@ export default function App() {
                     value={stationId}
                     onChange={(e) => setStationId(e.target.value)}
                     className="block w-full pl-10 pr-12 py-3 border border-slate-300 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-[#2f3b5c] focus:border-transparent transition-all outline-none font-medium text-lg"
-                    placeholder="Ej. Calle de la Paz o 114"
+                    placeholder={t.formStationPlaceholder}
                   />
                   <datalist id="lista_calles">
                     {calles.map((calle, idx) => (
@@ -641,7 +754,7 @@ export default function App() {
               {/* INPUT FECHA Y HORA */}
               <div className="space-y-2">
                 <label className="block text-sm font-bold text-slate-700 uppercase tracking-wider" htmlFor="input_fecha">
-                  Fecha y Hora Target
+                  {t.formDateLabel}
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -687,11 +800,11 @@ export default function App() {
                 {isLoading ? (
                   <>
                     <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Calculando predicción...
+                    {t.formCalculating}
                   </>
                 ) : (
                   <>
-                    Ejecutar Modelo Predictivo
+                    {t.formSubmitBtn}
                     <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </>
                 )}
@@ -716,10 +829,9 @@ export default function App() {
                 <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-4">
                   <BarChart className="w-10 h-10 text-slate-300" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-600 mb-2">Esperando datos de entrada</h3>
+                <h3 className="text-xl font-bold text-slate-600 mb-2">{t.waitingInputTitle}</h3>
                 <p className="max-w-md text-slate-500 text-sm">
-                  Introduce el ID de una estación y los parámetros ambientales para visualizar
-                  la predicción generada por nuestro modelo.
+                  {t.waitingInputDesc}
                 </p>
               </motion.div>
             ) : (
@@ -743,13 +855,13 @@ export default function App() {
                         <div className={`w-2 h-2 rounded-full ${
                           prediction.model_available === false ? 'bg-amber-500' : 'bg-blue-500 animate-pulse'
                         }`}></div>
-                        {prediction.model_available === false ? 'Modelo no disponible' : 'Predicción IA Completada'}
+                        {prediction.model_available === false ? t.mapModelUnavailable : 'IA OK'}
                       </span>
                       <h3 className="text-2xl font-bold text-slate-800 flex items-center gap-2 flex-wrap min-w-0">
                         <span className="break-words block max-w-full">
                           {(() => {
                             const favInfo = favorites.find(f => f.id.toString() === getCleanId(stationId));
-                            return favInfo?.customName || (parseInt(getCleanId(stationId), 10).toString() !== "NaN" ? `Estación ${getCleanId(stationId)}` : stationId);
+                            return favInfo?.customName || (parseInt(getCleanId(stationId), 10).toString() !== "NaN" ? `Estació ${getCleanId(stationId)}` : stationId);
                           })()}
                         </span>
                         {(() => {
@@ -757,7 +869,7 @@ export default function App() {
                           return (
                             <>
                               {favInfo && (
-                                <Star className="w-5 h-5 fill-yellow-400 text-yellow-400 drop-shadow-sm shrink-0" title="Guardada en favoritos" />
+                                <Star className="w-5 h-5 fill-yellow-400 text-yellow-400 drop-shadow-sm shrink-0" title="Favorita" />
                               )}
                               {favInfo?.customName && parseInt(getCleanId(stationId), 10).toString() !== "NaN" && (
                                 <span className="text-lg font-medium text-slate-400 shrink-0">
@@ -770,7 +882,7 @@ export default function App() {
                       </h3>
                     </div>
                     <div className="text-right flex-shrink-0">
-                      <p className="text-sm font-medium text-slate-500 whitespace-nowrap">Capacidad Total</p>
+                      <p className="text-sm font-medium text-slate-500 whitespace-nowrap">{t.predCapacity}</p>
                       <p className="text-2xl font-black text-slate-800">{prediction.cap}</p>
                     </div>
                   </div>
@@ -780,26 +892,23 @@ export default function App() {
                       <div className="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-amber-100">
                         <Clock className="w-8 h-8 text-amber-600" />
                       </div>
-                      <p className="text-lg font-bold text-slate-700">Modelo predictivo en desarrollo</p>
-                      <p className="text-sm text-slate-500 max-w-sm mx-auto mt-2">
-                        Esta estación estará disponible para predicciones próximamente una vez se complete el entrenamiento del modelo.
-                      </p>
+                      <p className="text-lg font-bold text-slate-700">{t.predModelDev}</p>
                     </div>
                   ) : (
                     <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10">
                       {/* NÚMERO GIGANTE (yhat) */}
                       <div className="text-center flex-shrink-0" id="texto_resultado">
-                        <p className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2">Bicis Disponibles</p>
+                        <p className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2">{t.predBikesAvailable}</p>
                         <div className="text-7xl md:text-8xl font-black text-[#2f3b5c] tracking-tighter tabular-nums drop-shadow-sm">
                           {prediction.yhat}
                         </div>
-                        <p className="text-slate-600 font-medium mt-2">Bicicletas estimadas: {prediction.yhat}</p>
+                        <p className="text-slate-600 font-medium mt-2">{t.predBikesAvailable}: {prediction.yhat}</p>
                       </div>
 
                       {/* GRÁFICO TIPO GAUGE / BARRA DE PROGRESO */}
                       <div className="flex-1 w-full min-w-0 space-y-4">
                         <div className="flex justify-between text-sm font-bold text-slate-600 mb-1">
-                          <span>Ocupación de Bornetas</span>
+                          <span>{t.predOccupancyEst}</span>
                           <span>{prediction.occupancy !== null ? Math.round(prediction.occupancy) : 0}%</span>
                         </div>
                         <div className="h-6 w-full bg-slate-100 rounded-full overflow-hidden relative shadow-inner">
@@ -815,8 +924,8 @@ export default function App() {
                           />
                         </div>
                         <div className="flex justify-between text-xs font-semibold text-slate-400 uppercase">
-                          <span>Vacía (0)</span>
-                          <span>Llena ({prediction.cap})</span>
+                          <span>{t.predSuccessLow} (0)</span>
+                          <span>{t.predSuccessHigh} ({prediction.cap})</span>
                         </div>
                       </div>
                     </div>
@@ -832,9 +941,9 @@ export default function App() {
                         <AlertTriangle className="w-6 h-6 text-orange-500" />
                       </div>
                       <div>
-                        <h4 className="text-sm font-bold text-slate-800 mb-1">Intervalo de Confianza</h4>
+                        <h4 className="text-sm font-bold text-slate-800 mb-1">{t.predUncertaintyMargin}</h4>
                         <p className="text-sm text-slate-600 leading-relaxed">
-                          Debido al ruido humano y fluctuación, esperamos entre <strong className="text-slate-800">{prediction.yhat_lower}</strong> y <strong className="text-slate-800">{prediction.yhat_upper}</strong> bicicletas reales en ese momento.
+                          [{prediction.yhat_lower} — {prediction.yhat_upper}] {t.predAvailableTag}
                         </p>
                       </div>
                     </div>
@@ -844,9 +953,9 @@ export default function App() {
                         <Info className="w-6 h-6 text-amber-500" />
                       </div>
                       <div>
-                        <h4 className="text-sm font-bold text-slate-800 mb-1">Clima Estimado</h4>
+                        <h4 className="text-sm font-bold text-slate-800 mb-1">{t.predWeatherConditions}</h4>
                         <p className="text-sm text-slate-600 leading-relaxed">
-                          Para la fecha consultada, esperamos una temperatura de <strong className="text-slate-800">{prediction.temp}ºC</strong> y <strong className="text-slate-800">{prediction.prec}mm</strong> de precipitación.
+                          {prediction.temp}ºC • {prediction.prec}mm
                         </p>
                       </div>
                     </div>
@@ -863,10 +972,10 @@ export default function App() {
                       <Percent className="w-6 h-6" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-bold text-slate-800 mb-1">Probabilidad de Éxito</h4>
+                      <h4 className="text-sm font-bold text-slate-800 mb-1">{t.predSuccessProb}</h4>
                       {prediction.model_available === false ? (
                         <p className="text-xs text-slate-500 mt-1 leading-normal font-medium">
-                          Modelo en desarrollo. Requiere entrenamiento previo para calcular la probabilidad de encontrar bicicletas.
+                          {t.predModelDev}
                         </p>
                       ) : (
                         <div className="mt-1">
@@ -874,10 +983,10 @@ export default function App() {
                             <span className="text-2xl font-black text-slate-800 tracking-tight">
                               {prediction.probabilidad_disponible}%
                             </span>
-                            <span className="text-xs font-semibold text-slate-400">disponible</span>
+                            <span className="text-xs font-semibold text-slate-400">{t.predAvailableTag}</span>
                           </div>
                           <p className="text-[11px] text-slate-500 leading-normal mt-1">
-                            Probabilidad estimada de encontrar al menos <strong className="text-slate-700">1 bicicleta</strong> disponible.
+                            {t.predSuccessHint}
                           </p>
                           <div className="mt-2 flex items-center gap-1.5">
                             <span className={`w-2 h-2 rounded-full ${
@@ -886,9 +995,9 @@ export default function App() {
                               'bg-orange-500 animate-pulse'
                             }`} />
                             <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                              {prediction.probabilidad_disponible !== undefined && prediction.probabilidad_disponible !== null && prediction.probabilidad_disponible > 75 ? 'Alta' :
-                               prediction.probabilidad_disponible !== undefined && prediction.probabilidad_disponible !== null && prediction.probabilidad_disponible < 25 ? 'Baja' :
-                               'Media'
+                              {prediction.probabilidad_disponible !== undefined && prediction.probabilidad_disponible !== null && prediction.probabilidad_disponible > 75 ? t.predSuccessHigh :
+                               prediction.probabilidad_disponible !== undefined && prediction.probabilidad_disponible !== null && prediction.probabilidad_disponible < 25 ? t.predSuccessLow :
+                               t.predSuccessMedium
                               }
                             </span>
                           </div>
@@ -909,14 +1018,14 @@ export default function App() {
         {/* Map view header */}
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 md:mb-6 gap-3">
           <div>
-            <h2 className="text-2xl md:text-3xl font-black text-[#2f3b5c] tracking-tight">Mapa Interactivo de Estaciones</h2>
-            <p className="text-xs md:text-sm text-slate-500 font-medium">Haz clic en una estación para seleccionarla y realizar predicciones directas</p>
+            <h2 className="text-2xl md:text-3xl font-black text-[#2f3b5c] tracking-tight">{t.mapTitle}</h2>
+            <p className="text-xs md:text-sm text-slate-500 font-medium">{t.mapSubtitle}</p>
           </div>
           <button 
             onClick={() => setCurrentView('home')}
             className="self-start sm:self-center inline-flex items-center gap-1.5 text-sm font-bold text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-4 py-2.5 rounded-xl transition-colors shrink-0"
           >
-            ← Ir al Panel de Previsión
+            {t.mapBackToForecast}
           </button>
         </div>
 
@@ -927,7 +1036,7 @@ export default function App() {
           <div className="order-2 lg:order-1 lg:col-span-4 bg-white rounded-3xl p-6 shadow-xl border border-slate-100 flex flex-col space-y-6 lg:max-h-[calc(100vh-210px)] overflow-y-auto z-10">
             {/* selected station detail */}
             <div>
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-3">Estación Seleccionada</span>
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-3">{t.mapSelectedStation}</span>
               {(() => {
                 const selectedStation = mapStations.find(s => s.id && stationId && s.id.toString() === getCleanId(stationId));
                 if (!selectedStation) {
@@ -935,7 +1044,7 @@ export default function App() {
                     <div className="bg-slate-50 border border-dashed border-slate-200 rounded-2xl p-5 text-center text-slate-400">
                       <MapIcon className="w-8 h-8 text-slate-300 mx-auto mb-2" />
                       <p className="text-xs font-semibold leading-relaxed">
-                        Selecciona un marcador en el mapa o haz clic en la lista inferior para configurar la predicción.
+                        {t.mapSelectHint}
                       </p>
                     </div>
                   );
@@ -952,7 +1061,7 @@ export default function App() {
                         </div>
                         <div className="min-w-0">
                           <h4 className="font-bold text-[#2f3b5c] text-sm md:text-base leading-tight truncate">{selectedStation.name}</h4>
-                          <span className="text-xs font-mono text-slate-400">ID Estación: {selectedStation.id}</span>
+                          <span className="text-xs font-mono text-slate-400">ID: {selectedStation.id}</span>
                         </div>
                       </div>
                       <button 
@@ -966,15 +1075,15 @@ export default function App() {
                     {/* Stats */}
                     <div className="grid grid-cols-1 gap-3 text-xs">
                       <div className="bg-white p-3 rounded-xl border border-slate-100">
-                        <p className="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Capacidad de Anclajes</p>
-                        <p className="text-lg font-black text-[#2f3b5c]">{selectedStation.cap} <span className="text-xs text-slate-400 font-normal">bornes totales</span></p>
+                        <p className="text-slate-400 font-bold uppercase tracking-wider text-[10px]">{t.mapDocksCapacity}</p>
+                        <p className="text-lg font-black text-[#2f3b5c]">{selectedStation.cap} <span className="text-xs text-slate-400 font-normal">{t.mapTotalDocks}</span></p>
                       </div>
                     </div>
 
                     {broken && (
                       <div className="bg-red-50 border border-red-100 rounded-xl p-3 flex gap-2 text-xs text-red-700">
                         <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
-                        <p>Esta estación está inactiva por mantenimiento técnico.</p>
+                        <p>{t.mapMaintenanceNotice}</p>
                       </div>
                     )}
 
@@ -982,7 +1091,7 @@ export default function App() {
                     <div className="space-y-3 pt-2 border-t border-slate-100">
                       <div className="space-y-1">
                         <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider focus:outline-none" htmlFor="map_datetime">
-                          Fecha/Hora de Previsión:
+                          {t.formDateLabel}:
                         </label>
                         <input
                           id="map_datetime"
@@ -1004,7 +1113,7 @@ export default function App() {
                         className="w-full bg-[#2f3b5c] hover:bg-[#1a233a] disabled:opacity-50 text-white text-xs py-2.5 rounded-xl font-bold transition-transform active:scale-95 flex items-center justify-center gap-1.5 shadow-md shadow-[#2f3b5c]/10"
                       >
                         <Clock className="w-3.5 h-3.5" />
-                        Ejecutar Modelo Predictivo
+                        {t.formSubmitBtn}
                       </button>
                     </div>
                   </div>
@@ -1020,8 +1129,8 @@ export default function App() {
                     <Star className="w-4 h-4 fill-yellow-400 text-yellow-500" />
                   </div>
                   <div className="min-w-0">
-                    <h4 className="text-xs font-bold text-slate-700 leading-tight truncate">Ver solo Favoritas</h4>
-                    <p className="text-[10px] text-slate-400 font-medium">Filtrar estaciones en el mapa</p>
+                    <h4 className="text-xs font-bold text-slate-700 leading-tight truncate">{t.mapOnlyFavsTitle}</h4>
+                    <p className="text-[10px] text-slate-400 font-medium">{t.mapOnlyFavsDesc}</p>
                   </div>
                 </div>
                 
@@ -1041,12 +1150,10 @@ export default function App() {
 
             <hr className="border-slate-100" />
 
-
-
             {/* List selector of all dataset stations */}
             <div className="flex-1 flex flex-col min-h-0">
               <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-3">
-                {showOnlyFavorites ? `Estaciones Favoritas (${displayedStations.length})` : `Estaciones del Dataset (${displayedStations.length})`}
+                {showOnlyFavorites ? `${t.mapFavoriteStations} (${displayedStations.length})` : `${t.mapDatasetStations} (${displayedStations.length})`}
               </span>
               <div className="space-y-2 overflow-y-auto pr-1 flex-1 min-h-[180px]">
                 {displayedStations.map((station) => {
@@ -1074,12 +1181,12 @@ export default function App() {
                         </div>
                         <div className="min-w-0">
                           <p className="font-bold text-xs text-slate-800 truncate leading-tight">{station.name}</p>
-                          <span className="text-[10px] font-mono text-slate-400">ID: {station.id} {isBroken && '• Mantenimiento'}</span>
+                          <span className="text-[10px] font-mono text-slate-400">ID: {station.id} {isBroken && `• ${t.mapMaintenanceTag}`}</span>
                         </div>
                       </div>
                       <div className="text-right shrink-0">
                         <span className="text-[10px] font-extrabold px-2 py-1 rounded-full bg-slate-100 text-[#2f3b5c]">
-                          {station.cap} bornes
+                          {station.cap} {t.mapTotalBases}
                         </span>
                       </div>
                     </button>
@@ -1132,10 +1239,10 @@ export default function App() {
                       <div className="font-sans text-xs p-1.5 space-y-1">
                         <p className="font-black text-[#2f3b5c] leading-tight">{station.name}</p>
                         <p className="text-slate-500 font-bold">
-                          Estación #{station.id} • Capacidad: <span className="text-slate-800 font-extrabold">{station.cap} bases</span>
+                          Estación #{station.id} • {t.predCapacity}: <span className="text-slate-800 font-extrabold">{station.cap} {t.mapTotalBases}</span>
                         </p>
                         {ESTACIONES_ROTAS.includes(parseInt(station.id, 10)) && (
-                          <span className="inline-flex items-center gap-1 text-red-500 font-bold uppercase text-[9px] bg-red-50 px-1.5 py-0.5 rounded-md mt-1">⚠️ En Mantenimiento</span>
+                          <span className="inline-flex items-center gap-1 text-red-500 font-bold uppercase text-[9px] bg-red-50 px-1.5 py-0.5 rounded-md mt-1">⚠️ {t.mapMaintenanceTag}</span>
                         )}
                       </div>
                     </Tooltip>
@@ -1147,19 +1254,19 @@ export default function App() {
                         
                         {isPredictedStation ? (
                           <div className="bg-blue-50 border border-blue-100 rounded-xl p-2 mb-2">
-                             <p className="text-[9px] font-bold text-blue-800 uppercase mb-0.5">Previsión ({new Date(dateTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})})</p>
+                             <p className="text-[9px] font-bold text-blue-800 uppercase mb-0.5">{t.mapForecastPopup} ({new Date(dateTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})})</p>
                              {prediction.model_available === false ? (
-                               <p className="text-xs text-amber-600 font-bold">Modelo no disponible</p>
+                               <p className="text-xs text-amber-600 font-bold">{t.mapModelUnavailable}</p>
                              ) : (
                                <p className="text-xs text-slate-700">
-                                 Bicis Estimadas: <strong className="text-blue-600 font-black text-sm">{prediction.yhat}</strong> / {prediction.cap}
+                                 {t.predBikesAvailable}: <strong className="text-blue-600 font-black text-sm">{prediction.yhat}</strong> / {prediction.cap}
                                </p>
                              )}
                           </div>
                         ) : (
                           <p className="text-xs text-slate-600 mb-2 leading-tight">
-                            Capacidad total:<br/>
-                            <strong className="text-[#2f3b5c] text-sm font-black">{station.cap}</strong> bases.
+                            {t.mapPopupCapacity}<br/>
+                            <strong className="text-[#2f3b5c] text-sm font-black">{station.cap}</strong> {t.mapTotalBases}.
                           </p>
                         )}
                         
@@ -1170,7 +1277,7 @@ export default function App() {
                           }}
                           className="text-[10px] font-bold bg-[#2f3b5c] hover:bg-[#151a29] text-white px-3 py-1.5 rounded-lg transition-colors w-full"
                         >
-                          Seleccionar Estación
+                          {t.mapSelectBtn}
                         </button>
                       </div>
                     </Popup>
@@ -1193,14 +1300,14 @@ export default function App() {
           className={`flex flex-col items-center justify-center w-1/2 h-full ${currentView === 'home' ? 'text-[#2f3b5c]' : 'text-slate-400'}`}
         >
           <Home className="w-6 h-6 mb-1" />
-          <span className="text-[10px] font-bold tracking-wide">PRONÓSTICO</span>
+          <span className="text-[10px] font-bold tracking-wide">{t.navForecast}</span>
         </button>
         <button 
           onClick={() => setCurrentView('map')} 
           className={`flex flex-col items-center justify-center w-1/2 h-full ${currentView === 'map' ? 'text-[#2f3b5c]' : 'text-slate-400'}`}
         >
           <MapIcon className="w-6 h-6 mb-1" />
-          <span className="text-[10px] font-bold tracking-wide">MAPA</span>
+          <span className="text-[10px] font-bold tracking-wide">{t.navMap}</span>
         </button>
       </div>
 
@@ -1321,10 +1428,10 @@ export default function App() {
                   </div>
                   <div>
                     <h3 className="font-extrabold text-[#2f3b5c] text-lg leading-tight">
-                      {currentUser ? 'Mi Cuenta' : 'Acceso ValenBA'}
+                      {currentUser ? t.navUserProfile : t.drawerAccountTitle}
                     </h3>
                     <p className="text-xs text-slate-400 font-medium">
-                      {currentUser ? currentUser.email : 'Gestiona tus favoritas y alertas'}
+                      {currentUser ? currentUser.email : t.drawerAccountSubtitle}
                     </p>
                   </div>
                 </div>
@@ -1346,10 +1453,10 @@ export default function App() {
                       <div className="relative z-10 space-y-3">
                         <div className="flex items-center justify-between">
                           <span className="text-[10px] font-extrabold tracking-wider uppercase px-2.5 py-1 rounded-full bg-white/20 text-white backdrop-blur-sm">
-                            Usuario ValenBA
+                            {t.drawerValenbaUser}
                           </span>
                           <span className="text-xs text-slate-300 font-mono">
-                            Desde {currentUser.createdAt || '2026'}
+                            {t.drawerMemberSince} {currentUser.createdAt || '2026'}
                           </span>
                         </div>
                         <div>
@@ -1364,7 +1471,7 @@ export default function App() {
                       <div className="flex items-center justify-between">
                         <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
                           <Star className="w-4 h-4 text-yellow-500 fill-yellow-400" />
-                          Tus Estaciones Favoritas ({favorites.length})
+                          {t.drawerFavsTitle} ({favorites.length})
                         </h4>
                         <button 
                           onClick={() => {
@@ -1374,13 +1481,13 @@ export default function App() {
                           }}
                           className="text-[11px] font-bold text-[#2f3b5c] hover:underline"
                         >
-                          Ver en mapa →
+                          {t.drawerFavHint}
                         </button>
                       </div>
 
                       {favorites.length === 0 ? (
                         <p className="text-xs text-slate-400 font-medium py-2">
-                          Aún no has guardado ninguna estación favorita. Pulsa la estrella en cualquier estación para fijarla aquí.
+                          {t.drawerNoFavs}
                         </p>
                       ) : (
                         <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
@@ -1400,7 +1507,7 @@ export default function App() {
                                   }}
                                   className="text-[10px] font-bold bg-slate-100 hover:bg-[#2f3b5c] hover:text-white px-2.5 py-1 rounded-lg transition-colors shrink-0"
                                 >
-                                  Predecir
+                                  {t.drawerPredictQuick}
                                 </button>
                               </div>
                             );
@@ -1413,30 +1520,31 @@ export default function App() {
                     <div className="space-y-2.5 text-xs text-slate-500">
                       <div className="flex items-center gap-2">
                         <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
-                        <span>Sincronización local activa en este navegador</span>
+                        <span>{t.drawerSyncActive}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                        <span>Acceso ilimitado a modelos predictivos Prophet</span>
+                        <span>{t.drawerUnlimitedAccess}</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Botón Cerrar Sesión */}
-                  <div className="pt-4 border-t border-slate-100">
+                  {/* Selector de idioma y Botón Cerrar Sesión */}
+                  <div className="pt-2 space-y-3">
+                    <LanguageSelector />
                     <button
                       onClick={handleLogout}
                       className="w-full bg-red-50 hover:bg-red-100 text-red-600 font-bold text-sm py-3 rounded-xl transition-colors flex items-center justify-center gap-2"
                     >
                       <LogOut className="w-4 h-4" />
-                      Cerrar Sesión
+                      {t.drawerLogoutBtn}
                     </button>
                   </div>
                 </div>
               ) : (
                 /* --- VISTA DE FORMULARIO (LOGIN / REGISTRO) --- */
-                <div className="py-6 space-y-6 flex-1 flex flex-col justify-between">
-                  <div className="space-y-6">
+                <div className="py-6 space-y-4 flex-1 flex flex-col justify-between">
+                  <div className="space-y-5">
                     {/* Selector de Pestañas Login vs Registro */}
                     <div className="bg-slate-100 p-1 rounded-xl flex">
                       <button
@@ -1446,7 +1554,7 @@ export default function App() {
                         }`}
                       >
                         <LogIn className="w-3.5 h-3.5" />
-                        Iniciar Sesión
+                        {t.drawerLoginTab}
                       </button>
                       <button
                         onClick={() => { setAuthMode('register'); setAuthError(null); setAuthSuccess(null); }}
@@ -1455,7 +1563,7 @@ export default function App() {
                         }`}
                       >
                         <UserPlus className="w-3.5 h-3.5" />
-                        Crear Cuenta
+                        {t.drawerRegisterTab}
                       </button>
                     </div>
 
@@ -1474,18 +1582,18 @@ export default function App() {
                     )}
 
                     {/* Formulario */}
-                    <form onSubmit={handleAuthSubmit} className="space-y-4">
+                    <form onSubmit={handleAuthSubmit} className="space-y-3.5">
                       {authMode === 'register' && (
                         <div className="space-y-1.5">
                           <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
-                            Nombre Completo
+                            {t.drawerNameLabel}
                           </label>
                           <div className="relative">
                             <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                             <input
                               type="text"
                               required
-                              placeholder="Nombre completo"
+                              placeholder={t.drawerNamePlaceholder}
                               value={authName}
                               onChange={(e) => setAuthName(e.target.value)}
                               className="w-full text-xs pl-10 pr-3 py-2.5 border border-slate-200 rounded-xl outline-none bg-slate-50/50 focus:bg-white focus:ring-2 focus:ring-[#2f3b5c]/20 focus:border-[#2f3b5c]"
@@ -1496,14 +1604,14 @@ export default function App() {
 
                       <div className="space-y-1.5">
                         <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
-                          Correo Electrónico
+                          {t.drawerEmailLabel}
                         </label>
                         <div className="relative">
                           <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                           <input
                             type="email"
                             required
-                            placeholder="tu_correo@email.com"
+                            placeholder={t.drawerEmailPlaceholder}
                             value={authEmail}
                             onChange={(e) => setAuthEmail(e.target.value)}
                             className="w-full text-xs pl-10 pr-3 py-2.5 border border-slate-200 rounded-xl outline-none bg-slate-50/50 focus:bg-white focus:ring-2 focus:ring-[#2f3b5c]/20 focus:border-[#2f3b5c]"
@@ -1513,14 +1621,14 @@ export default function App() {
 
                       <div className="space-y-1.5">
                         <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
-                          Contraseña
+                          {t.drawerPasswordLabel}
                         </label>
                         <div className="relative">
                           <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                           <input
                             type={showPassword ? 'text' : 'password'}
                             required
-                            placeholder="Mínimo 4 caracteres"
+                            placeholder={t.drawerPasswordPlaceholder}
                             value={authPassword}
                             onChange={(e) => setAuthPassword(e.target.value)}
                             className="w-full text-xs pl-10 pr-10 py-2.5 border border-slate-200 rounded-xl outline-none bg-slate-50/50 focus:bg-white focus:ring-2 focus:ring-[#2f3b5c]/20 focus:border-[#2f3b5c]"
@@ -1542,22 +1650,25 @@ export default function App() {
                         {authMode === 'login' ? (
                           <>
                             <LogIn className="w-4 h-4" />
-                            Entrar a mi Cuenta
+                            {t.drawerLoginBtn}
                           </>
                         ) : (
                           <>
                             <UserPlus className="w-4 h-4" />
-                            Registrarme Gratis
+                            {t.drawerRegisterBtn}
                           </>
                         )}
                       </button>
                     </form>
                   </div>
 
+                  {/* SELECTOR DE IDIOMA CON LAS 3 BANDERAS ENTRE EL BOTÓN Y EL PIE */}
+                  <LanguageSelector />
+
                   {/* Pie del formulario */}
-                  <div className="text-center pt-4 border-t border-slate-100">
+                  <div className="text-center pt-2">
                     <p className="text-xs text-slate-400 font-medium">
-                      {authMode === 'login' ? '¿Aún no tienes cuenta?' : '¿Ya tienes una cuenta registrada?'}{' '}
+                      {authMode === 'login' ? t.drawerNoAccount : t.drawerHaveAccount}{' '}
                       <button
                         onClick={() => {
                           setAuthMode(authMode === 'login' ? 'register' : 'login');
@@ -1566,7 +1677,7 @@ export default function App() {
                         }}
                         className="font-bold text-[#2f3b5c] hover:underline"
                       >
-                        {authMode === 'login' ? 'Regístrate aquí' : 'Inicia sesión'}
+                        {authMode === 'login' ? t.drawerRegisterLink : t.drawerLoginLink}
                       </button>
                     </p>
                   </div>
