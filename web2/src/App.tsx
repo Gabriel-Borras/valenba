@@ -29,10 +29,12 @@ import {
   AlertCircle,
   Eye,
   EyeOff,
-  ShieldCheck
+  ShieldCheck,
+  Search
 } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup, Tooltip, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import { DEFAULT_STATIONS, MapStation } from './defaultStations';
 import L from 'leaflet';
 
 import iconRetina from 'leaflet/dist/images/marker-icon-2x.png';
@@ -327,28 +329,28 @@ export default function App() {
   };
 
   // --- ESTADO DEL MAPA ---
-  interface MapStation {
-    id: string;
-    name: string;
-    lat: number;
-    lng: number;
-    cap: number;
-    currentBikes: number;
-  }
-  const [mapStations, setMapStations] = useState<MapStation[]>(MOCK_STATIONS);
+  const [mapStations, setMapStations] = useState<MapStation[]>(DEFAULT_STATIONS);
   const [mapCenter, setMapCenter] = useState<[number, number]>(VALENCIA_CENTER);
   const [mapZoom, setMapZoom] = useState<number>(14);
   const [tileStyle, setTileStyle] = useState<'voyager' | 'positron' | 'osm'>('positron');
   const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
-
-
+  const [mapSearchQuery, setMapSearchQuery] = useState('');
 
   // EFECTO PARA CARGOS DE DATOS REALES DEL MAPA Y FAVORITAS
   useEffect(() => {
     fetch(getApiUrl('/api/estaciones'))
-      .then(res => res.json())
-      .then(data => setMapStations(data))
-      .catch(console.error);
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+        return res.json();
+      })
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          setMapStations(data);
+        }
+      })
+      .catch(err => {
+        console.warn('API /api/estaciones no disponible, manteniendo dataset base local:', err);
+      });
   }, []);
 
   // Sincronizar favoritas de la base de datos si el usuario está logueado
@@ -416,13 +418,15 @@ export default function App() {
     }
   });
 
-  const [calles, setCalles] = useState<string[]>([]);
+  const [calles, setCalles] = useState<string[]>(() => 
+    DEFAULT_STATIONS.map(s => `${s.id} - ${s.name}`)
+  );
   useEffect(() => {
-    // GET a /calles silencioso
-    fetch(`http://${window.location.hostname}:8000/calles`)
+    // GET a /calles con fallback a DEFAULT_STATIONS
+    fetch(getApiUrl('/calles'))
       .then(res => res.json())
       .then(data => {
-        if (Array.isArray(data)) setCalles(data);
+        if (Array.isArray(data) && data.length > 0) setCalles(data);
       })
       .catch(() => {});
   }, []);
@@ -446,13 +450,23 @@ export default function App() {
     return trimmed;
   };
 
-  // Memoized filtered stations list based on the "showOnlyFavorites" toggle
+  // Memoized filtered stations list based on the "showOnlyFavorites" toggle and search query
   const displayedStations = useMemo(() => {
+    const q = mapSearchQuery.trim().toLowerCase();
     return mapStations.filter(station => {
-      if (!showOnlyFavorites) return true;
-      return favorites.some(f => f.id && f.id.toString() === station.id.toString());
+      if (showOnlyFavorites) {
+        const isFav = favorites.some(f => f.id && getCleanId(f.id.toString()) === station.id.toString());
+        if (!isFav) return false;
+      }
+      if (q) {
+        const matchName = station.name && station.name.toLowerCase().includes(q);
+        const matchId = station.id && station.id.toString().includes(q);
+        const matchAddr = station.address && station.address.toLowerCase().includes(q);
+        return matchName || matchId || matchAddr;
+      }
+      return true;
     });
-  }, [mapStations, showOnlyFavorites, favorites]);
+  }, [mapStations, showOnlyFavorites, favorites, mapSearchQuery]);
 
   const currentStationStr = typeof stationId === 'string' ? stationId.trim() : (stationId ? (stationId as any).toString().trim() : '');
   const cleanCurrentStationId = getCleanId(currentStationStr);
@@ -860,8 +874,10 @@ export default function App() {
                       <h3 className="text-2xl font-bold text-slate-800 flex items-center gap-2 flex-wrap min-w-0">
                         <span className="break-words block max-w-full">
                           {(() => {
-                            const favInfo = favorites.find(f => f.id.toString() === getCleanId(stationId));
-                            return favInfo?.customName || (parseInt(getCleanId(stationId), 10).toString() !== "NaN" ? `Estació ${getCleanId(stationId)}` : stationId);
+                            const cleanId = getCleanId(stationId);
+                            const favInfo = favorites.find(f => f.id.toString() === cleanId);
+                            const matchedStation = mapStations.find(s => s.id.toString() === cleanId);
+                            return favInfo?.customName || (matchedStation ? `${matchedStation.id} - ${matchedStation.name}` : (parseInt(cleanId, 10).toString() !== "NaN" ? `Estació ${cleanId}` : stationId));
                           })()}
                         </span>
                         {(() => {
@@ -1073,10 +1089,14 @@ export default function App() {
                     </div>
 
                     {/* Stats */}
-                    <div className="grid grid-cols-1 gap-3 text-xs">
+                    <div className="grid grid-cols-2 gap-2 text-xs">
                       <div className="bg-white p-3 rounded-xl border border-slate-100">
                         <p className="text-slate-400 font-bold uppercase tracking-wider text-[10px]">{t.mapDocksCapacity}</p>
                         <p className="text-lg font-black text-[#2f3b5c]">{selectedStation.cap} <span className="text-xs text-slate-400 font-normal">{t.mapTotalDocks}</span></p>
+                      </div>
+                      <div className="bg-white p-3 rounded-xl border border-slate-100">
+                        <p className="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Tiempo Real</p>
+                        <p className="text-lg font-black text-blue-600">{selectedStation.currentBikes !== undefined ? selectedStation.currentBikes : '—'} <span className="text-xs text-slate-400 font-normal">bicis</span></p>
                       </div>
                     </div>
 
@@ -1152,46 +1172,79 @@ export default function App() {
 
             {/* List selector of all dataset stations */}
             <div className="flex-1 flex flex-col min-h-0">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-3">
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-2">
                 {showOnlyFavorites ? `${t.mapFavoriteStations} (${displayedStations.length})` : `${t.mapDatasetStations} (${displayedStations.length})`}
               </span>
+
+              {/* Buscador de estaciones en el panel lateral */}
+              <div className="relative mb-3">
+                <input
+                  type="text"
+                  placeholder={currentLang === 'va' ? "Cercar per carrer o ID..." : currentLang === 'en' ? "Search by street or ID..." : "Buscar por calle o ID..."}
+                  value={mapSearchQuery}
+                  onChange={(e) => setMapSearchQuery(e.target.value)}
+                  className="w-full text-xs pl-8 pr-7 py-2 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-[#2f3b5c]/20 outline-none transition-all placeholder:text-slate-400 font-medium"
+                />
+                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5 pointer-events-none" />
+                {mapSearchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setMapSearchQuery('')}
+                    className="absolute right-2 top-2 p-0.5 text-slate-400 hover:text-slate-600 rounded-full"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+
               <div className="space-y-2 overflow-y-auto pr-1 flex-1 min-h-[180px]">
-                {displayedStations.map((station) => {
-                  const isSelected = stationId && stationId.toString() === station.id.toString();
-                  const isBroken = ESTACIONES_ROTAS.includes(parseInt(station.id, 10));
-                  return (
-                    <button
-                      key={station.id}
-                      onClick={() => {
-                        setStationId(station.id.toString());
-                        setMapCenter([station.lat, station.lng]);
-                        setMapZoom(16);
-                      }}
-                      className={`w-full text-left p-3 rounded-xl border transition-all flex items-center justify-between gap-3 ${
-                        isSelected 
-                          ? 'border-[#2f3b5c] bg-slate-50 ring-2 ring-[#2f3b5c]/10' 
-                          : 'border-slate-100 hover:border-slate-300 bg-white hover:bg-slate-50/50'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                          isSelected ? 'bg-[#2f3b5c] text-white' : 'bg-slate-100 text-slate-500'
-                        }`}>
-                          <Bike className="w-4.5 h-4.5" />
+                {displayedStations.length === 0 ? (
+                  <div className="py-8 text-center text-slate-400 text-xs font-medium">
+                    {currentLang === 'va' ? "No s'han trobat estacions" : currentLang === 'en' ? "No stations found" : "No se encontraron estaciones"}
+                  </div>
+                ) : (
+                  displayedStations.map((station) => {
+                    const isSelected = stationId && getCleanId(stationId) === station.id.toString();
+                    const isBroken = ESTACIONES_ROTAS.includes(parseInt(station.id, 10));
+                    return (
+                      <button
+                        key={station.id}
+                        onClick={() => {
+                          setStationId(`${station.id} - ${station.name}`);
+                          setMapCenter([station.lat, station.lng]);
+                          setMapZoom(16);
+                        }}
+                        className={`w-full text-left p-3 rounded-xl border transition-all flex items-center justify-between gap-3 ${
+                          isSelected 
+                            ? 'border-[#2f3b5c] bg-slate-50 ring-2 ring-[#2f3b5c]/10' 
+                            : 'border-slate-100 hover:border-slate-300 bg-white hover:bg-slate-50/50'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                            isSelected ? 'bg-[#2f3b5c] text-white' : 'bg-slate-100 text-slate-500'
+                          }`}>
+                            <Bike className="w-4.5 h-4.5" />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="font-bold text-xs text-slate-800 truncate leading-tight">{station.name}</p>
+                            <span className="text-[10px] font-mono text-slate-400">ID: {station.id} {isBroken && `• ${t.mapMaintenanceTag}`}</span>
+                          </div>
                         </div>
-                        <div className="min-w-0">
-                          <p className="font-bold text-xs text-slate-800 truncate leading-tight">{station.name}</p>
-                          <span className="text-[10px] font-mono text-slate-400">ID: {station.id} {isBroken && `• ${t.mapMaintenanceTag}`}</span>
+                        <div className="text-right shrink-0">
+                          <span className="text-[10px] font-extrabold px-2 py-1 rounded-full bg-slate-100 text-[#2f3b5c] block">
+                            {station.cap} {t.mapTotalBases}
+                          </span>
+                          {station.currentBikes !== undefined && (
+                            <span className="text-[9px] text-blue-600 font-bold block mt-0.5">
+                              {station.currentBikes} bicis
+                            </span>
+                          )}
                         </div>
-                      </div>
-                      <div className="text-right shrink-0">
-                        <span className="text-[10px] font-extrabold px-2 py-1 rounded-full bg-slate-100 text-[#2f3b5c]">
-                          {station.cap} {t.mapTotalBases}
-                        </span>
-                      </div>
-                    </button>
-                  );
-                })}
+                      </button>
+                    );
+                  })
+                )}
               </div>
             </div>
           </div>
@@ -1228,7 +1281,7 @@ export default function App() {
                     icon={getStationIcon(station.id, station.cap, isSelected, isFavorite)}
                     eventHandlers={{
                       click: () => {
-                        setStationId(station.id.toString());
+                        setStationId(`${station.id} - ${station.name}`);
                         setMapCenter([station.lat, station.lng]);
                         setMapZoom(16);
                       },
@@ -1241,6 +1294,11 @@ export default function App() {
                         <p className="text-slate-500 font-bold">
                           Estación #{station.id} • {t.predCapacity}: <span className="text-slate-800 font-extrabold">{station.cap} {t.mapTotalBases}</span>
                         </p>
+                        {station.currentBikes !== undefined && (
+                          <p className="text-blue-600 font-extrabold text-[11px]">
+                            🚲 {station.currentBikes} bicis en tiempo real
+                          </p>
+                        )}
                         {ESTACIONES_ROTAS.includes(parseInt(station.id, 10)) && (
                           <span className="inline-flex items-center gap-1 text-red-500 font-bold uppercase text-[9px] bg-red-50 px-1.5 py-0.5 rounded-md mt-1">⚠️ {t.mapMaintenanceTag}</span>
                         )}
@@ -1266,13 +1324,18 @@ export default function App() {
                         ) : (
                           <p className="text-xs text-slate-600 mb-2 leading-tight">
                             {t.mapPopupCapacity}<br/>
-                            <strong className="text-[#2f3b5c] text-sm font-black">{station.cap}</strong> {t.mapTotalBases}.
+                            <strong className="text-[#2f3b5c] text-sm font-black">{station.cap}</strong> {t.mapTotalBases}
+                            {station.currentBikes !== undefined && (
+                              <span className="block text-blue-600 font-bold mt-0.5">
+                                ({station.currentBikes} bicis disponibles)
+                              </span>
+                            )}
                           </p>
                         )}
                         
                         <button 
                           onClick={() => {
-                            setStationId(station.id.toString());
+                            setStationId(`${station.id} - ${station.name}`);
                             setCurrentView('home');
                           }}
                           className="text-[10px] font-bold bg-[#2f3b5c] hover:bg-[#151a29] text-white px-3 py-1.5 rounded-lg transition-colors w-full"

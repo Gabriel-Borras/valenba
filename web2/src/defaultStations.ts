@@ -1,0 +1,2499 @@
+export interface MapStation {
+  id: string;
+  name: string;
+  lat: number;
+  lng: number;
+  cap: number;
+  currentBikes: number;
+  address?: string;
+  freeDocks?: number;
+  isOpen?: boolean;
+  updatedAt?: string;
+}
+
+export const DEFAULT_STATIONS: MapStation[] = [
+  {
+    "id": "1",
+    "name": "C/GUILLEM DE CASTRO esquina con C/NA JORDANA",
+    "address": "C/GUILLEM DE CASTRO esquina con C/NA JORDANA",
+    "lat": 39.48004223020643,
+    "lng": -0.38292927973315827,
+    "cap": 25,
+    "currentBikes": 12
+  },
+  {
+    "id": "2",
+    "name": "Salvador Giner - C. Museo",
+    "address": "Salvador Giner - C. Museo",
+    "lat": 39.479889353348874,
+    "lng": -0.3797483936090024,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "3",
+    "name": "Plaza del Musico López Chavarri",
+    "address": "Plaza del Musico López Chavarri",
+    "lat": 39.4768353435743,
+    "lng": -0.3802883976424855,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "4",
+    "name": "Plaza de la Virgen - Bailía",
+    "address": "Plaza de la Virgen - Bailía",
+    "lat": 39.476747340831494,
+    "lng": -0.37534238089458904,
+    "cap": 25,
+    "currentBikes": 12
+  },
+  {
+    "id": "5",
+    "name": "Plaza Poeta Llorente",
+    "address": "Plaza Poeta Llorente",
+    "lat": 39.476895339123786,
+    "lng": -0.3711403661399108,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "6",
+    "name": "Guillem de Castro - San Pedro Pascual",
+    "address": "Guillem de Castro - San Pedro Pascual",
+    "lat": 39.472798331478145,
+    "lng": -0.38408341393871137,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "7",
+    "name": "Plaza del Mercado - Taula de Canvis",
+    "address": "Plaza del Mercado - Taula de Canvis",
+    "lat": 39.47487233593648,
+    "lng": -0.3791853952972924,
+    "cap": 19,
+    "currentBikes": 9
+  },
+  {
+    "id": "8",
+    "name": "Plaza de la Reina - Mar",
+    "address": "Plaza de la Reina - Mar",
+    "lat": 39.47432033281947,
+    "lng": -0.3750843825510484,
+    "cap": 9,
+    "currentBikes": 4
+  },
+  {
+    "id": "9",
+    "name": "Plaza de Tetuán",
+    "address": "Plaza de Tetuán",
+    "lat": 39.47435533016869,
+    "lng": -0.3699303648826442,
+    "cap": 25,
+    "currentBikes": 12
+  },
+  {
+    "id": "10",
+    "name": "Hospital - Horno del Hospital",
+    "address": "Hospital - Horno del Hospital",
+    "lat": 39.470816323984536,
+    "lng": -0.38261041097634013,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "11",
+    "name": "Plaza Ayuntamiento - Cotanda",
+    "address": "Plaza Ayuntamiento - Cotanda",
+    "lat": 39.47118632283677,
+    "lng": -0.3767843903416451,
+    "cap": 27,
+    "currentBikes": 13
+  },
+  {
+    "id": "12",
+    "name": "Calle Salvá - Calle Poeta Querol",
+    "address": "Calle Salvá - Calle Poeta Querol",
+    "lat": 39.47196722343732,
+    "lng": -0.3740102862977963,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "13",
+    "name": "Alfonso el Magnánimo - Nave",
+    "address": "Alfonso el Magnánimo - Nave",
+    "lat": 39.4720623227334,
+    "lng": -0.37087436964085335,
+    "cap": 24,
+    "currentBikes": 12
+  },
+  {
+    "id": "14",
+    "name": "Huesca - Barón de Cárcer",
+    "address": "Huesca - Barón de Cárcer",
+    "lat": 39.46896731649349,
+    "lng": -0.37972440222295445,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "15",
+    "name": "Ribera - Plaza Ayuntamiento",
+    "address": "Ribera - Plaza Ayuntamiento",
+    "lat": 39.46908831533384,
+    "lng": -0.3756373880434071,
+    "cap": 34,
+    "currentBikes": 17
+  },
+  {
+    "id": "16",
+    "name": "Colón, 60",
+    "address": "Colón, 60",
+    "lat": 39.470092316192336,
+    "lng": -0.3704333693720587,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "17",
+    "name": "Xátiva - Bailén (Estación del Norte)",
+    "address": "Xátiva - Bailén (Estación del Norte)",
+    "lat": 39.46746831099193,
+    "lng": -0.3772593951806123,
+    "cap": 30,
+    "currentBikes": 15
+  },
+  {
+    "id": "18",
+    "name": "Colón 20-22",
+    "address": "Colón 20-22",
+    "lat": 39.468191311513856,
+    "lng": -0.37312937987373457,
+    "cap": 24,
+    "currentBikes": 12
+  },
+  {
+    "id": "19",
+    "name": "Juan Llorens - Quart",
+    "address": "Juan Llorens - Quart",
+    "lat": 39.47436934054566,
+    "lng": -0.391590438798602,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "20",
+    "name": "Quart - Fernando el Católico",
+    "address": "Quart - Fernando el Católico",
+    "lat": 39.47503434099054,
+    "lng": -0.3878474253260651,
+    "cap": 16,
+    "currentBikes": 8
+  },
+  {
+    "id": "21",
+    "name": "Juan Llorens - Literato Gabriel Miró",
+    "address": "Juan Llorens - Literato Gabriel Miró",
+    "lat": 39.4723713328859,
+    "lng": -0.39021443540491124,
+    "cap": 16,
+    "currentBikes": 8
+  },
+  {
+    "id": "22",
+    "name": "Angel Guimerá - Juan Llorens",
+    "address": "Angel Guimerá - Juan Llorens",
+    "lat": 39.46978732404922,
+    "lng": -0.3883534313205414,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "23",
+    "name": "Fernando el Católico - Erudito Orellana",
+    "address": "Fernando el Católico - Erudito Orellana",
+    "lat": 39.471628328748515,
+    "lng": -0.3861784216967592,
+    "cap": 19,
+    "currentBikes": 9
+  },
+  {
+    "id": "24",
+    "name": "Fernando el Católico - Cuenca",
+    "address": "Fernando el Católico - Cuenca",
+    "lat": 39.469077319212495,
+    "lng": -0.3840274173384119,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "25",
+    "name": "Alberique, 18 (Abastos)",
+    "address": "Alberique, 18 (Abastos)",
+    "lat": 39.46772931656263,
+    "lng": -0.38861043334080225,
+    "cap": 23,
+    "currentBikes": 11
+  },
+  {
+    "id": "26",
+    "name": "San José de Calasanz - Salas Quiroga",
+    "address": "San José de Calasanz - Salas Quiroga",
+    "lat": 39.46619531059966,
+    "lng": -0.3860524260304749,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "27",
+    "name": "San Vicente Martir - Doctor Vilá Barberá",
+    "address": "San Vicente Martir - Doctor Vilá Barberá",
+    "lat": 39.463362299305594,
+    "lng": -0.3818514137102655,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "28",
+    "name": "Navarro Reverter - Grabador Esteve",
+    "address": "Navarro Reverter - Grabador Esteve",
+    "lat": 39.47158231958138,
+    "lng": -0.36775135880068294,
+    "cap": 29,
+    "currentBikes": 14
+  },
+  {
+    "id": "29",
+    "name": "Plaza América - Cirilo Amorós - Sorní",
+    "address": "Plaza América - Cirilo Amorós - Sorní",
+    "lat": 39.47011231364647,
+    "lng": -0.3652993525279599,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "30",
+    "name": "Cirilo Amorós - Jorge Juan (Mercado Colón)",
+    "address": "Cirilo Amorós - Jorge Juan (Mercado Colón)",
+    "lat": 39.468601309884924,
+    "lng": -0.36849936365579583,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "31",
+    "name": "Salamanca - Conde Altea",
+    "address": "Salamanca - Conde Altea",
+    "lat": 39.467365304622646,
+    "lng": -0.3650283531086902,
+    "cap": 19,
+    "currentBikes": 9
+  },
+  {
+    "id": "32",
+    "name": "Conde Altea - Almirante Cadarso",
+    "address": "Conde Altea - Almirante Cadarso",
+    "lat": 39.46600630156446,
+    "lng": -0.3682473649948816,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "33",
+    "name": "Germanías - Ruzafa",
+    "address": "Germanías - Ruzafa",
+    "lat": 39.46481830023885,
+    "lng": -0.37399038562310283,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "34",
+    "name": "Regne de Valencia - Doctor Sumsi",
+    "address": "Regne de Valencia - Doctor Sumsi",
+    "lat": 39.46412229654908,
+    "lng": -0.36996137299092113,
+    "cap": 17,
+    "currentBikes": 8
+  },
+  {
+    "id": "35",
+    "name": "Regne de Valencia - Almirante Cadarso",
+    "address": "Regne de Valencia - Almirante Cadarso",
+    "lat": 39.46374929341137,
+    "lng": -0.36699436340059455,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "36",
+    "name": "Plaza de los Fueros - Conde Trenor",
+    "address": "Plaza de los Fueros - Conde Trenor",
+    "lat": 39.479072348860946,
+    "lng": -0.3754363798581042,
+    "cap": 25,
+    "currentBikes": 12
+  },
+  {
+    "id": "37",
+    "name": "Peris y Valero - Luis Santángel",
+    "address": "Peris y Valero - Luis Santángel",
+    "lat": 39.460937800028375,
+    "lng": -0.3664406250017559,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "38",
+    "name": "Peris y Valero - Cabo Jubi",
+    "address": "Peris y Valero - Cabo Jubi",
+    "lat": 39.45940204927687,
+    "lng": -0.37024937736936264,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "39",
+    "name": "Peris y Valero - Cuba",
+    "address": "Peris y Valero - Cuba",
+    "lat": 39.457854277261184,
+    "lng": -0.3739313916673185,
+    "cap": 19,
+    "currentBikes": 9
+  },
+  {
+    "id": "40",
+    "name": "Barcas, 11",
+    "address": "Barcas, 11",
+    "lat": 39.470466319701956,
+    "lng": -0.3748243837183276,
+    "cap": 26,
+    "currentBikes": 13
+  },
+  {
+    "id": "41",
+    "name": "General Urrutia - Granada",
+    "address": "General Urrutia - Granada",
+    "lat": 39.458912276426375,
+    "lng": -0.36477635908979195,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "42",
+    "name": "Av. de la Plata (Museo Fallero)",
+    "address": "Av. de la Plata (Museo Fallero)",
+    "lat": 39.45878127329601,
+    "lng": -0.3586583378805894,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "43",
+    "name": "Escultor José Capuz - Oriente",
+    "address": "Escultor José Capuz - Oriente",
+    "lat": 39.459477276259406,
+    "lng": -0.36115334583643566,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "44",
+    "name": "General Urrutia - Av. de la Plata",
+    "address": "General Urrutia - Av. de la Plata",
+    "lat": 39.45642926768604,
+    "lng": -0.36301435452576164,
+    "cap": 19,
+    "currentBikes": 9
+  },
+  {
+    "id": "45",
+    "name": "Hermanos Maristas - General Urrutia",
+    "address": "Hermanos Maristas - General Urrutia",
+    "lat": 39.45381925759081,
+    "lng": -0.36185535292343096,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "46",
+    "name": "Pintor Luis Arcas - Inst. Obrero Valenciano",
+    "address": "Pintor Luis Arcas - Inst. Obrero Valenciano",
+    "lat": 39.455509261762266,
+    "lng": -0.35878734087160885,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "47",
+    "name": "Autopista del Saler - Puente Monteolivete",
+    "address": "Autopista del Saler - Puente Monteolivete",
+    "lat": 39.45651226440267,
+    "lng": -0.35541832880362817,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "48",
+    "name": "Antonio Ferrandis - General Urrutia",
+    "address": "Antonio Ferrandis - General Urrutia",
+    "lat": 39.450807354184086,
+    "lng": -0.35855273823228967,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "49",
+    "name": "Ricardo Muñoz Suay - María José Victoria Fuster (C.C. El Saler)",
+    "address": "Ricardo Muñoz Suay - María José Victoria Fuster (C.C. El Saler)",
+    "lat": 39.45298693239739,
+    "lng": -0.3571104198826364,
+    "cap": 25,
+    "currentBikes": 12
+  },
+  {
+    "id": "50",
+    "name": "Autopista del Saler - Antonio Ferrandis (C.C. El Saler)",
+    "address": "Autopista del Saler - Antonio Ferrandis (C.C. El Saler)",
+    "lat": 39.453318252515686,
+    "lng": -0.3528593228128155,
+    "cap": 40,
+    "currentBikes": 20
+  },
+  {
+    "id": "51",
+    "name": "Moreras (Oceanográfico)",
+    "address": "Moreras (Oceanográfico)",
+    "lat": 39.45218324552497,
+    "lng": -0.3472273049060467,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "52",
+    "name": "Luis García Berlanga Martí - Menorca",
+    "address": "Luis García Berlanga Martí - Menorca",
+    "lat": 39.45603425797373,
+    "lng": -0.3463402980947426,
+    "cap": 25,
+    "currentBikes": 12
+  },
+  {
+    "id": "53",
+    "name": "Alameda - Pintor Maella",
+    "address": "Alameda - Pintor Maella",
+    "lat": 39.45676426141678,
+    "lng": -0.34813930400480075,
+    "cap": 25,
+    "currentBikes": 12
+  },
+  {
+    "id": "54",
+    "name": "Plaza de Europa",
+    "address": "Plaza de Europa",
+    "lat": 39.459778273617445,
+    "lng": -0.3526903171951741,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "55",
+    "name": "Francia - Pintor Maella",
+    "address": "Francia - Pintor Maella",
+    "lat": 39.45934326975421,
+    "lng": -0.34868630411595647,
+    "cap": 25,
+    "currentBikes": 12
+  },
+  {
+    "id": "56",
+    "name": "Francia - Menorca",
+    "address": "Francia - Menorca",
+    "lat": 39.45842126509135,
+    "lng": -0.3444052893928658,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "57",
+    "name": "Alameda - Pintor Monleón",
+    "address": "Alameda - Pintor Monleón",
+    "lat": 39.46447629179199,
+    "lng": -0.3582563324315247,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "58",
+    "name": "Plaza España",
+    "address": "Plaza España",
+    "lat": 39.46621830848607,
+    "lng": -0.3815864106638383,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "59",
+    "name": "Baleares - Río Escalona",
+    "address": "Baleares - Río Escalona",
+    "lat": 39.463088285667624,
+    "lng": -0.3545493213542055,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "60",
+    "name": "Baleares - Lebón",
+    "address": "Baleares - Lebón",
+    "lat": 39.46223128102797,
+    "lng": -0.3517763125261459,
+    "cap": 19,
+    "currentBikes": 9
+  },
+  {
+    "id": "61",
+    "name": "Vicent Vidal - Pintor Maella",
+    "address": "Vicent Vidal - Pintor Maella",
+    "lat": 39.46129327599964,
+    "lng": -0.34783029886743094,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "62",
+    "name": "Menorca - Baleares",
+    "address": "Menorca - Baleares",
+    "lat": 39.45981126842254,
+    "lng": -0.3421522812931475,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "63",
+    "name": "Av Puerto 19 (Telefónica)",
+    "address": "Av Puerto 19 (Telefónica)",
+    "lat": 39.46777930285978,
+    "lng": -0.358414330727018,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "64",
+    "name": "Av. Puerto 61-63",
+    "address": "Av. Puerto 61-63",
+    "lat": 39.46651829706714,
+    "lng": -0.35419531724959286,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "65",
+    "name": "Av. Puerto - Doctor Manuel Candela",
+    "address": "Av. Puerto - Doctor Manuel Candela",
+    "lat": 39.465516292011046,
+    "lng": -0.3508373061951808,
+    "cap": 19,
+    "currentBikes": 9
+  },
+  {
+    "id": "66",
+    "name": "Guillem de Anglesola - Av. Puerto",
+    "address": "Guillem de Anglesola - Av. Puerto",
+    "lat": 39.46427128532339,
+    "lng": -0.3462612916525901,
+    "cap": 25,
+    "currentBikes": 12
+  },
+  {
+    "id": "67",
+    "name": "Juan Verdeguer - Toneleros",
+    "address": "Juan Verdeguer - Toneleros",
+    "lat": 39.45886026320377,
+    "lng": -0.33679826304022287,
+    "cap": 14,
+    "currentBikes": 7
+  },
+  {
+    "id": "68",
+    "name": "Av. Puerto - José Aguilar",
+    "address": "Av. Puerto - José Aguilar",
+    "lat": 39.46280327868023,
+    "lng": -0.3417332778594022,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "69",
+    "name": "Av. Puerto - Serrería",
+    "address": "Av. Puerto - Serrería",
+    "lat": 39.46195227384504,
+    "lng": -0.3387212679875118,
+    "cap": 25,
+    "currentBikes": 12
+  },
+  {
+    "id": "70",
+    "name": "Colón, 44",
+    "address": "Colón, 44",
+    "lat": 39.469213221319464,
+    "lng": -0.3716462894107889,
+    "cap": 17,
+    "currentBikes": 8
+  },
+  {
+    "id": "71",
+    "name": "Av. Puerto - Plaza Tribunal de les Aigües",
+    "address": "Av. Puerto - Plaza Tribunal de les Aigües",
+    "lat": 39.46038026686525,
+    "lng": -0.33353125122308164,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "72",
+    "name": "Ramiro de Maeztu - Peris Brell",
+    "address": "Ramiro de Maeztu - Peris Brell",
+    "lat": 39.467257201162404,
+    "lng": -0.34644628196214244,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "73",
+    "name": "Jerónimo Monsoriu - Industria",
+    "address": "Jerónimo Monsoriu - Industria",
+    "lat": 39.4662592905475,
+    "lng": -0.3428792786496773,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "74",
+    "name": "Plaza San Felipe Neri (Mercado Algirós)",
+    "address": "Plaza San Felipe Neri (Mercado Algirós)",
+    "lat": 39.469949307546806,
+    "lng": -0.3537343124957471,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "75",
+    "name": "República Argentina - Campoamor",
+    "address": "República Argentina - Campoamor",
+    "lat": 39.472113313853896,
+    "lng": -0.35170130420295115,
+    "cap": 25,
+    "currentBikes": 12
+  },
+  {
+    "id": "76",
+    "name": "Campoamor - Músico Ginés",
+    "address": "Campoamor - Músico Ginés",
+    "lat": 39.47008330347364,
+    "lng": -0.343461277578989,
+    "cap": 19,
+    "currentBikes": 9
+  },
+  {
+    "id": "77",
+    "name": "Molinell - Calderón de la Barca",
+    "address": "Molinell - Calderón de la Barca",
+    "lat": 39.48497336307338,
+    "lng": -0.36566734195835493,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "78",
+    "name": "Aragón - Vicente Sancho Tello",
+    "address": "Aragón - Vicente Sancho Tello",
+    "lat": 39.46994531050937,
+    "lng": -0.358688329939162,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "79",
+    "name": "Aragón - Ernesto Ferrer",
+    "address": "Aragón - Ernesto Ferrer",
+    "lat": 39.4727793187067,
+    "lng": -0.357242322435451,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "80",
+    "name": "Amadeo de Saboya (frente Ayuntamiento)",
+    "address": "Amadeo de Saboya (frente Ayuntamiento)",
+    "lat": 39.47374232444908,
+    "lng": -0.36229833944736023,
+    "cap": 25,
+    "currentBikes": 12
+  },
+  {
+    "id": "81",
+    "name": "Micer Mascó - Rodriguez Fornos",
+    "address": "Micer Mascó - Rodriguez Fornos",
+    "lat": 39.47512832851177,
+    "lng": -0.36097833354659675,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "82",
+    "name": "Guillem de Castro (Torres de Quart)",
+    "address": "Guillem de Castro (Torres de Quart)",
+    "lat": 39.47605634238628,
+    "lng": -0.3839144104057024,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "83",
+    "name": "General Elio - Llano del Real",
+    "address": "General Elio - Llano del Real",
+    "lat": 39.47758533929587,
+    "lng": -0.3669703519914759,
+    "cap": 25,
+    "currentBikes": 12
+  },
+  {
+    "id": "84",
+    "name": "Serrería, 67",
+    "address": "Serrería, 67",
+    "lat": 39.46729429030231,
+    "lng": -0.3351652508188024,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "85",
+    "name": "Blasco Ibañez - Jaime Roig",
+    "address": "Blasco Ibañez - Jaime Roig",
+    "lat": 39.479464345022826,
+    "lng": -0.3647153422684407,
+    "cap": 23,
+    "currentBikes": 11
+  },
+  {
+    "id": "86",
+    "name": "Gaspar Aguilar - Vicente Parra",
+    "address": "Gaspar Aguilar - Vicente Parra",
+    "lat": 39.4552402764855,
+    "lng": -0.39119345191575566,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "87",
+    "name": "Blasco Ibañez - Doctor Gómez Ferrer (Clínico)",
+    "address": "Blasco Ibañez - Doctor Gómez Ferrer (Clínico)",
+    "lat": 39.47851834019109,
+    "lng": -0.36188033357859983,
+    "cap": 33,
+    "currentBikes": 16
+  },
+  {
+    "id": "88",
+    "name": "Blasco Ibañez, 28 (F. Geografía e Historia)",
+    "address": "Blasco Ibañez, 28 (F. Geografía e Historia)",
+    "lat": 39.477512336096844,
+    "lng": -0.36114233248377353,
+    "cap": 40,
+    "currentBikes": 20
+  },
+  {
+    "id": "89",
+    "name": "Blasco Ibañez, 23 (F. Filosofía y Psicología)",
+    "address": "Blasco Ibañez, 23 (F. Filosofía y Psicología)",
+    "lat": 39.47780233689744,
+    "lng": -0.3593183259089267,
+    "cap": 30,
+    "currentBikes": 15
+  },
+  {
+    "id": "90",
+    "name": "Blasco Ibañez, 32 (F. Filología)",
+    "address": "Blasco Ibañez, 32 (F. Filología)",
+    "lat": 39.47673433298103,
+    "lng": -0.3589673254467337,
+    "cap": 40,
+    "currentBikes": 20
+  },
+  {
+    "id": "91",
+    "name": "Grabador Jordan - Escultor Pastor",
+    "address": "Grabador Jordan - Escultor Pastor",
+    "lat": 39.44412522887422,
+    "lng": -0.36757337969703135,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "92",
+    "name": "Blasco Ibañez - Aragón",
+    "address": "Blasco Ibañez - Aragón",
+    "lat": 39.47586032883543,
+    "lng": -0.35596831583559707,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "93",
+    "name": "Blasco Ibañez - Poeta Durán Tortajada",
+    "address": "Blasco Ibañez - Poeta Durán Tortajada",
+    "lat": 39.472282310670764,
+    "lng": -0.34380927742382206,
+    "cap": 38,
+    "currentBikes": 19
+  },
+  {
+    "id": "94",
+    "name": "Blasco Ibañez - Clariano",
+    "address": "Blasco Ibañez - Clariano",
+    "lat": 39.47537832465668,
+    "lng": -0.35158330144926053,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "95",
+    "name": "Naranjos (Magisterio)",
+    "address": "Naranjos (Magisterio)",
+    "lat": 39.47983533734356,
+    "lng": -0.34611927939668474,
+    "cap": 33,
+    "currentBikes": 16
+  },
+  {
+    "id": "96",
+    "name": "Blasco Ibañez - Yecla",
+    "address": "Blasco Ibañez - Yecla",
+    "lat": 39.47355431688417,
+    "lng": -0.3482142912637639,
+    "cap": 21,
+    "currentBikes": 10
+  },
+  {
+    "id": "97",
+    "name": "Blasco Ibañez 121",
+    "address": "Blasco Ibañez 121",
+    "lat": 39.47306831276613,
+    "lng": -0.3431322739648798,
+    "cap": 23,
+    "currentBikes": 11
+  },
+  {
+    "id": "98",
+    "name": "Justo y Pastor - Duque de Gaeta",
+    "address": "Justo y Pastor - Duque de Gaeta",
+    "lat": 39.469680303996114,
+    "lng": -0.348442294427372,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "99",
+    "name": "Blasco Ibañez - Pintor José Mongrell",
+    "address": "Blasco Ibañez - Pintor José Mongrell",
+    "lat": 39.47134430635022,
+    "lng": -0.3404842660990001,
+    "cap": 21,
+    "currentBikes": 10
+  },
+  {
+    "id": "100",
+    "name": "Blasco Ibañez - Mestre Ripoll",
+    "address": "Blasco Ibañez - Mestre Ripoll",
+    "lat": 39.471634305646866,
+    "lng": -0.33815025853445674,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "101",
+    "name": "Marino Blas de Lezo (estación Cabañal Adif)",
+    "address": "Marino Blas de Lezo (estación Cabañal Adif)",
+    "lat": 39.47006829907817,
+    "lng": -0.3343612466069016,
+    "cap": 30,
+    "currentBikes": 15
+  },
+  {
+    "id": "102",
+    "name": "Ramón Llull - Serpis",
+    "address": "Ramón Llull - Serpis",
+    "lat": 39.47583332394092,
+    "lng": -0.346720283882565,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "103",
+    "name": "Rubén Darío - Plaza Fray Luis Colomer",
+    "address": "Rubén Darío - Plaza Fray Luis Colomer",
+    "lat": 39.47845333567255,
+    "lng": -0.3523713017453889,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "104",
+    "name": "Albalat dels Tarongers - Paseo Facultades",
+    "address": "Albalat dels Tarongers - Paseo Facultades",
+    "lat": 39.478386332978474,
+    "lng": -0.3472752845405608,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "105",
+    "name": "Aularios Universidad de Valencia",
+    "address": "Aularios Universidad de Valencia",
+    "lat": 39.47835119969391,
+    "lng": -0.3443952655704271,
+    "cap": 30,
+    "currentBikes": 15
+  },
+  {
+    "id": "106",
+    "name": "Albalat dels Tarongers - Professor Ernest Lluch",
+    "address": "Albalat dels Tarongers - Professor Ernest Lluch",
+    "lat": 39.47674432466283,
+    "lng": -0.34138726522688073,
+    "cap": 25,
+    "currentBikes": 12
+  },
+  {
+    "id": "107",
+    "name": "Campillo de Altobuey (Polideportivo)",
+    "address": "Campillo de Altobuey (Polideportivo)",
+    "lat": 39.47524531713643,
+    "lng": -0.3362242490922528,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "108",
+    "name": "Luís Peixó 20",
+    "address": "Luís Peixó 20",
+    "lat": 39.47382619077011,
+    "lng": -0.3339152679031098,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "109",
+    "name": "Naranjos - Ingeniero Fausto Elio",
+    "address": "Naranjos - Ingeniero Fausto Elio",
+    "lat": 39.4768193210939,
+    "lng": -0.3335102388084858,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "110",
+    "name": "UPV Trinquet",
+    "address": "UPV Trinquet",
+    "lat": 39.48074033571707,
+    "lng": -0.33668024623462534,
+    "cap": 30,
+    "currentBikes": 15
+  },
+  {
+    "id": "111",
+    "name": "UPV Galileo",
+    "address": "UPV Galileo",
+    "lat": 39.48066419504159,
+    "lng": -0.3395082613341325,
+    "cap": 30,
+    "currentBikes": 15
+  },
+  {
+    "id": "112",
+    "name": "Manuel Broseta i Pont - Naranjos",
+    "address": "Manuel Broseta i Pont - Naranjos",
+    "lat": 39.47858033137406,
+    "lng": -0.34227526701990957,
+    "cap": 40,
+    "currentBikes": 20
+  },
+  {
+    "id": "113",
+    "name": "UPV Caminos",
+    "address": "UPV Caminos",
+    "lat": 39.48127634089521,
+    "lng": -0.3436112694462359,
+    "cap": 38,
+    "currentBikes": 19
+  },
+  {
+    "id": "114",
+    "name": "UPV Informática",
+    "address": "UPV Informática",
+    "lat": 39.4818043438759,
+    "lng": -0.346591279156021,
+    "cap": 30,
+    "currentBikes": 15
+  },
+  {
+    "id": "115",
+    "name": "Cataluña - Doctor Vicente Zaragozá",
+    "address": "Cataluña - Doctor Vicente Zaragozá",
+    "lat": 39.481562345598135,
+    "lng": -0.3521482985209469,
+    "cap": 16,
+    "currentBikes": 8
+  },
+  {
+    "id": "116",
+    "name": "Doctor Vicente Zaragozá - Ramón Asensio",
+    "address": "Doctor Vicente Zaragozá - Ramón Asensio",
+    "lat": 39.48325335356676,
+    "lng": -0.3575613154471814,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "117",
+    "name": "Gascó Oliag - Primado Reig",
+    "address": "Gascó Oliag - Primado Reig",
+    "lat": 39.47925133992885,
+    "lng": -0.357065317141581,
+    "cap": 30,
+    "currentBikes": 15
+  },
+  {
+    "id": "118",
+    "name": "Gómez Ferrer - Álvaro de Bazán",
+    "address": "Gómez Ferrer - Álvaro de Bazán",
+    "lat": 39.480466345728246,
+    "lng": -0.3604163266878076,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "119",
+    "name": "Jaime Roig - Bachiller",
+    "address": "Jaime Roig - Bachiller",
+    "lat": 39.48252035422283,
+    "lng": -0.36322633473676447,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "120",
+    "name": "Doctor Vicente Zaragozá - Emilio Baró",
+    "address": "Doctor Vicente Zaragozá - Emilio Baró",
+    "lat": 39.484880361257815,
+    "lng": -0.36204632906281087,
+    "cap": 18,
+    "currentBikes": 9
+  },
+  {
+    "id": "121",
+    "name": "Murta - Sant Eperit",
+    "address": "Murta - Sant Eperit",
+    "lat": 39.48618236435413,
+    "lng": -0.35877131748144303,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "122",
+    "name": "Músico Hipólito Martínez - Diógenes López Mecho",
+    "address": "Músico Hipólito Martínez - Diógenes López Mecho",
+    "lat": 39.48448535604776,
+    "lng": -0.3540663028794564,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "123",
+    "name": "Albocácer - Vinaroz",
+    "address": "Albocácer - Vinaroz",
+    "lat": 39.487671371814656,
+    "lng": -0.36484133609518726,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "124",
+    "name": "Azagador de Alboraya - Dolores Marqués",
+    "address": "Azagador de Alboraya - Dolores Marqués",
+    "lat": 39.48850137319014,
+    "lng": -0.3619553259600363,
+    "cap": 25,
+    "currentBikes": 12
+  },
+  {
+    "id": "125",
+    "name": "Masquefa, 42 - 44",
+    "address": "Masquefa, 42 - 44",
+    "lat": 39.489693375775445,
+    "lng": -0.3586183142345537,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "126",
+    "name": "Alfahuir - José Chabas Bordehore",
+    "address": "Alfahuir - José Chabas Bordehore",
+    "lat": 39.49309838788837,
+    "lng": -0.36010431604895277,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "127",
+    "name": "Alfahuir - Duque de Mandas",
+    "address": "Alfahuir - Duque de Mandas",
+    "lat": 39.49059138177909,
+    "lng": -0.3644463333304693,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "128",
+    "name": "Alfahuir - Peñiscola",
+    "address": "Alfahuir - Peñiscola",
+    "lat": 39.48876637693274,
+    "lng": -0.367544345093534,
+    "cap": 25,
+    "currentBikes": 12
+  },
+  {
+    "id": "129",
+    "name": "Almazora - Benimuslem",
+    "address": "Almazora - Benimuslem",
+    "lat": 39.485975369089516,
+    "lng": -0.3699453557741905,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "130",
+    "name": "Convento Carmelitas - Alboraya",
+    "address": "Convento Carmelitas - Alboraya",
+    "lat": 39.483238360081586,
+    "lng": -0.370210358642677,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "131",
+    "name": "CALLE SANTA AMALIA  2, esquina POETA BODRIA",
+    "address": "CALLE SANTA AMALIA  2, esquina POETA BODRIA",
+    "lat": 39.48141722170027,
+    "lng": -0.3729122732215235,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "132",
+    "name": "Platero Suárez - Milagrosa",
+    "address": "Platero Suárez - Milagrosa",
+    "lat": 39.48528636793778,
+    "lng": -0.3734343681182198,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "133",
+    "name": "Alfambra - Poeta Monmeneu",
+    "address": "Alfambra - Poeta Monmeneu",
+    "lat": 39.48275636079257,
+    "lng": -0.37588237827023757,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "134",
+    "name": "Maximiliano Thous - Luz Casanova",
+    "address": "Maximiliano Thous - Luz Casanova",
+    "lat": 39.48765637635625,
+    "lng": -0.37333936513208965,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "135",
+    "name": "Constitución - Reus",
+    "address": "Constitución - Reus",
+    "lat": 39.48570237196362,
+    "lng": -0.37850138478156414,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "136",
+    "name": "Economista Gay - Constitución",
+    "address": "Economista Gay - Constitución",
+    "lat": 39.48994138447594,
+    "lng": -0.37561037166808026,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "137",
+    "name": "Economista Gay - Luis Crumiere",
+    "address": "Economista Gay - Luis Crumiere",
+    "lat": 39.48903338344832,
+    "lng": -0.3798963873712934,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "138",
+    "name": "San Pancracio - Periodista Llorente",
+    "address": "San Pancracio - Periodista Llorente",
+    "lat": 39.48819038284581,
+    "lng": -0.38422240207482833,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "139",
+    "name": "Reus - Alquería de la Estrella",
+    "address": "Reus - Alquería de la Estrella",
+    "lat": 39.485706374097916,
+    "lng": -0.38287339995719183,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "140",
+    "name": "Campanar - Nicasio Benlloch",
+    "address": "Campanar - Nicasio Benlloch",
+    "lat": 39.48800438494039,
+    "lng": -0.3896004206542252,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "141",
+    "name": "Gregorio Gea - Padre Ferris",
+    "address": "Gregorio Gea - Padre Ferris",
+    "lat": 39.483268367245344,
+    "lng": -0.3851564091174212,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "142",
+    "name": "Gregorio Gea - Profesor Beltrán Báguena",
+    "address": "Gregorio Gea - Profesor Beltrán Báguena",
+    "lat": 39.48192036501599,
+    "lng": -0.38965942617943544,
+    "cap": 25,
+    "currentBikes": 12
+  },
+  {
+    "id": "143",
+    "name": "Pio XII - Menéndez PIdal (Nuevo Centro)",
+    "address": "Pio XII - Menéndez PIdal (Nuevo Centro)",
+    "lat": 39.4795373575288,
+    "lng": -0.39093643241708165,
+    "cap": 30,
+    "currentBikes": 15
+  },
+  {
+    "id": "144",
+    "name": "Marqués de San Juan - Diputat Lluís Lucía",
+    "address": "Marqués de San Juan - Diputat Lluís Lucía",
+    "lat": 39.4787793569025,
+    "lng": -0.39548044804080085,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "145",
+    "name": "Plaza Badajoz",
+    "address": "Plaza Badajoz",
+    "lat": 39.48154736759815,
+    "lng": -0.398395456094638,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "146",
+    "name": "Av. Campanar (La Fe)",
+    "address": "Av. Campanar (La Fe)",
+    "lat": 39.48511037548845,
+    "lng": -0.3909524281114989,
+    "cap": 26,
+    "currentBikes": 13
+  },
+  {
+    "id": "147",
+    "name": "Pie de la Cruz - Rejas",
+    "address": "Pie de la Cruz - Rejas",
+    "lat": 39.47320133107913,
+    "lng": -0.3802074001545322,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "148",
+    "name": "C/Xàtiva 30-32",
+    "address": "C/Xàtiva 30-32",
+    "lat": 39.46714522461298,
+    "lng": -0.3753782937388751,
+    "cap": 35,
+    "currentBikes": 17
+  },
+  {
+    "id": "149",
+    "name": "Peris y Valero - Salamanca",
+    "address": "Peris y Valero - Salamanca",
+    "lat": 39.462934287947085,
+    "lng": -0.36179534600499663,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "150",
+    "name": "Manuel Candela - Rodriguez de Cepeda",
+    "address": "Manuel Candela - Rodriguez de Cepeda",
+    "lat": 39.46772129856667,
+    "lng": -0.35060930364544307,
+    "cap": 25,
+    "currentBikes": 12
+  },
+  {
+    "id": "151",
+    "name": "Jerónimo Monsoriu - Alcalde Cano Coloma",
+    "address": "Jerónimo Monsoriu - Alcalde Cano Coloma",
+    "lat": 39.464669282422186,
+    "lng": -0.33711726031421224,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "152",
+    "name": "Reina Doña María - Cádiz",
+    "address": "Reina Doña María - Cádiz",
+    "lat": 39.460925286769694,
+    "lng": -0.3727053849231208,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "153",
+    "name": "Llano de la Zaidía - Doctor Olóriz",
+    "address": "Llano de la Zaidía - Doctor Olóriz",
+    "lat": 39.48305822805289,
+    "lng": -0.3805912745331588,
+    "cap": 24,
+    "currentBikes": 12
+  },
+  {
+    "id": "154",
+    "name": "Pescadores - Progreso",
+    "address": "Pescadores - Progreso",
+    "lat": 39.469876296228996,
+    "lng": -0.3295542305651281,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "155",
+    "name": "Salamanca - Reina Doña Germana",
+    "address": "Salamanca - Reina Doña Germana",
+    "lat": 39.46495329574819,
+    "lng": -0.3630783484267159,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "156",
+    "name": "Puerto Rico - Cuba",
+    "address": "Puerto Rico - Cuba",
+    "lat": 39.46096428829767,
+    "lng": -0.3763453968184098,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "157",
+    "name": "Pérez Galdós - Marqués de Zenete",
+    "address": "Pérez Galdós - Marqués de Zenete",
+    "lat": 39.46405230416093,
+    "lng": -0.38736643250783204,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "158",
+    "name": "Doctor Lluch - Virgen del Sufragio",
+    "address": "Doctor Lluch - Virgen del Sufragio",
+    "lat": 39.46669828513057,
+    "lng": -0.3277192268301427,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "159",
+    "name": "Francisco Cubells - San José de la Vega",
+    "address": "Francisco Cubells - San José de la Vega",
+    "lat": 39.463449276866356,
+    "lng": -0.3347222532485526,
+    "cap": 17,
+    "currentBikes": 8
+  },
+  {
+    "id": "160",
+    "name": "José María de Haro - Justo y Pastor",
+    "address": "José María de Haro - Justo y Pastor",
+    "lat": 39.467336291769534,
+    "lng": -0.33898126470999496,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "161",
+    "name": "Mediterráneo - Plaza Cruz de Cañamelar",
+    "address": "Mediterráneo - Plaza Cruz de Cañamelar",
+    "lat": 39.46796929073871,
+    "lng": -0.3317262387298495,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "162",
+    "name": "Armada Española - Mariano Cuber",
+    "address": "Armada Española - Mariano Cuber",
+    "lat": 39.46360427573933,
+    "lng": -0.3297952360224295,
+    "cap": 19,
+    "currentBikes": 9
+  },
+  {
+    "id": "163",
+    "name": "Paseo Neptuno 32-34",
+    "address": "Paseo Neptuno 32-34",
+    "lat": 39.46443727525528,
+    "lng": -0.3234012136184579,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "164",
+    "name": "Pavía - Columbretes",
+    "address": "Pavía - Columbretes",
+    "lat": 39.46846028903177,
+    "lng": -0.3246342149862025,
+    "cap": 17,
+    "currentBikes": 8
+  },
+  {
+    "id": "165",
+    "name": "Pavía - Espadán",
+    "address": "Pavía - Espadán",
+    "lat": 39.471409299035706,
+    "lng": -0.3245702116150898,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "166",
+    "name": "Don Vicente Guillot - Progreso",
+    "address": "Don Vicente Guillot - Progreso",
+    "lat": 39.47334930757559,
+    "lng": -0.32881122495787873,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "167",
+    "name": "Pavía - Acequia de la Cadena",
+    "address": "Pavía - Acequia de la Cadena",
+    "lat": 39.474908310742784,
+    "lng": -0.3246102088459378,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "168",
+    "name": "Malvarrosa - Río Tajo",
+    "address": "Malvarrosa - Río Tajo",
+    "lat": 39.47687131828106,
+    "lng": -0.32788721869941045,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "169",
+    "name": "Pavía (Instituto Isabel de Villena)",
+    "address": "Pavía (Instituto Isabel de Villena)",
+    "lat": 39.47878532308192,
+    "lng": -0.32464520634897104,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "170",
+    "name": "Isabel de Villena - Mendizábal",
+    "address": "Isabel de Villena - Mendizábal",
+    "lat": 39.482973337910934,
+    "lng": -0.32533420529241996,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "171",
+    "name": "Gran Canaria - Ingeniero Manuel Maese",
+    "address": "Gran Canaria - Ingeniero Manuel Maese",
+    "lat": 39.483060339803416,
+    "lng": -0.32900821806202085,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "172",
+    "name": "Pío XII - Campanar",
+    "address": "Pío XII - Campanar",
+    "lat": 39.48146236504626,
+    "lng": -0.3933454386575609,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "173",
+    "name": "Pío XII - Monestir de Poblet",
+    "address": "Pío XII - Monestir de Poblet",
+    "lat": 39.484541375368174,
+    "lng": -0.394678441209281,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "174",
+    "name": "Monduber - Peset Aleixandre",
+    "address": "Monduber - Peset Aleixandre",
+    "lat": 39.489438388167024,
+    "lng": -0.38664740957644866,
+    "cap": 19,
+    "currentBikes": 9
+  },
+  {
+    "id": "175",
+    "name": "Juan XXIII - Domingo Gómez",
+    "address": "Juan XXIII - Domingo Gómez",
+    "lat": 39.49258939642365,
+    "lng": -0.38271239433339566,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "176",
+    "name": "Cno. Moncada - Pedro Patricio Mey",
+    "address": "Cno. Moncada - Pedro Patricio Mey",
+    "lat": 39.49201739310727,
+    "lng": -0.378853381402734,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "177",
+    "name": "Alcudia de Crespins - Pedro Patricio Mey",
+    "address": "Alcudia de Crespins - Pedro Patricio Mey",
+    "lat": 39.493545396079504,
+    "lng": -0.3734883620528129,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "178",
+    "name": "Reig Genovés - Ramón Contreras Mongrell",
+    "address": "Reig Genovés - Ramón Contreras Mongrell",
+    "lat": 39.49221639017785,
+    "lng": -0.3705063522665271,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "179",
+    "name": "Av. de la Plata - Zapadores",
+    "address": "Av. de la Plata - Zapadores",
+    "lat": 39.45547226612543,
+    "lng": -0.36642636792637634,
+    "cap": 23,
+    "currentBikes": 11
+  },
+  {
+    "id": "180",
+    "name": "Doctor Waksman - Nieves",
+    "address": "Doctor Waksman - Nieves",
+    "lat": 39.45602126922772,
+    "lng": -0.3706833820688013,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "181",
+    "name": "Zapadores, 23",
+    "address": "Zapadores, 23",
+    "lat": 39.45799927509706,
+    "lng": -0.3681913713233589,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "182",
+    "name": "Ausias March - Pianista Amparo Iturbi",
+    "address": "Ausias March - Pianista Amparo Iturbi",
+    "lat": 39.455432269344854,
+    "lng": -0.37496539716978367,
+    "cap": 21,
+    "currentBikes": 10
+  },
+  {
+    "id": "183",
+    "name": "Ausias March - Av. de la Plata",
+    "address": "Ausias March - Av. de la Plata",
+    "lat": 39.45262025913349,
+    "lng": -0.3722843899417025,
+    "cap": 18,
+    "currentBikes": 9
+  },
+  {
+    "id": "184",
+    "name": "Bombero Ramón Duart - Hermanos Maristas",
+    "address": "Bombero Ramón Duart - Hermanos Maristas",
+    "lat": 39.45278225629358,
+    "lng": -0.36557036636455215,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "185",
+    "name": "Ebanista Caselles - Ausias March",
+    "address": "Ebanista Caselles - Ausias March",
+    "lat": 39.45004424948915,
+    "lng": -0.3705033850186671,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "186",
+    "name": "Benifairó de Valldigna - Joaquín Benlloch",
+    "address": "Benifairó de Valldigna - Joaquín Benlloch",
+    "lat": 39.45039125246078,
+    "lng": -0.3740153970137416,
+    "cap": 14,
+    "currentBikes": 7
+  },
+  {
+    "id": "187",
+    "name": "Ángel Villena - Ausias March",
+    "address": "Ángel Villena - Ausias March",
+    "lat": 39.447960241518516,
+    "lng": -0.3688183809361798,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "188",
+    "name": "Hospital Nueva Fe (consultas externas)",
+    "address": "Hospital Nueva Fe (consultas externas)",
+    "lat": 39.44462122517277,
+    "lng": -0.3751583239336074,
+    "cap": 40,
+    "currentBikes": 20
+  },
+  {
+    "id": "189",
+    "name": "Hospital Nueva Fe (administración)",
+    "address": "Hospital Nueva Fe (administración)",
+    "lat": 39.44477922701873,
+    "lng": -0.37706532415787625,
+    "cap": 30,
+    "currentBikes": 15
+  },
+  {
+    "id": "190",
+    "name": "Cra. Malilla - Bulevar Sur",
+    "address": "Cra. Malilla - Bulevar Sur",
+    "lat": 39.44608224133691,
+    "lng": -0.38029642271654757,
+    "cap": 18,
+    "currentBikes": 9
+  },
+  {
+    "id": "191",
+    "name": "Esparraguera - Cra. Malilla",
+    "address": "Esparraguera - Cra. Malilla",
+    "lat": 39.45032925434954,
+    "lng": -0.37886641388495107,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "192",
+    "name": "Cra. Malilla - Oltá",
+    "address": "Cra. Malilla - Oltá",
+    "lat": 39.45263726161547,
+    "lng": -0.3787144113919625,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "193",
+    "name": "Uruguay - Carteros",
+    "address": "Uruguay - Carteros",
+    "lat": 39.45514627443484,
+    "lng": -0.386718436578698,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "194",
+    "name": "Estación AVE Joaquín Sorolla",
+    "address": "Estación AVE Joaquín Sorolla",
+    "lat": 39.461018290993636,
+    "lng": -0.38097441235847007,
+    "cap": 40,
+    "currentBikes": 20
+  },
+  {
+    "id": "195",
+    "name": "Giorgeta - Roig de Corella",
+    "address": "Giorgeta - Roig de Corella",
+    "lat": 39.459384287208486,
+    "lng": -0.3842814248129742,
+    "cap": 16,
+    "currentBikes": 8
+  },
+  {
+    "id": "196",
+    "name": "Jerónimo Muñoz - Gaspar Aguilar",
+    "address": "Jerónimo Muñoz - Gaspar Aguilar",
+    "lat": 39.45957528956863,
+    "lng": -0.3880664379854734,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "197",
+    "name": "Fontanars dels Aforins - Jacinto Labaila",
+    "address": "Fontanars dels Aforins - Jacinto Labaila",
+    "lat": 39.458184286737165,
+    "lng": -0.39233345436447337,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "198",
+    "name": "Fontanars dels Aforins - Vall d'Uixó",
+    "address": "Fontanars dels Aforins - Vall d'Uixó",
+    "lat": 39.46088029740053,
+    "lng": -0.395316462028443,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "199",
+    "name": "Beato Nicolás Factor - Convento de Jesús",
+    "address": "Beato Nicolás Factor - Convento de Jesús",
+    "lat": 39.46158829801141,
+    "lng": -0.39155844823975844,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "200",
+    "name": "Av. del Cid - Julián Peña",
+    "address": "Av. del Cid - Julián Peña",
+    "lat": 39.467737319045916,
+    "lng": -0.3932144497376184,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "201",
+    "name": "Perez Galdós - Nou Moles",
+    "address": "Perez Galdós - Nou Moles",
+    "lat": 39.47171233289752,
+    "lng": -0.39366844724894096,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "202",
+    "name": "Pechina - Teruel",
+    "address": "Pechina - Teruel",
+    "lat": 39.47622234753723,
+    "lng": -0.39333444304417053,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "203",
+    "name": "Reina Violante - Escultor García Mas",
+    "address": "Reina Violante - Escultor García Mas",
+    "lat": 39.48460937883364,
+    "lng": -0.40118246297404103,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "204",
+    "name": "Corts Valencianes - General Avilés",
+    "address": "Corts Valencianes - General Avilés",
+    "lat": 39.485843380594176,
+    "lng": -0.3965874461307865,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "205",
+    "name": "Nicasio Benlloch - Amics dels Corpus",
+    "address": "Nicasio Benlloch - Amics dels Corpus",
+    "lat": 39.48928739053543,
+    "lng": -0.3930904323547156,
+    "cap": 24,
+    "currentBikes": 12
+  },
+  {
+    "id": "206",
+    "name": "Periodista Gil Sumbiela - Poeta Serrano Clavero",
+    "address": "Periodista Gil Sumbiela - Poeta Serrano Clavero",
+    "lat": 39.49271239990425,
+    "lng": -0.38900741524280136,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "207",
+    "name": "Giorgeta, 64",
+    "address": "Giorgeta, 64",
+    "lat": 39.45539327294658,
+    "lng": -0.381905420300487,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "208",
+    "name": "Carteros - Mossen Febrer",
+    "address": "Carteros - Mossen Febrer",
+    "lat": 39.451692263769644,
+    "lng": -0.38857844617931064,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "209",
+    "name": "Gaspar Aguilar - Músico Penella",
+    "address": "Gaspar Aguilar - Músico Penella",
+    "lat": 39.45208226727133,
+    "lng": -0.39301546105732643,
+    "cap": 18,
+    "currentBikes": 9
+  },
+  {
+    "id": "210",
+    "name": "Campos Crespo - Juan de Garay",
+    "address": "Campos Crespo - Juan de Garay",
+    "lat": 39.45555328036534,
+    "lng": -0.39671647037206986,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "211",
+    "name": "Fray Junípero Serra - Vall d'Uixó",
+    "address": "Fray Junípero Serra - Vall d'Uixó",
+    "lat": 39.45872629171394,
+    "lng": -0.3977574716661004,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "212",
+    "name": "Fray Juanípero Serra - Torrente",
+    "address": "Fray Juanípero Serra - Torrente",
+    "lat": 39.46148430130945,
+    "lng": -0.40039647823746194,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "213",
+    "name": "Archiduque Carlos - José María Mortes Lerma",
+    "address": "Archiduque Carlos - José María Mortes Lerma",
+    "lat": 39.463165305912604,
+    "lng": -0.39697246591763863,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "214",
+    "name": "Santa Cruz de Tenerife, 21",
+    "address": "Santa Cruz de Tenerife, 21",
+    "lat": 39.464932313028335,
+    "lng": -0.4005764763988502,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "215",
+    "name": "Músico Ayllón - Francisco Dolz",
+    "address": "Músico Ayllón - Francisco Dolz",
+    "lat": 39.46567131414367,
+    "lng": -0.39674846254882856,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "216",
+    "name": "Av. del Cid - Burgos",
+    "address": "Av. del Cid - Burgos",
+    "lat": 39.469162243634074,
+    "lng": -0.3994613007254756,
+    "cap": 17,
+    "currentBikes": 8
+  },
+  {
+    "id": "217",
+    "name": "Pintor Stolz - Nueve de Octubre",
+    "address": "Pintor Stolz - Nueve de Octubre",
+    "lat": 39.47032833321364,
+    "lng": -0.40459648652865626,
+    "cap": 25,
+    "currentBikes": 12
+  },
+  {
+    "id": "218",
+    "name": "Salvador Ferrandis Luna - Juan Bautista Vives",
+    "address": "Salvador Ferrandis Luna - Juan Bautista Vives",
+    "lat": 39.47074033078547,
+    "lng": -0.3973844614710405,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "219",
+    "name": "Castán Tobeñas - Rincon de Ademuz",
+    "address": "Castán Tobeñas - Rincon de Ademuz",
+    "lat": 39.47265724610551,
+    "lng": -0.40303029799024204,
+    "cap": 18,
+    "currentBikes": 9
+  },
+  {
+    "id": "220",
+    "name": "Castán Tobeñas - Patriques",
+    "address": "Castán Tobeñas - Patriques",
+    "lat": 39.47385534208041,
+    "lng": -0.3983214623957442,
+    "cap": 16,
+    "currentBikes": 8
+  },
+  {
+    "id": "221",
+    "name": "Manuel de Falla - Hernández Lázaro",
+    "address": "Manuel de Falla - Hernández Lázaro",
+    "lat": 39.475270348637764,
+    "lng": -0.4028534760386356,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "222",
+    "name": "Maestro Rodrigo - Manuel de Falla",
+    "address": "Maestro Rodrigo - Manuel de Falla",
+    "lat": 39.47689335174765,
+    "lng": -0.39728245609920837,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "223",
+    "name": "Valle de la Ballestera - Hospital Nueve de Octubre",
+    "address": "Valle de la Ballestera - Hospital Nueve de Octubre",
+    "lat": 39.47855835893999,
+    "lng": -0.4011874677803583,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "224",
+    "name": "Jorge Comin (Metge) - Terrateig",
+    "address": "Jorge Comin (Metge) - Terrateig",
+    "lat": 39.480568366964896,
+    "lng": -0.40358847435527895,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "225",
+    "name": "Padre Barranco - Carlos Ruano Llopis (Pintor)",
+    "address": "Padre Barranco - Carlos Ruano Llopis (Pintor)",
+    "lat": 39.488107390420495,
+    "lng": -0.40114246019172434,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "226",
+    "name": "Corts Valencianes - La Safor",
+    "address": "Corts Valencianes - La Safor",
+    "lat": 39.49086439918327,
+    "lng": -0.3988594505654264,
+    "cap": 30,
+    "currentBikes": 15
+  },
+  {
+    "id": "227",
+    "name": "San Clemente - Hospital Arnau de Vilanova",
+    "address": "San Clemente - Hospital Arnau de Vilanova",
+    "lat": 39.49024839844318,
+    "lng": -0.40293146422681364,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "228",
+    "name": "Doctor Nicasio Benlloch - L'Horta Sud",
+    "address": "Doctor Nicasio Benlloch - L'Horta Sud",
+    "lat": 39.4936924079167,
+    "lng": -0.398671446907537,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "229",
+    "name": "Aitana - Florista",
+    "address": "Aitana - Florista",
+    "lat": 39.493104403991694,
+    "lng": -0.39480643424749534,
+    "cap": 16,
+    "currentBikes": 8
+  },
+  {
+    "id": "230",
+    "name": "Poeta Serrano Clavero - General Llorens",
+    "address": "Poeta Serrano Clavero - General Llorens",
+    "lat": 39.49475040560395,
+    "lng": -0.38678440634001116,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "231",
+    "name": "Alcañiz - Cambrils",
+    "address": "Alcañiz - Cambrils",
+    "lat": 39.49507240298451,
+    "lng": -0.3786213772644184,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "232",
+    "name": "San Vicente Paul - Santiago Rusiñol",
+    "address": "San Vicente Paul - Santiago Rusiñol",
+    "lat": 39.49464439592328,
+    "lng": -0.36575333473149996,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "233",
+    "name": "San Juan Bosco - Santiago Rusiñol",
+    "address": "San Juan Bosco - Santiago Rusiñol",
+    "lat": 39.497160406039164,
+    "lng": -0.36943734517384297,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "234",
+    "name": "Plaza Músico Espí",
+    "address": "Plaza Músico Espí",
+    "lat": 39.49649940567526,
+    "lng": -0.3736443597891149,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "235",
+    "name": "Conde Torrefiel - Cecilio Plá",
+    "address": "Conde Torrefiel - Cecilio Plá",
+    "lat": 39.49804541205544,
+    "lng": -0.3772033703255944,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "236",
+    "name": "Rio Segre - Rafael Company",
+    "address": "Rio Segre - Rafael Company",
+    "lat": 39.49506640496422,
+    "lng": -0.38227839001583847,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "237",
+    "name": "Levante U.D. - Ecuador",
+    "address": "Levante U.D. - Ecuador",
+    "lat": 39.494758407776374,
+    "lng": -0.39103842063587124,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "238",
+    "name": "San Jose Artesano - Francisco Morote Greus",
+    "address": "San Jose Artesano - Francisco Morote Greus",
+    "lat": 39.497449418355934,
+    "lng": -0.39438342966293366,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "239",
+    "name": "Florista - T4 (Palau de Congressos)",
+    "address": "Florista - T4 (Palau de Congressos)",
+    "lat": 39.4969854198013,
+    "lng": -0.39996444953107335,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "240",
+    "name": "Camp del Turia - Corts Valencianes",
+    "address": "Camp del Turia - Corts Valencianes",
+    "lat": 39.495004413973305,
+    "lng": -0.40154745608135123,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "241",
+    "name": "La Vall d'Albaida - Corts Valencianes",
+    "address": "La Vall d'Albaida - Corts Valencianes",
+    "lat": 39.49297840711153,
+    "lng": -0.4018904586642118,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "242",
+    "name": "La Safor - Maestro Rodrigo",
+    "address": "La Safor - Maestro Rodrigo",
+    "lat": 39.487907391410516,
+    "lng": -0.4041974712326189,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "243",
+    "name": "Albacete - Maluquer",
+    "address": "Albacete - Maluquer",
+    "lat": 39.46282029901061,
+    "lng": -0.3845424236611566,
+    "cap": 18,
+    "currentBikes": 9
+  },
+  {
+    "id": "244",
+    "name": "Valle de la Ballestera - Pio Baroja",
+    "address": "Valle de la Ballestera - Pio Baroja",
+    "lat": 39.47850636088407,
+    "lng": -0.40613648554970433,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "245",
+    "name": "Nueve de Octubre - Cieza",
+    "address": "Nueve de Octubre - Cieza",
+    "lat": 39.47213024806011,
+    "lng": -0.40527029936434095,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "246",
+    "name": "Tres Cruces - Hospital General",
+    "address": "Tres Cruces - Hospital General",
+    "lat": 39.469090330003425,
+    "lng": -0.4065094941412157,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "247",
+    "name": "Tres Cruces - Músico Ayllón",
+    "address": "Tres Cruces - Músico Ayllón",
+    "lat": 39.467410323935766,
+    "lng": -0.4055734914728698,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "248",
+    "name": "Tres Cruces - Jose Maria Mortes Lerma",
+    "address": "Tres Cruces - Jose Maria Mortes Lerma",
+    "lat": 39.46284030885798,
+    "lng": -0.40496949382893443,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "249",
+    "name": "Tres Cruces - Segunda República Española",
+    "address": "Tres Cruces - Segunda República Española",
+    "lat": 39.459506295875165,
+    "lng": -0.4027404883331656,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "250",
+    "name": "Tres Cruces - Pio XI",
+    "address": "Tres Cruces - Pio XI",
+    "lat": 39.456352245577065,
+    "lng": -0.4008070181198941,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "251",
+    "name": "Arquitecto Segura del Lago - Camino Nuevo de Picaña",
+    "address": "Arquitecto Segura del Lago - Camino Nuevo de Picaña",
+    "lat": 39.45583028505104,
+    "lng": -0.4044134972721287,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "252",
+    "name": "Dels Gremis - Campos Crespo",
+    "address": "Dels Gremis - Campos Crespo",
+    "lat": 39.45028826570709,
+    "lng": -0.40357449843597065,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "253",
+    "name": "José Meliá Castelló - Campos Crespo",
+    "address": "José Meliá Castelló - Campos Crespo",
+    "lat": 39.45272627278094,
+    "lng": -0.4011014879360589,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "254",
+    "name": "Doctor Tomás Sala - Carteros",
+    "address": "Doctor Tomás Sala - Carteros",
+    "lat": 39.447714251158565,
+    "lng": -0.3899174536874086,
+    "cap": 19,
+    "currentBikes": 9
+  },
+  {
+    "id": "255",
+    "name": "Tomas de Villarroya - San Vicente",
+    "address": "Tomas de Villarroya - San Vicente",
+    "lat": 39.447703249066144,
+    "lng": -0.38602944085901075,
+    "cap": 18,
+    "currentBikes": 9
+  },
+  {
+    "id": "256",
+    "name": "Tres Forques - Turís",
+    "address": "Tres Forques - Turís",
+    "lat": 39.46396330656933,
+    "lng": -0.39223544845537966,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "257",
+    "name": "Plaza Salvador Soria, 8",
+    "address": "Plaza Salvador Soria, 8",
+    "lat": 39.44525124234686,
+    "lng": -0.38910445245389036,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "258",
+    "name": "Pintor Rafael Solves - Jose Soto Mico",
+    "address": "Pintor Rafael Solves - Jose Soto Mico",
+    "lat": 39.43982822413676,
+    "lng": -0.3891374575312111,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "259",
+    "name": "Pio IX - Músico Cabanilles",
+    "address": "Pio IX - Músico Cabanilles",
+    "lat": 39.44546024514969,
+    "lng": -0.3930154660803912,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "260",
+    "name": "Traginers - Pedrapiquers",
+    "address": "Traginers - Pedrapiquers",
+    "lat": 39.45955629873093,
+    "lng": -0.4072175039832668,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "261",
+    "name": "Plaza Xuquer - Vinalopó",
+    "address": "Plaza Xuquer - Vinalopó",
+    "lat": 39.47667632834523,
+    "lng": -0.35037729588168837,
+    "cap": 19,
+    "currentBikes": 9
+  },
+  {
+    "id": "262",
+    "name": "Tres Forques - Colonia Española de Mexico",
+    "address": "Tres Forques - Colonia Española de Mexico",
+    "lat": 39.463472312903384,
+    "lng": -0.40922550688289966,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "263",
+    "name": "Padre Esteban Pernet - Casa Misericordia",
+    "address": "Padre Esteban Pernet - Casa Misericordia",
+    "lat": 39.467043324648515,
+    "lng": -0.4096445056541294,
+    "cap": 18,
+    "currentBikes": 9
+  },
+  {
+    "id": "264",
+    "name": "Av. del Cid - Marconi",
+    "address": "Av. del Cid - Marconi",
+    "lat": 39.46916033373618,
+    "lng": -0.4144325204450301,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "265",
+    "name": "Alcasser - Poeta Alberto Lista",
+    "address": "Alcasser - Poeta Alberto Lista",
+    "lat": 39.470973337167365,
+    "lng": -0.40811749816977394,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "266",
+    "name": "Canal de Navarrés - Maestro Rodrigo",
+    "address": "Canal de Navarrés - Maestro Rodrigo",
+    "lat": 39.49028940014262,
+    "lng": -0.40637147642320165,
+    "cap": 18,
+    "currentBikes": 9
+  },
+  {
+    "id": "267",
+    "name": "Beniferri - Vicent Tomás Martí",
+    "address": "Beniferri - Vicent Tomás Martí",
+    "lat": 39.49416841275147,
+    "lng": -0.4059294716064297,
+    "cap": 16,
+    "currentBikes": 8
+  },
+  {
+    "id": "268",
+    "name": "Plaza Luis Cano, 5",
+    "address": "Plaza Luis Cano, 5",
+    "lat": 39.50144544298018,
+    "lng": -0.41849350927046264,
+    "cap": 10,
+    "currentBikes": 5
+  },
+  {
+    "id": "269",
+    "name": "Campamento, 81",
+    "address": "Campamento, 81",
+    "lat": 39.49990744160243,
+    "lng": -0.42626353678444817,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "270",
+    "name": "Ninot - Regino Mas",
+    "address": "Ninot - Regino Mas",
+    "lat": 39.50007542649037,
+    "lng": -0.39288942312141745,
+    "cap": 16,
+    "currentBikes": 8
+  },
+  {
+    "id": "271",
+    "name": "Salvador Cerveró - Carlos Cortina",
+    "address": "Salvador Cerveró - Carlos Cortina",
+    "lat": 39.49927942267903,
+    "lng": -0.38989141267304944,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "272",
+    "name": "Vicente la Roda - Ingeniero Fausto Elio",
+    "address": "Vicente la Roda - Ingeniero Fausto Elio",
+    "lat": 39.48062333339468,
+    "lng": -0.33219023115385166,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "273",
+    "name": "Moraira - Alta del Mar",
+    "address": "Moraira - Alta del Mar",
+    "lat": 39.450305232524904,
+    "lng": -0.3332722584595297,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "274",
+    "name": "San Francisco de Paula - Castell de Pop",
+    "address": "San Francisco de Paula - Castell de Pop",
+    "lat": 39.44807022576504,
+    "lng": -0.3331882593063431,
+    "cap": 15,
+    "currentBikes": 7
+  },
+  {
+    "id": "275",
+    "name": "Moreras - Rona de Nazaret",
+    "address": "Moreras - Rona de Nazaret",
+    "lat": 39.45230524022502,
+    "lng": -0.3350652633218127,
+    "cap": 20,
+    "currentBikes": 10
+  },
+  {
+    "id": "276",
+    "name": "Veles e Vents",
+    "address": "Veles e Vents",
+    "lat": 39.46197526682713,
+    "lng": -0.32376521655842594,
+    "cap": 20,
+    "currentBikes": 10
+  }
+];
