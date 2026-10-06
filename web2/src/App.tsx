@@ -1252,10 +1252,35 @@ export default function App() {
           {/* Right Panel: Map Frame */}
           <div className="order-1 lg:order-2 lg:col-span-8 flex flex-col relative bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden w-full h-[550px] lg:h-auto min-h-[450px]">
 
+            {/* Selector flotante de capas de mapa (CARTO Positron / Voyager / OSM) */}
+            <div className="absolute top-3 right-3 z-[400] bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-xl p-1 shadow-md flex items-center gap-1 text-[11px] font-bold">
+              <button
+                type="button"
+                onClick={() => setTileStyle('positron')}
+                className={`px-2.5 py-1 rounded-lg transition-all ${tileStyle === 'positron' ? 'bg-[#2f3b5c] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
+              >
+                CARTO Claro
+              </button>
+              <button
+                type="button"
+                onClick={() => setTileStyle('voyager')}
+                className={`px-2.5 py-1 rounded-lg transition-all ${tileStyle === 'voyager' ? 'bg-[#2f3b5c] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
+              >
+                CARTO Color
+              </button>
+              <button
+                type="button"
+                onClick={() => setTileStyle('osm')}
+                className={`px-2.5 py-1 rounded-lg transition-all ${tileStyle === 'osm' ? 'bg-[#2f3b5c] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
+              >
+                OSM
+              </button>
+            </div>
 
             <MapContainer center={mapCenter} zoom={mapZoom} style={{ height: '100%', width: '100%', zIndex: 0 }}>
               <ChangeMapView center={mapCenter} zoom={mapZoom} />
               <TileLayer
+                key={`${tileStyle}-${CARTO_API_KEY ? 'keyed' : 'free'}`}
                 attribution={
                   tileStyle === 'osm' 
                     ? '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>' 
@@ -1263,9 +1288,9 @@ export default function App() {
                 }
                 url={
                   tileStyle === 'voyager' 
-                    ? `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png${CARTO_API_KEY ? `?api_key=${CARTO_API_KEY}` : ''}`
+                    ? `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png${CARTO_API_KEY ? `?api_key=${encodeURIComponent(CARTO_API_KEY)}` : ''}`
                     : tileStyle === 'positron'
-                    ? `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png${CARTO_API_KEY ? `?api_key=${CARTO_API_KEY}` : ''}`
+                    ? `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png${CARTO_API_KEY ? `?api_key=${encodeURIComponent(CARTO_API_KEY)}` : ''}`
                     : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 }
               />
