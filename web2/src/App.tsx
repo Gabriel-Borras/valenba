@@ -685,7 +685,7 @@ export default function App() {
                     {t.formStationLabel}
                   </label>
                   <span className="text-xs text-slate-400 font-medium">
-                    276 estaciones activas
+                    {t.activeStationsCount}
                   </span>
                 </div>
 
@@ -695,6 +695,7 @@ export default function App() {
                   onChange={setStationId}
                   favorites={favorites}
                   onToggleFavorite={toggleFavorite}
+                  t={t}
                   brokenStations={ESTACIONES_ROTAS}
                   placeholder={t.formStationPlaceholder}
                   onSelectStation={(st) => {
@@ -706,7 +707,7 @@ export default function App() {
                 {/* FAVORITAS (CHIPS) */}
                 {favorites.length > 0 && (
                   <div className="pt-2 flex flex-wrap gap-2 items-center">
-                    <span className="text-xs font-bold text-slate-400 uppercase">Favoritas:</span>
+                    <span className="text-xs font-bold text-slate-400 uppercase">{t.favoritesPrefix}</span>
                     {favorites.map(fav => {
                       const favIdStr = fav.id.toString();
                       const isSelected = getCleanId(currentStationStr) === getCleanId(favIdStr);
@@ -720,7 +721,7 @@ export default function App() {
                               type="text"
                               value={editingName}
                               onChange={e => setEditingName(e.target.value)}
-                              placeholder="Nombre..."
+                              placeholder={t.namePrompt}
                               className="text-xs font-medium text-slate-700 outline-none w-20 bg-transparent"
                               autoFocus
                               onKeyDown={e => e.key === 'Enter' && saveEditingFav(favIdStr, e as any)}
@@ -753,7 +754,7 @@ export default function App() {
                           <div 
                             onClick={(e) => startEditingFav(fav, e)}
                             className={`p-0.5 rounded-full hover:bg-slate-200 transition-colors opacity-0 group-hover:opacity-100 ${isSelected ? 'hover:bg-yellow-200' : ''}`}
-                            title="Renombrar estación"
+                            title={t.renameStation}
                           >
                             <Edit2 className="w-3 h-3 text-slate-500" />
                           </div>
@@ -774,6 +775,8 @@ export default function App() {
                   onChange={setDateTime}
                   minDate={minDate}
                   maxDate={maxDate}
+                  t={t}
+                  lang={currentLang}
                 />
               </div>
 
@@ -1215,7 +1218,7 @@ export default function App() {
                           </span>
                           {station.currentBikes !== undefined && (
                             <span className="text-[9px] text-blue-600 font-bold block mt-0.5">
-                              {station.currentBikes} bicis
+                              {station.currentBikes} {t.bikesTag}
                             </span>
                           )}
                         </div>
@@ -1237,21 +1240,21 @@ export default function App() {
                 onClick={() => setTileStyle('positron')}
                 className={`px-2.5 py-1 rounded-lg transition-all ${tileStyle === 'positron' ? 'bg-[#2f3b5c] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
               >
-                CARTO Claro
+                {t.layerCartoLight}
               </button>
               <button
                 type="button"
                 onClick={() => setTileStyle('voyager')}
                 className={`px-2.5 py-1 rounded-lg transition-all ${tileStyle === 'voyager' ? 'bg-[#2f3b5c] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
               >
-                CARTO Color
+                {t.layerCartoColor}
               </button>
               <button
                 type="button"
                 onClick={() => setTileStyle('osm')}
                 className={`px-2.5 py-1 rounded-lg transition-all ${tileStyle === 'osm' ? 'bg-[#2f3b5c] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
               >
-                OSM
+                {t.layerOsm}
               </button>
             </div>
 
@@ -1297,11 +1300,11 @@ export default function App() {
                       <div className="font-sans text-xs p-1.5 space-y-1">
                         <p className="font-black text-[#2f3b5c] leading-tight">{station.name}</p>
                         <p className="text-slate-500 font-bold">
-                          Estación #{station.id} • {t.predCapacity}: <span className="text-slate-800 font-extrabold">{station.cap} {t.mapTotalBases}</span>
+                          #{station.id} • {t.predCapacity}: <span className="text-slate-800 font-extrabold">{station.cap} {t.mapTotalBases}</span>
                         </p>
                         {station.currentBikes !== undefined && (
                           <p className="text-blue-600 font-extrabold text-[11px]">
-                            🚲 {station.currentBikes} bicis en tiempo real
+                            🚲 {station.currentBikes} {t.realTimeBikes}
                           </p>
                         )}
                         {ESTACIONES_ROTAS.includes(parseInt(station.id, 10)) && (
@@ -1332,7 +1335,7 @@ export default function App() {
                             <strong className="text-[#2f3b5c] text-sm font-black">{station.cap}</strong> {t.mapTotalBases}
                             {station.currentBikes !== undefined && (
                               <span className="block text-blue-600 font-bold mt-0.5">
-                                ({station.currentBikes} bicis disponibles)
+                                ({station.currentBikes} {t.availableBikes})
                               </span>
                             )}
                           </p>

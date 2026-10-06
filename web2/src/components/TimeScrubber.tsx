@@ -1,20 +1,27 @@
 import React, { useMemo, useState } from 'react';
 import { CalendarClock, SlidersHorizontal, Sun, Moon, Sunrise, Sunset, ChevronDown } from 'lucide-react';
+import { Translations, Language } from '../translations';
 
 interface TimeScrubberProps {
   value: string;
   onChange: (value: string) => void;
   minDate: string;
   maxDate: string;
+  t: Translations;
+  lang?: Language;
 }
 
 export const TimeScrubber: React.FC<TimeScrubberProps> = ({
   value,
   onChange,
   minDate,
-  maxDate
+  maxDate,
+  t,
+  lang = 'va'
 }) => {
   const [showManualInput, setShowManualInput] = useState(false);
+
+  const locale = lang === 'va' ? 'ca-ES' : lang === 'en' ? 'en-US' : 'es-ES';
 
   // Helper para formatear Date a formato YYYY-MM-DDTHH:mm
   const formatISO = (d: Date): string => {
@@ -43,14 +50,14 @@ export const TimeScrubber: React.FC<TimeScrubberProps> = ({
       const d = new Date(now);
       d.setDate(d.getDate() + i);
       
-      const weekday = d.toLocaleDateString('es-ES', { weekday: 'long' });
+      const weekday = d.toLocaleDateString(locale, { weekday: 'long' });
       const capitalizedWeekday = weekday.charAt(0).toUpperCase() + weekday.slice(1);
       const dayNum = d.getDate();
-      const month = d.toLocaleDateString('es-ES', { month: 'short' });
+      const month = d.toLocaleDateString(locale, { month: 'short' });
 
       let label = capitalizedWeekday;
-      if (i === 0) label = 'Hoy';
-      else if (i === 1) label = 'Mañana';
+      if (i === 0) label = t.today;
+      else if (i === 1) label = t.tomorrow;
 
       days.push({
         index: i,
@@ -61,7 +68,7 @@ export const TimeScrubber: React.FC<TimeScrubberProps> = ({
       });
     }
     return days;
-  }, [now]);
+  }, [now, locale, t.today, t.tomorrow]);
 
   // Determinar qué día está seleccionado actualmente (0, 1 o 2)
   const selectedDayIndex = useMemo(() => {
@@ -133,38 +140,38 @@ export const TimeScrubber: React.FC<TimeScrubberProps> = ({
     onChange(formatISO(target));
   };
 
-  // Contexto del momento del día (Mañana, Mediodía, Tarde, Noche) - SIN indicador de Hora Punta
+  // Contexto del momento del día (Mañana, Mediodía, Tarde, Noche)
   const timeContext = useMemo(() => {
     const h = currentDate.getHours();
 
-    let period = 'Tarde';
+    let period = t.periodAfternoon;
     let icon = <Sun className="w-4 h-4 text-amber-500" />;
 
     if (h >= 6 && h < 12) {
-      period = 'Mañana';
+      period = t.periodMorning;
       icon = <Sunrise className="w-4 h-4 text-orange-400" />;
     } else if (h >= 12 && h < 16) {
-      period = 'Mediodía';
+      period = t.periodMidday;
       icon = <Sun className="w-4 h-4 text-amber-500" />;
     } else if (h >= 16 && h < 21) {
-      period = 'Tarde';
+      period = t.periodAfternoon;
       icon = <Sunset className="w-4 h-4 text-rose-400" />;
     } else {
-      period = 'Noche';
+      period = t.periodNight;
       icon = <Moon className="w-4 h-4 text-indigo-400" />;
     }
 
     return { period, icon };
-  }, [currentDate]);
+  }, [currentDate, t]);
 
-  const formattedHours = currentDate.toLocaleTimeString('es-ES', {
+  const formattedHours = currentDate.toLocaleTimeString(locale, {
     hour: '2-digit',
     minute: '2-digit'
   });
 
   return (
     <div className="space-y-4 bg-white rounded-3xl border border-slate-200/90 p-4 sm:p-5 shadow-sm">
-      {/* 1. CABECERA: Hora en color corporativo (azul #2f3b5c), SIN fondo negro, SIN 'en +X horas', SIN 'punta' */}
+      {/* 1. CABECERA: Hora en color corporativo (azul #2f3b5c), SIN fondo negro */}
       <div className="flex items-center justify-between gap-3 pb-2 border-b border-slate-100">
         <div className="flex items-center gap-3">
           {/* Hora en color azul corporativo sin fondo negro */}
@@ -172,7 +179,7 @@ export const TimeScrubber: React.FC<TimeScrubberProps> = ({
             {formattedHours}
           </span>
 
-          {/* Badge del momento del día (Mañana / Tarde / Noche) */}
+          {/* Badge del momento del día */}
           <span className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200/60 shadow-xs">
             {timeContext.icon}
             <span>{timeContext.period}</span>
@@ -186,7 +193,7 @@ export const TimeScrubber: React.FC<TimeScrubberProps> = ({
           className="text-xs font-bold text-slate-500 hover:text-slate-800 bg-slate-50 hover:bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200 flex items-center gap-1.5 transition-all"
         >
           <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400" />
-          <span className="hidden sm:inline">{showManualInput ? 'Ocultar manual' : 'Selector manual'}</span>
+          <span className="hidden sm:inline">{showManualInput ? t.hideManualSelector : t.manualSelector}</span>
           <ChevronDown className={`w-3 h-3 transition-transform ${showManualInput ? 'rotate-180' : ''}`} />
         </button>
       </div>
@@ -195,7 +202,7 @@ export const TimeScrubber: React.FC<TimeScrubberProps> = ({
       {showManualInput && (
         <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200 space-y-1.5 animate-in fade-in slide-in-from-top-1 duration-150">
           <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500" htmlFor="manual_datetime">
-            Fecha y hora exactas
+            {t.exactDateTime}
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -217,7 +224,7 @@ export const TimeScrubber: React.FC<TimeScrubberProps> = ({
       {/* 2. FLECHA ROSA: SELECTOR DE DÍA (HOY, MAÑANA Y DÍA DE LA SEMANA) */}
       <div className="space-y-1.5">
         <label className="block text-[11px] font-black uppercase tracking-wider text-slate-400">
-          Día del pronóstico:
+          {t.forecastDay}
         </label>
         <div className="grid grid-cols-3 gap-2 p-1 bg-slate-100/80 rounded-2xl border border-slate-200/60">
           {threeDays.map((d) => {
@@ -246,7 +253,7 @@ export const TimeScrubber: React.FC<TimeScrubberProps> = ({
       {/* 3. FLECHA AMARILLA: DESLIZADOR PARA SELECCIONAR LA HORA DEL DÍA */}
       <div className="space-y-2 pt-1">
         <div className="flex justify-between items-center text-[11px] font-bold text-slate-400">
-          <span>{selectedDayIndex === 0 ? 'Ahora' : '00:00'}</span>
+          <span>{selectedDayIndex === 0 ? t.presetNow : '00:00'}</span>
           <span>06:00</span>
           <span>12:00</span>
           <span>18:00</span>
@@ -269,49 +276,49 @@ export const TimeScrubber: React.FC<TimeScrubberProps> = ({
       {/* 4. CHIPS DE ACCESO RÁPIDO (PRESETS) */}
       <div className="flex items-center gap-1.5 overflow-x-auto pt-1 pb-1 scrollbar-none text-xs border-t border-slate-100">
         <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 shrink-0 mr-1">
-          Rápido:
+          {t.quickPresets}
         </span>
         <button
           type="button"
           onClick={() => applyPresetMinutes(0)}
           className="px-2.5 py-1 rounded-xl font-bold bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 whitespace-nowrap transition-all"
         >
-          Ahora
+          {t.presetNow}
         </button>
         <button
           type="button"
           onClick={() => applyPresetMinutes(30)}
           className="px-2.5 py-1 rounded-xl font-bold bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 whitespace-nowrap transition-all"
         >
-          +30 min
+          {t.preset30m}
         </button>
         <button
           type="button"
           onClick={() => applyPresetMinutes(60)}
           className="px-2.5 py-1 rounded-xl font-bold bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 whitespace-nowrap transition-all"
         >
-          +1 hora
+          {t.preset1h}
         </button>
         <button
           type="button"
           onClick={() => applyPresetMinutes(180)}
           className="px-2.5 py-1 rounded-xl font-bold bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 whitespace-nowrap transition-all"
         >
-          +3 horas
+          {t.preset3h}
         </button>
         <button
           type="button"
           onClick={() => applyTomorrowAt(9, 0)}
           className="px-2.5 py-1 rounded-xl font-bold bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 whitespace-nowrap transition-all"
         >
-          Mañana 09:00
+          {t.presetTomorrow9}
         </button>
         <button
           type="button"
           onClick={() => applyTomorrowAt(14, 0)}
           className="px-2.5 py-1 rounded-xl font-bold bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 whitespace-nowrap transition-all"
         >
-          Mañana 14:00
+          {t.presetTomorrow14}
         </button>
       </div>
     </div>

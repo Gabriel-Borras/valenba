@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Search, Bike, Star, X, Check, MapPin, AlertTriangle } from 'lucide-react';
+import { Search, Bike, Star, X, MapPin, AlertTriangle } from 'lucide-react';
 import { MapStation } from '../defaultStations';
+import { Translations } from '../translations';
 
 interface FavoriteStation {
   id: string | number;
@@ -14,6 +15,7 @@ interface StationComboboxProps {
   onChange: (value: string) => void;
   favorites: FavoriteStation[];
   onToggleFavorite: (id: string | number) => void;
+  t: Translations;
   brokenStations?: number[];
   placeholder?: string;
   onSelectStation?: (station: MapStation) => void;
@@ -25,8 +27,9 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
   onChange,
   favorites,
   onToggleFavorite,
+  t,
   brokenStations = [105, 146, 168, 299],
-  placeholder = 'Busca por calle, número o ID (ej. 114)...',
+  placeholder,
   onSelectStation
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -127,6 +130,8 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
     setIsOpen(true);
   };
 
+  const effectivePlaceholder = placeholder || t.comboboxPlaceholder;
+
   return (
     <div ref={containerRef} className="relative w-full">
       {/* Campo de Entrada Principal */}
@@ -149,7 +154,7 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
             setHighlightedIndex(0);
           }}
           onKeyDown={handleKeyDown}
-          placeholder={value ? value : placeholder}
+          placeholder={value ? value : effectivePlaceholder}
           className="w-full pl-11 pr-24 py-3.5 bg-slate-50 hover:bg-slate-100/70 focus:bg-white border border-slate-300 focus:border-[#2f3b5c] rounded-2xl text-slate-800 placeholder-slate-400 font-medium text-base shadow-xs focus:ring-4 focus:ring-[#2f3b5c]/10 transition-all outline-none"
         />
 
@@ -160,7 +165,7 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
               type="button"
               onClick={handleClear}
               className="p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-200 transition-colors"
-              title="Borrar selección"
+              title={t.comboboxClear}
             >
               <X className="w-4 h-4" />
             </button>
@@ -171,7 +176,7 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
               type="button"
               onClick={() => onToggleFavorite(currentId)}
               className="p-1.5 rounded-xl hover:bg-slate-100 transition-all focus:outline-none"
-              title={isSelectedFav ? 'Quitar de favoritas' : 'Añadir a favoritas'}
+              title={isSelectedFav ? t.comboboxRemoveFav : t.comboboxAddFav}
             >
               <Star
                 className={`w-5 h-5 transition-all ${
@@ -198,10 +203,10 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
             {/* Cabecera del desplegable con estadísticas rápidas */}
             <div className="px-4 py-2.5 bg-slate-50/90 border-b border-slate-100 flex items-center justify-between text-xs">
               <span className="font-bold text-slate-500 uppercase tracking-wider text-[11px]">
-                {query ? `Coincidencias (${filteredStations.length})` : `276 estaciones de Valenbisi`}
+                {query ? `${t.comboboxMatches} (${filteredStations.length})` : t.comboboxTotalStations}
               </span>
               <span className="text-[10px] text-slate-400 font-mono">
-                ↑↓ Navegar • Enter Seleccionar
+                {t.comboboxKeyboardHint}
               </span>
             </div>
 
@@ -210,7 +215,7 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
               <div className="p-2.5 bg-amber-50/50 border-b border-amber-100/60">
                 <div className="flex items-center gap-1.5 px-2 mb-1.5 text-[11px] font-black uppercase tracking-wider text-amber-800">
                   <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
-                  <span>Tus Estaciones Favoritas</span>
+                  <span>{t.comboboxFavsTitle}</span>
                 </div>
                 <div className="flex flex-wrap gap-1.5 px-1">
                   {favorites.map(fav => {
@@ -237,8 +242,8 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
               {filteredStations.length === 0 ? (
                 <div className="p-8 text-center text-slate-400 space-y-2">
                   <Bike className="w-8 h-8 mx-auto text-slate-300" />
-                  <p className="text-sm font-semibold text-slate-600">No encontramos ninguna estación</p>
-                  <p className="text-xs text-slate-400">Prueba con otro número de ID o nombre de calle.</p>
+                  <p className="text-sm font-semibold text-slate-600">{t.comboboxNoResults}</p>
+                  <p className="text-xs text-slate-400">{t.comboboxNoResultsHint}</p>
                 </div>
               ) : (
                 filteredStations.map((station, idx) => {
@@ -281,7 +286,7 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
                       <div className="flex items-center gap-2.5 shrink-0">
                         {isBroken ? (
                           <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-red-600 bg-red-50 border border-red-200 px-2 py-0.5 rounded-full">
-                            <AlertTriangle className="w-3 h-3" /> Mantenimiento
+                            <AlertTriangle className="w-3 h-3" /> {t.mapMaintenanceTag}
                           </span>
                         ) : bikes !== undefined ? (
                           <div className="text-right">
@@ -295,15 +300,15 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
                               }`}
                             >
                               <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
-                              {bikes} bicis
+                              {bikes} {t.bikesTag}
                             </span>
                             <span className="block text-[10px] text-slate-400 font-medium">
-                              {station.cap} bases
+                              {station.cap} {t.mapTotalBases}
                             </span>
                           </div>
                         ) : (
                           <span className="text-xs text-slate-400 font-medium">
-                            {station.cap} bases
+                            {station.cap} {t.mapTotalBases}
                           </span>
                         )}
 
@@ -315,7 +320,7 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
                             onToggleFavorite(station.id);
                           }}
                           className="p-1 rounded-lg text-slate-300 hover:text-amber-400 hover:bg-slate-200/60 transition-colors"
-                          title="Favorito"
+                          title={isFav ? t.comboboxRemoveFav : t.comboboxAddFav}
                         >
                           <Star className={`w-4 h-4 ${isFav ? 'fill-amber-400 text-amber-400' : ''}`} />
                         </button>

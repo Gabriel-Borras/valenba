@@ -44,7 +44,7 @@ export interface Translations {
   predRain: string;
   predAvailableTag: string;
 
-  // Map View
+  // Map View & Controls
   mapTitle: string;
   mapSubtitle: string;
   mapBackToForecast: string;
@@ -63,6 +63,48 @@ export interface Translations {
   mapSelectBtn: string;
   mapForecastPopup: string;
   mapModelUnavailable: string;
+  layerCartoLight: string;
+  layerCartoColor: string;
+  layerOsm: string;
+  mapSearchPlaceholder: string;
+  realTimeBikes: string;
+  availableBikes: string;
+  renameStation: string;
+  favoritesPrefix: string;
+  bikesTag: string;
+  namePrompt: string;
+  activeStationsCount: string;
+
+  // Station Combobox
+  comboboxPlaceholder: string;
+  comboboxClear: string;
+  comboboxAddFav: string;
+  comboboxRemoveFav: string;
+  comboboxMatches: string;
+  comboboxTotalStations: string;
+  comboboxKeyboardHint: string;
+  comboboxFavsTitle: string;
+  comboboxNoResults: string;
+  comboboxNoResultsHint: string;
+
+  // Time Scrubber
+  today: string;
+  tomorrow: string;
+  periodMorning: string;
+  periodMidday: string;
+  periodAfternoon: string;
+  periodNight: string;
+  manualSelector: string;
+  hideManualSelector: string;
+  exactDateTime: string;
+  forecastDay: string;
+  quickPresets: string;
+  presetNow: string;
+  preset30m: string;
+  preset1h: string;
+  preset3h: string;
+  presetTomorrow9: string;
+  presetTomorrow14: string;
 
   // User Drawer / Auth
   drawerAccountTitle: string;
@@ -152,6 +194,46 @@ export const translations: Record<Language, Translations> = {
     mapSelectBtn: "Seleccionar Estació",
     mapForecastPopup: "Previsió",
     mapModelUnavailable: "Model no disponible",
+    layerCartoLight: "CARTO Clar",
+    layerCartoColor: "CARTO Color",
+    layerOsm: "OSM",
+    mapSearchPlaceholder: "Cercar per carrer o ID...",
+    realTimeBikes: "bicis en temps real",
+    availableBikes: "bicis disponibles",
+    renameStation: "Reanomenar estació",
+    favoritesPrefix: "Preferides:",
+    bikesTag: "bicis",
+    namePrompt: "Nom...",
+    activeStationsCount: "276 estacions actives",
+
+    comboboxPlaceholder: "Cerca per carrer, número o ID (ex. 114)...",
+    comboboxClear: "Esborrar selecció",
+    comboboxAddFav: "Afegir a preferides",
+    comboboxRemoveFav: "Treure de preferides",
+    comboboxMatches: "Coincidències",
+    comboboxTotalStations: "276 estacions de Valenbisi",
+    comboboxKeyboardHint: "↑↓ Navegar • Enter Seleccionar",
+    comboboxFavsTitle: "Les Teues Estacions Preferides",
+    comboboxNoResults: "No hem trobat cap estació",
+    comboboxNoResultsHint: "Prova amb un altre número d'ID o nom de carrer.",
+
+    today: "Hui",
+    tomorrow: "Demà",
+    periodMorning: "Matí",
+    periodMidday: "Migdia",
+    periodAfternoon: "Vesprada",
+    periodNight: "Nit",
+    manualSelector: "Selector manual",
+    hideManualSelector: "Ocultar manual",
+    exactDateTime: "Data i hora exactes",
+    forecastDay: "Dia del pronòstic:",
+    quickPresets: "Ràpid:",
+    presetNow: "Ara",
+    preset30m: "+30 min",
+    preset1h: "+1 hora",
+    preset3h: "+3 hores",
+    presetTomorrow9: "Demà 09:00",
+    presetTomorrow14: "Demà 14:00",
 
     drawerAccountTitle: "Accés ValenBA",
     drawerAccountSubtitle: "Gestiona les teues preferides i alertes",
@@ -239,6 +321,46 @@ export const translations: Record<Language, Translations> = {
     mapSelectBtn: "Seleccionar Estación",
     mapForecastPopup: "Previsión",
     mapModelUnavailable: "Modelo no disponible",
+    layerCartoLight: "CARTO Claro",
+    layerCartoColor: "CARTO Color",
+    layerOsm: "OSM",
+    mapSearchPlaceholder: "Buscar por calle o ID...",
+    realTimeBikes: "bicis en tiempo real",
+    availableBikes: "bicis disponibles",
+    renameStation: "Renombrar estación",
+    favoritesPrefix: "Favoritas:",
+    bikesTag: "bicis",
+    namePrompt: "Nombre...",
+    activeStationsCount: "276 estaciones activas",
+
+    comboboxPlaceholder: "Busca por calle, número o ID (ej. 114)...",
+    comboboxClear: "Borrar selección",
+    comboboxAddFav: "Añadir a favoritas",
+    comboboxRemoveFav: "Quitar de favoritas",
+    comboboxMatches: "Coincidencias",
+    comboboxTotalStations: "276 estaciones de Valenbisi",
+    comboboxKeyboardHint: "↑↓ Navegar • Enter Seleccionar",
+    comboboxFavsTitle: "Tus Estaciones Favoritas",
+    comboboxNoResults: "No encontramos ninguna estación",
+    comboboxNoResultsHint: "Prueba con otro número de ID o nombre de calle.",
+
+    today: "Hoy",
+    tomorrow: "Mañana",
+    periodMorning: "Mañana",
+    periodMidday: "Mediodía",
+    periodAfternoon: "Tarde",
+    periodNight: "Noche",
+    manualSelector: "Selector manual",
+    hideManualSelector: "Ocultar manual",
+    exactDateTime: "Fecha y hora exactas",
+    forecastDay: "Día del pronóstico:",
+    quickPresets: "Rápido:",
+    presetNow: "Ahora",
+    preset30m: "+30 min",
+    preset1h: "+1 hora",
+    preset3h: "+3 horas",
+    presetTomorrow9: "Mañana 09:00",
+    presetTomorrow14: "Mañana 14:00",
 
     drawerAccountTitle: "Acceso ValenBA",
     drawerAccountSubtitle: "Gestiona tus favoritas y alertas",
@@ -248,7 +370,7 @@ export const translations: Record<Language, Translations> = {
     drawerNamePlaceholder: "Nombre completo",
     drawerEmailLabel: "Correo Electrónico",
     drawerEmailPlaceholder: "tu_correo@email.com",
-    drawerPasswordLabel: "Contrasenya",
+    drawerPasswordLabel: "Contraseña",
     drawerPasswordPlaceholder: "Mínimo 4 caracteres",
     drawerLoginBtn: "Entrar a mi Cuenta",
     drawerRegisterBtn: "Registrarme Gratis",
@@ -326,6 +448,46 @@ export const translations: Record<Language, Translations> = {
     mapSelectBtn: "Select Station",
     mapForecastPopup: "Forecast",
     mapModelUnavailable: "Model unavailable",
+    layerCartoLight: "CARTO Light",
+    layerCartoColor: "CARTO Color",
+    layerOsm: "OSM",
+    mapSearchPlaceholder: "Search by street or ID...",
+    realTimeBikes: "real-time bikes",
+    availableBikes: "available bikes",
+    renameStation: "Rename station",
+    favoritesPrefix: "Favorites:",
+    bikesTag: "bikes",
+    namePrompt: "Name...",
+    activeStationsCount: "276 active stations",
+
+    comboboxPlaceholder: "Search by street, number or ID (e.g. 114)...",
+    comboboxClear: "Clear selection",
+    comboboxAddFav: "Add to favorites",
+    comboboxRemoveFav: "Remove from favorites",
+    comboboxMatches: "Matches",
+    comboboxTotalStations: "276 Valenbisi stations",
+    comboboxKeyboardHint: "↑↓ Navigate • Enter Select",
+    comboboxFavsTitle: "Your Favorite Stations",
+    comboboxNoResults: "No stations found",
+    comboboxNoResultsHint: "Try another ID number or street name.",
+
+    today: "Today",
+    tomorrow: "Tomorrow",
+    periodMorning: "Morning",
+    periodMidday: "Midday",
+    periodAfternoon: "Afternoon",
+    periodNight: "Night",
+    manualSelector: "Manual picker",
+    hideManualSelector: "Hide manual",
+    exactDateTime: "Exact date and time",
+    forecastDay: "Forecast day:",
+    quickPresets: "Quick:",
+    presetNow: "Now",
+    preset30m: "+30 min",
+    preset1h: "+1 hour",
+    preset3h: "+3 hours",
+    presetTomorrow9: "Tomorrow 09:00",
+    presetTomorrow14: "Tomorrow 14:00",
 
     drawerAccountTitle: "ValenBA Access",
     drawerAccountSubtitle: "Manage your favorite stations and alerts",
