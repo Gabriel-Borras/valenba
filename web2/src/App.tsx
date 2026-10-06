@@ -377,7 +377,10 @@ export default function App() {
     const now = new Date();
     const remainder = 15 - (now.getMinutes() % 15);
     const roundedNow = new Date(now.getTime() + (remainder === 0 ? 15 : remainder) * 60 * 1000);
-    const future = new Date(now.getTime() + 6 * 24 * 60 * 60 * 1000); // 6 days in future (within open-meteo 7-day forecast)
+    // Limitar la predicción a 3 días vista (Hoy, Mañana y tercer día a las 23:59)
+    const future = new Date(now);
+    future.setDate(future.getDate() + 2);
+    future.setHours(23, 59, 0, 0);
     
     return { 
       minDate: format(now), 
