@@ -135,7 +135,7 @@ const MOCK_STATIONS = [
 // --- CONFIGURACIÓN & REGLAS DE NEGOCIO ---
 const ESTACIONES_ROTAS = [105, 146, 168, 299];
 const URL_BACKEND = '/api/predict'; // Reemplazar con endpoint real (ej. ngrok, AWS, heroku)
-const CARTO_API_KEY: string = (import.meta as any).env?.VITE_CARTO_API_KEY || '';
+const CARTO_API_KEY: string = String((import.meta as any).env?.VITE_CARTO_API_KEY || '').trim();
 
 // Resolver de URL de API preparado para Producción (Vercel / Dominio propio / Local)
 export const getApiUrl = (endpoint: string) => {
@@ -1284,13 +1284,15 @@ export default function App() {
                 attribution={
                   tileStyle === 'osm' 
                     ? '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>' 
-                    : '&copy; <a href="https://carto.com/attributions">CARTO</a>'
+                    : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
                 }
+                subdomains="abcd"
+                maxZoom={20}
                 url={
                   tileStyle === 'voyager' 
-                    ? `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png${CARTO_API_KEY ? `?api_key=${encodeURIComponent(CARTO_API_KEY)}` : ''}`
+                    ? `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png${CARTO_API_KEY ? `?key=${encodeURIComponent(CARTO_API_KEY)}` : ''}`
                     : tileStyle === 'positron'
-                    ? `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png${CARTO_API_KEY ? `?api_key=${encodeURIComponent(CARTO_API_KEY)}` : ''}`
+                    ? `https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png${CARTO_API_KEY ? `?key=${encodeURIComponent(CARTO_API_KEY)}` : ''}`
                     : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 }
               />
