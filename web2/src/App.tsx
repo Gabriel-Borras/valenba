@@ -527,6 +527,9 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const [prediction, setPrediction] = useState<{
     station_id?: string;
+    station_title?: string;
+    is_favorite?: boolean;
+    custom_name?: string;
     yhat: number | null;
     yhat_lower: number | null;
     yhat_upper: number | null;
@@ -578,9 +581,16 @@ export default function App() {
       
       const data = await response.json();
       
+      const favInfo = favorites.find(f => f.id.toString() === cleanId);
+      const matchedStation = mapStations.find(s => s.id.toString() === cleanId);
+      const stationTitle = favInfo?.customName || (matchedStation ? `${matchedStation.id} - ${matchedStation.name}` : (parseInt(cleanId, 10).toString() !== "NaN" ? `Estación ${cleanId}` : stationId));
+
       setPrediction({
         ...data,
         station_id: cleanId,
+        station_title: stationTitle,
+        is_favorite: !!favInfo,
+        custom_name: favInfo?.customName,
         yhat: data.bicicletas_disponibles,
         yhat_lower: data.yhat_lower,
         yhat_upper: data.yhat_upper,
@@ -853,28 +863,16 @@ export default function App() {
                       </span>
                       <h3 className="text-2xl font-bold text-slate-800 flex items-center gap-2 flex-wrap min-w-0">
                         <span className="break-words block max-w-full">
-                          {(() => {
-                            const cleanId = getCleanId(stationId);
-                            const favInfo = favorites.find(f => f.id.toString() === cleanId);
-                            const matchedStation = mapStations.find(s => s.id.toString() === cleanId);
-                            return favInfo?.customName || (matchedStation ? `${matchedStation.id} - ${matchedStation.name}` : (parseInt(cleanId, 10).toString() !== "NaN" ? `Estació ${cleanId}` : stationId));
-                          })()}
+                          {prediction.station_title || (prediction.station_id ? `Estación ${prediction.station_id}` : '')}
                         </span>
-                        {(() => {
-                          const favInfo = favorites.find(f => f.id.toString() === getCleanId(stationId));
-                          return (
-                            <>
-                              {favInfo && (
-                                <Star className="w-5 h-5 fill-yellow-400 text-yellow-400 drop-shadow-sm shrink-0" title="Favorita" />
-                              )}
-                              {favInfo?.customName && parseInt(getCleanId(stationId), 10).toString() !== "NaN" && (
-                                <span className="text-lg font-medium text-slate-400 shrink-0">
-                                  (#{getCleanId(stationId)})
-                                </span>
-                              )}
-                            </>
-                          );
-                        })()}
+                        {prediction.is_favorite && (
+                          <Star className="w-5 h-5 fill-yellow-400 text-yellow-400 drop-shadow-sm shrink-0" title="Favorita" />
+                        )}
+                        {prediction.custom_name && prediction.station_id && (
+                          <span className="text-lg font-medium text-slate-400 shrink-0">
+                            (#{prediction.station_id})
+                          </span>
+                        )}
                       </h3>
                     </div>
                     <div className="text-right flex-shrink-0">
