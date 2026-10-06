@@ -293,6 +293,7 @@ export default function App() {
         const sessionUser = data.user;
         localStorage.setItem('valenba_current_user', JSON.stringify(sessionUser));
         setCurrentUser(sessionUser);
+        setFavorites([]);
         setAuthSuccess('¡Cuenta registrada con éxito en la base de datos!');
         setAuthName('');
         setAuthEmail('');
@@ -313,6 +314,8 @@ export default function App() {
         setCurrentUser(sessionUser);
         if (Array.isArray(data.favorites)) {
           setFavorites(data.favorites);
+        } else {
+          setFavorites([]);
         }
         setAuthSuccess(`¡Bienvenido de nuevo, ${sessionUser.name}!`);
         setAuthEmail('');
@@ -326,6 +329,12 @@ export default function App() {
   const handleLogout = () => {
     localStorage.removeItem('valenba_current_user');
     setCurrentUser(null);
+    try {
+      const guestSaved = localStorage.getItem('valenba_favorites_guest');
+      setFavorites(guestSaved ? JSON.parse(guestSaved) : []);
+    } catch {
+      setFavorites([]);
+    }
     setAuthSuccess(null);
     setAuthError(null);
   };
@@ -361,7 +370,7 @@ export default function App() {
       fetch(getApiUrl(`/api/user/favorites?email=${encodeURIComponent(currentUser.email)}`))
         .then(res => res.json())
         .then(data => {
-          if (Array.isArray(data) && data.length > 0) {
+          if (Array.isArray(data)) {
             setFavorites(data);
           }
         })
@@ -402,7 +411,10 @@ export default function App() {
   // --- ESTADO DE FAVORITOS ---
   const [favorites, setFavorites] = useState<FavoriteStation[]>(() => {
     try {
-      const saved = localStorage.getItem('valenbisi_favorites');
+      const userStr = localStorage.getItem('valenba_current_user');
+      const user = userStr ? JSON.parse(userStr) : null;
+      const key = user?.email ? `valenba_favorites_${user.email}` : 'valenba_favorites_guest';
+      const saved = localStorage.getItem(key) || (user?.email ? null : localStorage.getItem('valenbisi_favorites'));
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed)) {
@@ -446,8 +458,9 @@ export default function App() {
   const [editingName, setEditingName] = useState('');
 
   useEffect(() => {
-    localStorage.setItem('valenbisi_favorites', JSON.stringify(favorites));
-  }, [favorites]);
+    const key = currentUser?.email ? `valenba_favorites_${currentUser.email}` : 'valenba_favorites_guest';
+    localStorage.setItem(key, JSON.stringify(favorites));
+  }, [favorites, currentUser?.email]);
 
   // Helper to extract numeric ID from input string (e.g. "114 - UPV Informática" -> "114")
   const getCleanId = (val: string): string => {
