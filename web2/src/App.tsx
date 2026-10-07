@@ -347,7 +347,6 @@ export default function App() {
   const [mapStations, setMapStations] = useState<MapStation[]>(DEFAULT_STATIONS);
   const [mapCenter, setMapCenter] = useState<[number, number]>(VALENCIA_CENTER);
   const [mapZoom, setMapZoom] = useState<number>(14);
-  const [tileStyle, setTileStyle] = useState<'voyager' | 'positron' | 'osm'>('positron');
   const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
   const [mapSearchQuery, setMapSearchQuery] = useState('');
 
@@ -917,31 +916,6 @@ export default function App() {
                         <span>{t.tabViewPrediction}</span>
                       </button>
                     )}
-
-                    {/* Selector de capas flotante (CARTO Positron / Voyager / OSM) */}
-                    <div className="bg-white/95 backdrop-blur-md p-1 rounded-xl shadow-md border border-slate-200/80 flex gap-0.5 text-[11px] font-bold">
-                      <button
-                        type="button"
-                        onClick={() => setTileStyle('positron')}
-                        className={`px-2 py-1 rounded-lg transition-all ${tileStyle === 'positron' ? 'bg-[#2f3b5c] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
-                      >
-                        {t.layerCartoLight}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setTileStyle('voyager')}
-                        className={`px-2 py-1 rounded-lg transition-all ${tileStyle === 'voyager' ? 'bg-[#2f3b5c] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
-                      >
-                        {t.layerCartoColor}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setTileStyle('osm')}
-                        className={`px-2 py-1 rounded-lg transition-all ${tileStyle === 'osm' ? 'bg-[#2f3b5c] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
-                      >
-                        {t.layerOsm}
-                      </button>
-                    </div>
                   </div>
                 </div>
 
@@ -950,21 +924,11 @@ export default function App() {
                   <MapContainer center={mapCenter} zoom={mapZoom} style={{ height: '100%', width: '100%', zIndex: 0 }}>
                     <ChangeMapView center={mapCenter} zoom={mapZoom} />
                     <TileLayer
-                      key={`${tileStyle}-${CARTO_API_KEY ? 'keyed' : 'free'}`}
-                      attribution={
-                        tileStyle === 'osm' 
-                          ? '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>' 
-                          : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-                      }
+                      key={`carto-positron-${CARTO_API_KEY ? 'keyed' : 'free'}`}
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
                       subdomains="abcd"
                       maxZoom={20}
-                      url={
-                        tileStyle === 'voyager' 
-                          ? `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png${CARTO_API_KEY ? `?key=${encodeURIComponent(CARTO_API_KEY)}` : ''}`
-                          : tileStyle === 'positron'
-                          ? `https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png${CARTO_API_KEY ? `?key=${encodeURIComponent(CARTO_API_KEY)}` : ''}`
-                          : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                      }
+                      url={`https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png${CARTO_API_KEY ? `?key=${encodeURIComponent(CARTO_API_KEY)}` : ''}`}
                     />
                     {mapStations.map((station) => {
                       const isSelected = stationId && getCleanId(stationId) === station.id.toString();
@@ -1031,19 +995,6 @@ export default function App() {
                       );
                     })}
                   </MapContainer>
-                </div>
-
-                {/* PIE DEL MAPA */}
-                <div className="bg-slate-50/95 border-t border-slate-100 px-4 py-2 text-xs text-slate-500 flex items-center justify-between">
-                  <span className="flex items-center gap-1.5">
-                    <span>💡</span>
-                    <span className="font-medium">{t.mapIntegratedHint}</span>
-                  </span>
-                  {stationId && (
-                    <span className="font-bold text-[#2f3b5c] bg-white px-2.5 py-1 rounded-lg border border-slate-200/80 text-[11px] truncate max-w-[220px]">
-                      {stationId}
-                    </span>
-                  )}
                 </div>
               </motion.div>
             ) : (
