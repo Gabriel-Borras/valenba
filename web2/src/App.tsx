@@ -893,12 +893,12 @@ export default function App() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0, transition: { duration: 0.2 } }}
-                className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden relative flex flex-col h-[580px] lg:h-[620px]"
+                className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden relative flex flex-col h-[580px] lg:h-[620px] isolate"
               >
                 {/* BARRA SUPERIOR FLOTANTE DEL MAPA */}
-                <div className="absolute top-3 left-3 right-3 z-[400] flex items-center justify-between pointer-events-none gap-2">
+                <div className="absolute top-3 left-3 right-3 z-20 flex flex-wrap items-center justify-between pointer-events-none gap-2">
                   <div className="bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-xl shadow-md border border-slate-200/80 pointer-events-auto flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
                     <span className="text-xs font-bold text-[#2f3b5c]">
                       {t.activeStationsCount}
                     </span>
@@ -1234,7 +1234,7 @@ export default function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm"
+            className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm"
             onClick={() => setShowHowItWorks(false)}
           >
             <motion.div 
@@ -1325,7 +1325,7 @@ export default function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[120] bg-slate-900/40 backdrop-blur-sm flex justify-end"
+            className="fixed inset-0 z-[1000] bg-slate-900/40 backdrop-blur-sm flex justify-end"
             onClick={() => setIsUserDrawerOpen(false)}
           >
             <motion.div 
