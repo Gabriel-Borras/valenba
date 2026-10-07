@@ -78,6 +78,8 @@ export interface Translations {
   tabViewPrediction: string;
   btnBackToMap: string;
   mapIntegratedHint: string;
+  viewAllStations: string;
+  filterOnlyFavorites: string;
 
   // Station Combobox
   comboboxPlaceholder: string;
@@ -213,6 +215,8 @@ export const translations: Record<Language, Translations> = {
     tabViewPrediction: "Veure Predicció",
     btnBackToMap: "Tornar al Mapa",
     mapIntegratedHint: "Fes clic en qualsevol estació per a seleccionar-la",
+    viewAllStations: "Veure totes",
+    filterOnlyFavorites: "Només preferides",
 
     comboboxPlaceholder: "Cerca per carrer, número o ID (ex. 114)...",
     comboboxClear: "Esborrar selecció",
@@ -344,6 +348,8 @@ export const translations: Record<Language, Translations> = {
     tabViewPrediction: "Ver Predicción",
     btnBackToMap: "Volver al Mapa",
     mapIntegratedHint: "Haz clic en cualquier estación para seleccionarla",
+    viewAllStations: "Ver todas",
+    filterOnlyFavorites: "Solo favoritas",
 
     comboboxPlaceholder: "Busca por calle, número o ID (ej. 114)...",
     comboboxClear: "Borrar selección",
@@ -475,6 +481,8 @@ export const translations: Record<Language, Translations> = {
     tabViewPrediction: "View Prediction",
     btnBackToMap: "Back to Map",
     mapIntegratedHint: "Click any station on the map to select it",
+    viewAllStations: "View all",
+    filterOnlyFavorites: "Only favorites",
 
     comboboxPlaceholder: "Search by street, number or ID (e.g. 114)...",
     comboboxClear: "Clear selection",

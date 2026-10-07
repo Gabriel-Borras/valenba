@@ -465,6 +465,13 @@ export default function App() {
     localStorage.setItem(key, JSON.stringify(favorites));
   }, [favorites, currentUser?.email]);
 
+  // Si no quedan favoritas, desactivar el filtro de solo favoritas automáticamente
+  useEffect(() => {
+    if (favorites.length === 0 && showOnlyFavorites) {
+      setShowOnlyFavorites(false);
+    }
+  }, [favorites.length, showOnlyFavorites]);
+
   // Helper to extract numeric ID from input string (e.g. "114 - UPV Informática" -> "114")
   const getCleanId = (val: string): string => {
     if (!val) return '';
@@ -691,17 +698,35 @@ export default function App() {
               
               {/* SELECTOR DE ESTACIÓN PROPIO (REEMPLAZA A DATALIST NATIVO) */}
               <div className="space-y-2">
-                <div className="flex justify-between items-end">
+                <div className="flex justify-between items-center mb-1">
                   <label className="block text-sm font-bold text-slate-700 uppercase tracking-wider">
                     {t.formStationLabel}
                   </label>
-                  <span className="text-xs text-slate-400 font-medium">
-                    {t.activeStationsCount}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    {/* Botón de filtro de favoritas: solo sale si hay mínimo una estación favorita */}
+                    {favorites.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setShowOnlyFavorites(prev => !prev)}
+                        className={`text-xs font-bold px-2.5 py-1 rounded-xl border transition-all flex items-center gap-1.5 cursor-pointer ${
+                          showOnlyFavorites 
+                            ? 'bg-amber-400/20 border-amber-400 text-amber-900 shadow-xs' 
+                            : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-slate-300 hover:text-amber-600'
+                        }`}
+                        title={showOnlyFavorites ? t.viewAllStations : t.filterOnlyFavorites}
+                      >
+                        <Star className={`w-3.5 h-3.5 ${showOnlyFavorites ? 'fill-amber-500 text-amber-500' : 'text-slate-400'}`} />
+                        <span>{showOnlyFavorites ? t.viewAllStations : `${t.filterOnlyFavorites} (${favorites.length})`}</span>
+                      </button>
+                    )}
+                    <span className="text-xs text-slate-400 font-medium hidden sm:inline">
+                      {showOnlyFavorites ? `${displayedStations.length} ${t.mapFavoriteStations}` : t.activeStationsCount}
+                    </span>
+                  </div>
                 </div>
 
                 <StationCombobox
-                  stations={mapStations}
+                  stations={showOnlyFavorites ? displayedStations : mapStations}
                   value={stationId}
                   onChange={setStationId}
                   favorites={favorites}
@@ -709,6 +734,8 @@ export default function App() {
                   t={t}
                   brokenStations={ESTACIONES_ROTAS}
                   placeholder={t.formStationPlaceholder}
+                  showOnlyFavorites={showOnlyFavorites}
+                  onToggleOnlyFavorites={() => setShowOnlyFavorites(prev => !prev)}
                   onSelectStation={(st) => {
                     setMapCenter([st.lat, st.lng]);
                     setMapZoom(16);
@@ -899,11 +926,28 @@ export default function App() {
                   <div className="bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-xl shadow-md border border-slate-200/80 pointer-events-auto flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
                     <span className="text-xs font-bold text-[#2f3b5c]">
-                      {t.activeStationsCount}
+                      {showOnlyFavorites ? `${displayedStations.length} ${t.mapFavoriteStations}` : t.activeStationsCount}
                     </span>
                   </div>
 
                   <div className="flex items-center gap-2 pointer-events-auto">
+                    {/* Botón de filtro de favoritas en el mapa: solo sale si hay mínimo una estación favorita */}
+                    {favorites.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setShowOnlyFavorites(prev => !prev)}
+                        className={`px-3.5 py-1.5 rounded-xl shadow-md text-xs font-bold transition-all flex items-center gap-1.5 border cursor-pointer ${
+                          showOnlyFavorites
+                            ? 'bg-amber-500 border-amber-600 text-white shadow-amber-500/20'
+                            : 'bg-white/95 backdrop-blur-md border-slate-200/80 text-slate-700 hover:bg-slate-50 hover:text-amber-600'
+                        }`}
+                        title={showOnlyFavorites ? t.viewAllStations : t.filterOnlyFavorites}
+                      >
+                        <Star className={`w-3.5 h-3.5 ${showOnlyFavorites ? 'fill-white text-white' : 'text-amber-500 fill-amber-500'}`} />
+                        <span>{showOnlyFavorites ? t.viewAllStations : `${t.filterOnlyFavorites} (${favorites.length})`}</span>
+                      </button>
+                    )}
+
                     {/* Botón flotante para ver resultados de predicción si ya se ha calculado */}
                     {prediction && (
                       <button
@@ -930,7 +974,7 @@ export default function App() {
                       maxZoom={20}
                       url={`https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png${CARTO_API_KEY ? `?key=${encodeURIComponent(CARTO_API_KEY)}` : ''}`}
                     />
-                    {mapStations.map((station) => {
+                    {displayedStations.map((station) => {
                       const isSelected = stationId && getCleanId(stationId) === station.id.toString();
                       const isFavorite = favorites.some((f) => f.id && station.id && f.id.toString() === station.id.toString());
                       

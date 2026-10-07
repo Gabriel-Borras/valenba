@@ -19,6 +19,8 @@ interface StationComboboxProps {
   brokenStations?: number[];
   placeholder?: string;
   onSelectStation?: (station: MapStation) => void;
+  showOnlyFavorites?: boolean;
+  onToggleOnlyFavorites?: () => void;
 }
 
 export const StationCombobox: React.FC<StationComboboxProps> = ({
@@ -30,7 +32,9 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
   t,
   brokenStations = [105, 146, 168, 299],
   placeholder,
-  onSelectStation
+  onSelectStation,
+  showOnlyFavorites = false,
+  onToggleOnlyFavorites
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
@@ -201,13 +205,35 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
             className="absolute left-0 right-0 top-full mt-2 z-[500] bg-white rounded-2xl border border-slate-200 shadow-2xl shadow-slate-900/15 overflow-hidden backdrop-blur-xl"
           >
             {/* Cabecera del desplegable con estadísticas rápidas */}
-            <div className="px-4 py-2.5 bg-slate-50/90 border-b border-slate-100 flex items-center justify-between text-xs">
+            <div className="px-4 py-2 bg-slate-50/90 border-b border-slate-100 flex items-center justify-between text-xs">
               <span className="font-bold text-slate-500 uppercase tracking-wider text-[11px]">
-                {query ? `${t.comboboxMatches} (${filteredStations.length})` : t.comboboxTotalStations}
+                {query 
+                  ? `${t.comboboxMatches} (${filteredStations.length})` 
+                  : (showOnlyFavorites ? `${filteredStations.length} ${t.mapFavoriteStations}` : t.comboboxTotalStations)}
               </span>
-              <span className="text-[10px] text-slate-400 font-mono">
-                {t.comboboxKeyboardHint}
-              </span>
+              <div className="flex items-center gap-2">
+                {favorites.length > 0 && onToggleOnlyFavorites && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onToggleOnlyFavorites();
+                    }}
+                    className={`px-2 py-0.5 rounded-lg text-[11px] font-bold border transition-all flex items-center gap-1 cursor-pointer ${
+                      showOnlyFavorites
+                        ? 'bg-amber-100 border-amber-300 text-amber-800 shadow-xs'
+                        : 'bg-white border-slate-200 text-slate-600 hover:text-amber-600 hover:border-amber-200'
+                    }`}
+                    title={showOnlyFavorites ? t.viewAllStations : t.filterOnlyFavorites}
+                  >
+                    <Star className={`w-3 h-3 ${showOnlyFavorites ? 'fill-amber-500 text-amber-500' : 'text-slate-400'}`} />
+                    <span>{showOnlyFavorites ? t.viewAllStations : t.filterOnlyFavorites}</span>
+                  </button>
+                )}
+                <span className="text-[10px] text-slate-400 font-mono hidden sm:inline">
+                  {t.comboboxKeyboardHint}
+                </span>
+              </div>
             </div>
 
             {/* Sección rápida de Favoritas si existen y el input está vacío */}
