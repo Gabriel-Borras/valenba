@@ -76,12 +76,16 @@ def ejecutar_prediccion(station_id: int, fecha_solicitada: str) -> dict:
             "bicicletas_disponibles": None,
             "yhat_lower": None,
             "yhat_upper": None,
-            "cap": int(station_info["cap"]),
+            "cap": int(station_info.get("cap", 30)),
             "occupancy": None,
             "temp": temp,
             "prec": prec,
             "probabilidad_disponible": None,
-            "name": station_info["name"]
+            "name": station_info.get("name", f"Estación {station_id}"),
+            "current_bikes": station_info.get("currentBikes"),
+            "free_docks": station_info.get("freeDocks"),
+            "is_open": station_info.get("isOpen", True),
+            "updated_at": station_info.get("updatedAt")
         }
         
     # 2. Si el modelo existe, procedemos a realizar la predicción exacta (copiada de calculadora_valenbisi_v2.py)
@@ -172,5 +176,9 @@ def ejecutar_prediccion(station_id: int, fecha_solicitada: str) -> dict:
         "temp": temp,
         "prec": prec,
         "probabilidad_disponible": float(round(probabilidad, 1)),
-        "name": station_info["name"]
+        "name": station_info.get("name", f"Estación {station_id}"),
+        "current_bikes": station_info.get("currentBikes"),
+        "free_docks": station_info.get("freeDocks"),
+        "is_open": station_info.get("isOpen", True),
+        "updated_at": station_info.get("updatedAt")
     }

@@ -19,7 +19,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48004223020643,
     "lng": -0.38292927973315827,
     "cap": 25,
-    "currentBikes": 12
+    "currentBikes": 2,
+    "freeDocks": 22,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.247039+00:00Z"
   },
   {
     "id": "2",
@@ -28,7 +31,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.479889353348874,
     "lng": -0.3797483936090024,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 5,
+    "freeDocks": 10,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.231251+00:00Z"
   },
   {
     "id": "3",
@@ -37,7 +43,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.4768353435743,
     "lng": -0.3802883976424855,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 1,
+    "freeDocks": 19,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.241429+00:00Z"
   },
   {
     "id": "4",
@@ -46,7 +55,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.476747340831494,
     "lng": -0.37534238089458904,
     "cap": 25,
-    "currentBikes": 12
+    "currentBikes": 0,
+    "freeDocks": 24,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.322803+00:00Z"
   },
   {
     "id": "5",
@@ -55,7 +67,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.476895339123786,
     "lng": -0.3711403661399108,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 0,
+    "freeDocks": 14,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.229226+00:00Z"
   },
   {
     "id": "6",
@@ -64,7 +79,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.472798331478145,
     "lng": -0.38408341393871137,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 0,
+    "freeDocks": 15,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.291149+00:00Z"
   },
   {
     "id": "7",
@@ -73,7 +91,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47487233593648,
     "lng": -0.3791853952972924,
     "cap": 19,
-    "currentBikes": 9
+    "currentBikes": 0,
+    "freeDocks": 19,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.303229+00:00Z"
   },
   {
     "id": "8",
@@ -82,7 +103,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47432033281947,
     "lng": -0.3750843825510484,
     "cap": 9,
-    "currentBikes": 4
+    "currentBikes": 1,
+    "freeDocks": 8,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.317698+00:00Z"
   },
   {
     "id": "9",
@@ -91,7 +115,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47435533016869,
     "lng": -0.3699303648826442,
     "cap": 25,
-    "currentBikes": 12
+    "currentBikes": 2,
+    "freeDocks": 23,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.324807+00:00Z"
   },
   {
     "id": "10",
@@ -100,7 +127,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.470816323984536,
     "lng": -0.38261041097634013,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 1,
+    "freeDocks": 14,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.307645+00:00Z"
   },
   {
     "id": "11",
@@ -109,7 +139,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47118632283677,
     "lng": -0.3767843903416451,
     "cap": 27,
-    "currentBikes": 13
+    "currentBikes": 0,
+    "freeDocks": 27,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.298444+00:00Z"
   },
   {
     "id": "12",
@@ -118,7 +151,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47196722343732,
     "lng": -0.3740102862977963,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 0,
+    "freeDocks": 20,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.297431+00:00Z"
   },
   {
     "id": "13",
@@ -127,7 +163,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.4720623227334,
     "lng": -0.37087436964085335,
     "cap": 24,
-    "currentBikes": 12
+    "currentBikes": 0,
+    "freeDocks": 23,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.324312+00:00Z"
   },
   {
     "id": "14",
@@ -136,7 +175,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46896731649349,
     "lng": -0.37972440222295445,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 0,
+    "freeDocks": 20,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.283819+00:00Z"
   },
   {
     "id": "15",
@@ -145,7 +187,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46908831533384,
     "lng": -0.3756373880434071,
     "cap": 34,
-    "currentBikes": 17
+    "currentBikes": 0,
+    "freeDocks": 34,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.231751+00:00Z"
   },
   {
     "id": "16",
@@ -153,8 +198,11 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "address": "Colón, 60",
     "lat": 39.470092316192336,
     "lng": -0.3704333693720587,
-    "cap": 20,
-    "currentBikes": 10
+    "cap": 16,
+    "currentBikes": 0,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.296322+00:00Z"
   },
   {
     "id": "17",
@@ -163,7 +211,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46746831099193,
     "lng": -0.3772593951806123,
     "cap": 30,
-    "currentBikes": 15
+    "currentBikes": 0,
+    "freeDocks": 29,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.300284+00:00Z"
   },
   {
     "id": "18",
@@ -181,7 +232,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47436934054566,
     "lng": -0.391590438798602,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 11,
+    "freeDocks": 4,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.225297+00:00Z"
   },
   {
     "id": "20",
@@ -190,7 +244,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47503434099054,
     "lng": -0.3878474253260651,
     "cap": 16,
-    "currentBikes": 8
+    "currentBikes": 2,
+    "freeDocks": 14,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.229041+00:00Z"
   },
   {
     "id": "21",
@@ -199,7 +256,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.4723713328859,
     "lng": -0.39021443540491124,
     "cap": 16,
-    "currentBikes": 8
+    "currentBikes": 10,
+    "freeDocks": 6,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.222029+00:00Z"
   },
   {
     "id": "22",
@@ -208,7 +268,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46978732404922,
     "lng": -0.3883534313205414,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 0,
+    "freeDocks": 14,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.218049+00:00Z"
   },
   {
     "id": "23",
@@ -217,7 +280,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.471628328748515,
     "lng": -0.3861784216967592,
     "cap": 19,
-    "currentBikes": 9
+    "currentBikes": 0,
+    "freeDocks": 19,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.259226+00:00Z"
   },
   {
     "id": "24",
@@ -226,7 +292,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.469077319212495,
     "lng": -0.3840274173384119,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 0,
+    "freeDocks": 19,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.227646+00:00Z"
   },
   {
     "id": "25",
@@ -235,7 +304,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46772931656263,
     "lng": -0.38861043334080225,
     "cap": 23,
-    "currentBikes": 11
+    "currentBikes": 6,
+    "freeDocks": 17,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.290852+00:00Z"
   },
   {
     "id": "26",
@@ -244,7 +316,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46619531059966,
     "lng": -0.3860524260304749,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 7,
+    "freeDocks": 8,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.212922+00:00Z"
   },
   {
     "id": "27",
@@ -253,7 +328,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.463362299305594,
     "lng": -0.3818514137102655,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 3,
+    "freeDocks": 17,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.218973+00:00Z"
   },
   {
     "id": "28",
@@ -262,7 +340,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47158231958138,
     "lng": -0.36775135880068294,
     "cap": 29,
-    "currentBikes": 14
+    "currentBikes": 0,
+    "freeDocks": 28,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.320663+00:00Z"
   },
   {
     "id": "29",
@@ -271,7 +352,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47011231364647,
     "lng": -0.3652993525279599,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 1,
+    "freeDocks": 18,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.212722+00:00Z"
   },
   {
     "id": "30",
@@ -280,7 +364,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.468601309884924,
     "lng": -0.36849936365579583,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 0,
+    "freeDocks": 19,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.215947+00:00Z"
   },
   {
     "id": "31",
@@ -289,7 +376,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.467365304622646,
     "lng": -0.3650283531086902,
     "cap": 19,
-    "currentBikes": 9
+    "currentBikes": 0,
+    "freeDocks": 15,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.228623+00:00Z"
   },
   {
     "id": "32",
@@ -298,7 +388,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46600630156446,
     "lng": -0.3682473649948816,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 1,
+    "freeDocks": 13,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.320436+00:00Z"
   },
   {
     "id": "33",
@@ -307,7 +400,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46481830023885,
     "lng": -0.37399038562310283,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 2,
+    "freeDocks": 18,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.222794+00:00Z"
   },
   {
     "id": "34",
@@ -316,7 +412,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46412229654908,
     "lng": -0.36996137299092113,
     "cap": 17,
-    "currentBikes": 8
+    "currentBikes": 0,
+    "freeDocks": 16,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.255635+00:00Z"
   },
   {
     "id": "35",
@@ -325,7 +424,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46374929341137,
     "lng": -0.36699436340059455,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 3,
+    "freeDocks": 1,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.239457+00:00Z"
   },
   {
     "id": "36",
@@ -334,7 +436,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.479072348860946,
     "lng": -0.3754363798581042,
     "cap": 25,
-    "currentBikes": 12
+    "currentBikes": 2,
+    "freeDocks": 23,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.295084+00:00Z"
   },
   {
     "id": "37",
@@ -343,7 +448,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.460937800028375,
     "lng": -0.3664406250017559,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 15,
+    "freeDocks": 5,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.260089+00:00Z"
   },
   {
     "id": "38",
@@ -351,8 +459,11 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "address": "Peris y Valero - Cabo Jubi",
     "lat": 39.45940204927687,
     "lng": -0.37024937736936264,
-    "cap": 20,
-    "currentBikes": 10
+    "cap": 15,
+    "currentBikes": 6,
+    "freeDocks": 9,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.230739+00:00Z"
   },
   {
     "id": "39",
@@ -361,7 +472,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.457854277261184,
     "lng": -0.3739313916673185,
     "cap": 19,
-    "currentBikes": 9
+    "currentBikes": 17,
+    "freeDocks": 1,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.325329+00:00Z"
   },
   {
     "id": "40",
@@ -370,7 +484,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.470466319701956,
     "lng": -0.3748243837183276,
     "cap": 26,
-    "currentBikes": 13
+    "currentBikes": 0,
+    "freeDocks": 26,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.249774+00:00Z"
   },
   {
     "id": "41",
@@ -379,7 +496,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.458912276426375,
     "lng": -0.36477635908979195,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 17,
+    "freeDocks": 3,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.237802+00:00Z"
   },
   {
     "id": "42",
@@ -388,7 +508,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45878127329601,
     "lng": -0.3586583378805894,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 4,
+    "freeDocks": 15,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.290598+00:00Z"
   },
   {
     "id": "43",
@@ -397,7 +520,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.459477276259406,
     "lng": -0.36115334583643566,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 11,
+    "freeDocks": 9,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.241192+00:00Z"
   },
   {
     "id": "44",
@@ -406,7 +532,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45642926768604,
     "lng": -0.36301435452576164,
     "cap": 19,
-    "currentBikes": 9
+    "currentBikes": 11,
+    "freeDocks": 7,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.293235+00:00Z"
   },
   {
     "id": "45",
@@ -415,7 +544,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45381925759081,
     "lng": -0.36185535292343096,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 3,
+    "freeDocks": 12,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.314885+00:00Z"
   },
   {
     "id": "46",
@@ -424,7 +556,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.455509261762266,
     "lng": -0.35878734087160885,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 16,
+    "freeDocks": 3,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.251283+00:00Z"
   },
   {
     "id": "47",
@@ -433,7 +568,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45651226440267,
     "lng": -0.35541832880362817,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 2,
+    "freeDocks": 15,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.229723+00:00Z"
   },
   {
     "id": "48",
@@ -442,7 +580,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.450807354184086,
     "lng": -0.35855273823228967,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 6,
+    "freeDocks": 14,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.227366+00:00Z"
   },
   {
     "id": "49",
@@ -451,7 +592,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45298693239739,
     "lng": -0.3571104198826364,
     "cap": 25,
-    "currentBikes": 12
+    "currentBikes": 1,
+    "freeDocks": 24,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.309466+00:00Z"
   },
   {
     "id": "50",
@@ -460,7 +604,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.453318252515686,
     "lng": -0.3528593228128155,
     "cap": 40,
-    "currentBikes": 20
+    "currentBikes": 0,
+    "freeDocks": 39,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.316666+00:00Z"
   },
   {
     "id": "51",
@@ -469,7 +616,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45218324552497,
     "lng": -0.3472273049060467,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 7,
+    "freeDocks": 13,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.295398+00:00Z"
   },
   {
     "id": "52",
@@ -478,7 +628,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45603425797373,
     "lng": -0.3463402980947426,
     "cap": 25,
-    "currentBikes": 12
+    "currentBikes": 2,
+    "freeDocks": 23,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.251509+00:00Z"
   },
   {
     "id": "53",
@@ -487,7 +640,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45676426141678,
     "lng": -0.34813930400480075,
     "cap": 25,
-    "currentBikes": 12
+    "currentBikes": 11,
+    "freeDocks": 14,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.218480+00:00Z"
   },
   {
     "id": "54",
@@ -496,7 +652,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.459778273617445,
     "lng": -0.3526903171951741,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 19,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.216337+00:00Z"
   },
   {
     "id": "55",
@@ -505,7 +664,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45934326975421,
     "lng": -0.34868630411595647,
     "cap": 25,
-    "currentBikes": 12
+    "currentBikes": 22,
+    "freeDocks": 2,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.228848+00:00Z"
   },
   {
     "id": "56",
@@ -514,7 +676,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45842126509135,
     "lng": -0.3444052893928658,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 5,
+    "freeDocks": 10,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.309709+00:00Z"
   },
   {
     "id": "57",
@@ -523,7 +688,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46447629179199,
     "lng": -0.3582563324315247,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 13,
+    "freeDocks": 6,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.288901+00:00Z"
   },
   {
     "id": "58",
@@ -532,7 +700,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46621830848607,
     "lng": -0.3815864106638383,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 2,
+    "freeDocks": 14,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.323095+00:00Z"
   },
   {
     "id": "59",
@@ -541,7 +712,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.463088285667624,
     "lng": -0.3545493213542055,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 15,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.244169+00:00Z"
   },
   {
     "id": "60",
@@ -550,7 +724,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46223128102797,
     "lng": -0.3517763125261459,
     "cap": 19,
-    "currentBikes": 9
+    "currentBikes": 17,
+    "freeDocks": 1,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.285999+00:00Z"
   },
   {
     "id": "61",
@@ -559,7 +736,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46129327599964,
     "lng": -0.34783029886743094,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 20,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.295867+00:00Z"
   },
   {
     "id": "62",
@@ -568,7 +748,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45981126842254,
     "lng": -0.3421522812931475,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 20,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.252702+00:00Z"
   },
   {
     "id": "63",
@@ -577,7 +760,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46777930285978,
     "lng": -0.358414330727018,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 12,
+    "freeDocks": 7,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.251685+00:00Z"
   },
   {
     "id": "64",
@@ -586,7 +772,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46651829706714,
     "lng": -0.35419531724959286,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 19,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.298263+00:00Z"
   },
   {
     "id": "65",
@@ -595,7 +784,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.465516292011046,
     "lng": -0.3508373061951808,
     "cap": 19,
-    "currentBikes": 9
+    "currentBikes": 19,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.304360+00:00Z"
   },
   {
     "id": "66",
@@ -604,7 +796,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46427128532339,
     "lng": -0.3462612916525901,
     "cap": 25,
-    "currentBikes": 12
+    "currentBikes": 22,
+    "freeDocks": 3,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.290195+00:00Z"
   },
   {
     "id": "67",
@@ -613,7 +808,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45886026320377,
     "lng": -0.33679826304022287,
     "cap": 14,
-    "currentBikes": 7
+    "currentBikes": 13,
+    "freeDocks": 1,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.270553+00:00Z"
   },
   {
     "id": "68",
@@ -622,7 +820,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46280327868023,
     "lng": -0.3417332778594022,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 18,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.315938+00:00Z"
   },
   {
     "id": "69",
@@ -631,7 +832,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46195227384504,
     "lng": -0.3387212679875118,
     "cap": 25,
-    "currentBikes": 12
+    "currentBikes": 24,
+    "freeDocks": 1,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.219332+00:00Z"
   },
   {
     "id": "70",
@@ -649,7 +853,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46038026686525,
     "lng": -0.33353125122308164,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 18,
+    "freeDocks": 1,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.294675+00:00Z"
   },
   {
     "id": "72",
@@ -658,7 +865,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.467257201162404,
     "lng": -0.34644628196214244,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 13,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.218258+00:00Z"
   },
   {
     "id": "73",
@@ -667,7 +877,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.4662592905475,
     "lng": -0.3428792786496773,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 19,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.250413+00:00Z"
   },
   {
     "id": "74",
@@ -676,7 +889,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.469949307546806,
     "lng": -0.3537343124957471,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 20,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.222405+00:00Z"
   },
   {
     "id": "75",
@@ -685,7 +901,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.472113313853896,
     "lng": -0.35170130420295115,
     "cap": 25,
-    "currentBikes": 12
+    "currentBikes": 25,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.307482+00:00Z"
   },
   {
     "id": "76",
@@ -694,7 +913,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47008330347364,
     "lng": -0.343461277578989,
     "cap": 19,
-    "currentBikes": 9
+    "currentBikes": 17,
+    "freeDocks": 1,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.294482+00:00Z"
   },
   {
     "id": "77",
@@ -703,7 +925,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48497336307338,
     "lng": -0.36566734195835493,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 14,
+    "freeDocks": 5,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.329216+00:00Z"
   },
   {
     "id": "78",
@@ -712,7 +937,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46994531050937,
     "lng": -0.358688329939162,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 0,
+    "freeDocks": 19,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.217315+00:00Z"
   },
   {
     "id": "79",
@@ -721,7 +949,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.4727793187067,
     "lng": -0.357242322435451,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 16,
+    "freeDocks": 4,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.306846+00:00Z"
   },
   {
     "id": "80",
@@ -730,7 +961,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47374232444908,
     "lng": -0.36229833944736023,
     "cap": 25,
-    "currentBikes": 12
+    "currentBikes": 1,
+    "freeDocks": 23,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.256530+00:00Z"
   },
   {
     "id": "81",
@@ -739,7 +973,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47512832851177,
     "lng": -0.36097833354659675,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 0,
+    "freeDocks": 20,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.244419+00:00Z"
   },
   {
     "id": "82",
@@ -748,7 +985,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47605634238628,
     "lng": -0.3839144104057024,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 1,
+    "freeDocks": 12,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.303296+00:00Z"
   },
   {
     "id": "83",
@@ -757,7 +997,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47758533929587,
     "lng": -0.3669703519914759,
     "cap": 25,
-    "currentBikes": 12
+    "currentBikes": 0,
+    "freeDocks": 23,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.254783+00:00Z"
   },
   {
     "id": "84",
@@ -766,7 +1009,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46729429030231,
     "lng": -0.3351652508188024,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 7,
+    "freeDocks": 8,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.244594+00:00Z"
   },
   {
     "id": "85",
@@ -775,7 +1021,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.479464345022826,
     "lng": -0.3647153422684407,
     "cap": 23,
-    "currentBikes": 11
+    "currentBikes": 0,
+    "freeDocks": 22,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.318246+00:00Z"
   },
   {
     "id": "86",
@@ -784,7 +1033,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.4552402764855,
     "lng": -0.39119345191575566,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 13,
+    "freeDocks": 5,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.237412+00:00Z"
   },
   {
     "id": "87",
@@ -793,7 +1045,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47851834019109,
     "lng": -0.36188033357859983,
     "cap": 33,
-    "currentBikes": 16
+    "currentBikes": 0,
+    "freeDocks": 28,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.224946+00:00Z"
   },
   {
     "id": "88",
@@ -802,7 +1057,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.477512336096844,
     "lng": -0.36114233248377353,
     "cap": 40,
-    "currentBikes": 20
+    "currentBikes": 1,
+    "freeDocks": 38,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.259554+00:00Z"
   },
   {
     "id": "89",
@@ -811,7 +1069,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47780233689744,
     "lng": -0.3593183259089267,
     "cap": 30,
-    "currentBikes": 15
+    "currentBikes": 0,
+    "freeDocks": 30,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.232738+00:00Z"
   },
   {
     "id": "90",
@@ -820,7 +1081,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47673433298103,
     "lng": -0.3589673254467337,
     "cap": 40,
-    "currentBikes": 20
+    "currentBikes": 0,
+    "freeDocks": 40,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.233777+00:00Z"
   },
   {
     "id": "91",
@@ -829,7 +1093,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.44412522887422,
     "lng": -0.36757337969703135,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 14,
+    "freeDocks": 1,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.320240+00:00Z"
   },
   {
     "id": "92",
@@ -838,7 +1105,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47586032883543,
     "lng": -0.35596831583559707,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 2,
+    "freeDocks": 16,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.327709+00:00Z"
   },
   {
     "id": "93",
@@ -847,7 +1117,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.472282310670764,
     "lng": -0.34380927742382206,
     "cap": 38,
-    "currentBikes": 19
+    "currentBikes": 34,
+    "freeDocks": 1,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.282909+00:00Z"
   },
   {
     "id": "94",
@@ -856,7 +1129,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47537832465668,
     "lng": -0.35158330144926053,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 11,
+    "freeDocks": 9,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.246242+00:00Z"
   },
   {
     "id": "95",
@@ -865,7 +1141,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47983533734356,
     "lng": -0.34611927939668474,
     "cap": 33,
-    "currentBikes": 16
+    "currentBikes": 0,
+    "freeDocks": 31,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.276010+00:00Z"
   },
   {
     "id": "96",
@@ -874,7 +1153,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47355431688417,
     "lng": -0.3482142912637639,
     "cap": 21,
-    "currentBikes": 10
+    "currentBikes": 19,
+    "freeDocks": 1,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.291355+00:00Z"
   },
   {
     "id": "97",
@@ -883,7 +1165,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47306831276613,
     "lng": -0.3431322739648798,
     "cap": 23,
-    "currentBikes": 11
+    "currentBikes": 21,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.303586+00:00Z"
   },
   {
     "id": "98",
@@ -892,7 +1177,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.469680303996114,
     "lng": -0.348442294427372,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 15,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.253758+00:00Z"
   },
   {
     "id": "99",
@@ -901,7 +1189,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47134430635022,
     "lng": -0.3404842660990001,
     "cap": 21,
-    "currentBikes": 10
+    "currentBikes": 18,
+    "freeDocks": 3,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.257075+00:00Z"
   },
   {
     "id": "100",
@@ -910,7 +1201,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.471634305646866,
     "lng": -0.33815025853445674,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 20,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.316193+00:00Z"
   },
   {
     "id": "101",
@@ -919,7 +1213,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47006829907817,
     "lng": -0.3343612466069016,
     "cap": 30,
-    "currentBikes": 15
+    "currentBikes": 23,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.244920+00:00Z"
   },
   {
     "id": "102",
@@ -928,7 +1225,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47583332394092,
     "lng": -0.346720283882565,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 10,
+    "freeDocks": 10,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.283442+00:00Z"
   },
   {
     "id": "103",
@@ -937,7 +1237,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47845333567255,
     "lng": -0.3523713017453889,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 2,
+    "freeDocks": 12,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.303715+00:00Z"
   },
   {
     "id": "104",
@@ -946,7 +1249,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.478386332978474,
     "lng": -0.3472752845405608,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 1,
+    "freeDocks": 19,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.239649+00:00Z"
   },
   {
     "id": "105",
@@ -955,7 +1261,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47835119969391,
     "lng": -0.3443952655704271,
     "cap": 30,
-    "currentBikes": 15
+    "currentBikes": 0,
+    "freeDocks": 30,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.315334+00:00Z"
   },
   {
     "id": "106",
@@ -964,7 +1273,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47674432466283,
     "lng": -0.34138726522688073,
     "cap": 25,
-    "currentBikes": 12
+    "currentBikes": 0,
+    "freeDocks": 25,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.288068+00:00Z"
   },
   {
     "id": "107",
@@ -973,7 +1285,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47524531713643,
     "lng": -0.3362242490922528,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 10,
+    "freeDocks": 5,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.221707+00:00Z"
   },
   {
     "id": "108",
@@ -982,7 +1297,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47382619077011,
     "lng": -0.3339152679031098,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 13,
+    "freeDocks": 2,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.321187+00:00Z"
   },
   {
     "id": "109",
@@ -991,7 +1309,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.4768193210939,
     "lng": -0.3335102388084858,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 6,
+    "freeDocks": 13,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.303887+00:00Z"
   },
   {
     "id": "110",
@@ -1000,7 +1321,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48074033571707,
     "lng": -0.33668024623462534,
     "cap": 30,
-    "currentBikes": 15
+    "currentBikes": 0,
+    "freeDocks": 28,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.323333+00:00Z"
   },
   {
     "id": "111",
@@ -1009,7 +1333,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48066419504159,
     "lng": -0.3395082613341325,
     "cap": 30,
-    "currentBikes": 15
+    "currentBikes": 0,
+    "freeDocks": 30,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.318921+00:00Z"
   },
   {
     "id": "112",
@@ -1018,7 +1345,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47858033137406,
     "lng": -0.34227526701990957,
     "cap": 40,
-    "currentBikes": 20
+    "currentBikes": 0,
+    "freeDocks": 38,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.242824+00:00Z"
   },
   {
     "id": "113",
@@ -1027,7 +1357,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48127634089521,
     "lng": -0.3436112694462359,
     "cap": 38,
-    "currentBikes": 19
+    "currentBikes": 0,
+    "freeDocks": 38,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.223085+00:00Z"
   },
   {
     "id": "114",
@@ -1036,7 +1369,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.4818043438759,
     "lng": -0.346591279156021,
     "cap": 30,
-    "currentBikes": 15
+    "currentBikes": 0,
+    "freeDocks": 30,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.305053+00:00Z"
   },
   {
     "id": "115",
@@ -1045,7 +1381,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.481562345598135,
     "lng": -0.3521482985209469,
     "cap": 16,
-    "currentBikes": 8
+    "currentBikes": 2,
+    "freeDocks": 14,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.245499+00:00Z"
   },
   {
     "id": "116",
@@ -1054,7 +1393,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48325335356676,
     "lng": -0.3575613154471814,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 13,
+    "freeDocks": 1,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.314521+00:00Z"
   },
   {
     "id": "117",
@@ -1063,7 +1405,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47925133992885,
     "lng": -0.357065317141581,
     "cap": 30,
-    "currentBikes": 15
+    "currentBikes": 6,
+    "freeDocks": 24,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.249597+00:00Z"
   },
   {
     "id": "118",
@@ -1072,7 +1417,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.480466345728246,
     "lng": -0.3604163266878076,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 5,
+    "freeDocks": 15,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.322611+00:00Z"
   },
   {
     "id": "119",
@@ -1081,7 +1429,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48252035422283,
     "lng": -0.36322633473676447,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 1,
+    "freeDocks": 17,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.243084+00:00Z"
   },
   {
     "id": "120",
@@ -1090,7 +1441,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.484880361257815,
     "lng": -0.36204632906281087,
     "cap": 18,
-    "currentBikes": 9
+    "currentBikes": 4,
+    "freeDocks": 13,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.214640+00:00Z"
   },
   {
     "id": "121",
@@ -1099,7 +1453,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48618236435413,
     "lng": -0.35877131748144303,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 10,
+    "freeDocks": 5,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.238491+00:00Z"
   },
   {
     "id": "122",
@@ -1108,7 +1465,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48448535604776,
     "lng": -0.3540663028794564,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 14,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.230272+00:00Z"
   },
   {
     "id": "123",
@@ -1117,7 +1477,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.487671371814656,
     "lng": -0.36484133609518726,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 15,
+    "freeDocks": 4,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.326735+00:00Z"
   },
   {
     "id": "124",
@@ -1126,7 +1489,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48850137319014,
     "lng": -0.3619553259600363,
     "cap": 25,
-    "currentBikes": 12
+    "currentBikes": 21,
+    "freeDocks": 4,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.230076+00:00Z"
   },
   {
     "id": "125",
@@ -1135,7 +1501,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.489693375775445,
     "lng": -0.3586183142345537,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 15,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.213191+00:00Z"
   },
   {
     "id": "126",
@@ -1144,7 +1513,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.49309838788837,
     "lng": -0.36010431604895277,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 8,
+    "freeDocks": 9,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.291619+00:00Z"
   },
   {
     "id": "127",
@@ -1153,7 +1525,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.49059138177909,
     "lng": -0.3644463333304693,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 20,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.305435+00:00Z"
   },
   {
     "id": "128",
@@ -1162,7 +1537,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48876637693274,
     "lng": -0.367544345093534,
     "cap": 25,
-    "currentBikes": 12
+    "currentBikes": 15,
+    "freeDocks": 9,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.252254+00:00Z"
   },
   {
     "id": "129",
@@ -1171,7 +1549,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.485975369089516,
     "lng": -0.3699453557741905,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 9,
+    "freeDocks": 11,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.232950+00:00Z"
   },
   {
     "id": "130",
@@ -1180,7 +1561,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.483238360081586,
     "lng": -0.370210358642677,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 7,
+    "freeDocks": 8,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.299453+00:00Z"
   },
   {
     "id": "131",
@@ -1189,7 +1573,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48141722170027,
     "lng": -0.3729122732215235,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 0,
+    "freeDocks": 20,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.246606+00:00Z"
   },
   {
     "id": "132",
@@ -1198,7 +1585,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48528636793778,
     "lng": -0.3734343681182198,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 14,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.235965+00:00Z"
   },
   {
     "id": "133",
@@ -1207,7 +1597,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48275636079257,
     "lng": -0.37588237827023757,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 12,
+    "freeDocks": 3,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.238671+00:00Z"
   },
   {
     "id": "134",
@@ -1216,7 +1609,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48765637635625,
     "lng": -0.37333936513208965,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 13,
+    "freeDocks": 7,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.240663+00:00Z"
   },
   {
     "id": "135",
@@ -1225,7 +1621,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48570237196362,
     "lng": -0.37850138478156414,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 19,
+    "freeDocks": 1,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.297690+00:00Z"
   },
   {
     "id": "136",
@@ -1234,7 +1633,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48994138447594,
     "lng": -0.37561037166808026,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 11,
+    "freeDocks": 9,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.219510+00:00Z"
   },
   {
     "id": "137",
@@ -1243,7 +1645,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48903338344832,
     "lng": -0.3798963873712934,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 5,
+    "freeDocks": 15,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.241579+00:00Z"
   },
   {
     "id": "138",
@@ -1252,7 +1657,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48819038284581,
     "lng": -0.38422240207482833,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 6,
+    "freeDocks": 14,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.231493+00:00Z"
   },
   {
     "id": "139",
@@ -1261,7 +1669,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.485706374097916,
     "lng": -0.38287339995719183,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 13,
+    "freeDocks": 2,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.213570+00:00Z"
   },
   {
     "id": "140",
@@ -1270,7 +1681,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48800438494039,
     "lng": -0.3896004206542252,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 9,
+    "freeDocks": 11,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.324519+00:00Z"
   },
   {
     "id": "141",
@@ -1279,7 +1693,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.483268367245344,
     "lng": -0.3851564091174212,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 8,
+    "freeDocks": 12,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.225124+00:00Z"
   },
   {
     "id": "142",
@@ -1288,7 +1705,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48192036501599,
     "lng": -0.38965942617943544,
     "cap": 25,
-    "currentBikes": 12
+    "currentBikes": 0,
+    "freeDocks": 25,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.213912+00:00Z"
   },
   {
     "id": "143",
@@ -1297,7 +1717,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.4795373575288,
     "lng": -0.39093643241708165,
     "cap": 30,
-    "currentBikes": 15
+    "currentBikes": 1,
+    "freeDocks": 29,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.263590+00:00Z"
   },
   {
     "id": "144",
@@ -1306,7 +1729,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.4787793569025,
     "lng": -0.39548044804080085,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 5,
+    "freeDocks": 10,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.305740+00:00Z"
   },
   {
     "id": "145",
@@ -1315,7 +1741,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48154736759815,
     "lng": -0.398395456094638,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 0,
+    "freeDocks": 14,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.241847+00:00Z"
   },
   {
     "id": "146",
@@ -1323,8 +1752,11 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "address": "Av. Campanar (La Fe)",
     "lat": 39.48511037548845,
     "lng": -0.3909524281114989,
-    "cap": 26,
-    "currentBikes": 13
+    "cap": 30,
+    "currentBikes": 0,
+    "freeDocks": 30,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.219646+00:00Z"
   },
   {
     "id": "147",
@@ -1333,7 +1765,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47320133107913,
     "lng": -0.3802074001545322,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 0,
+    "freeDocks": 13,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.243381+00:00Z"
   },
   {
     "id": "148",
@@ -1342,7 +1777,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46714522461298,
     "lng": -0.3753782937388751,
     "cap": 35,
-    "currentBikes": 17
+    "currentBikes": 0,
+    "freeDocks": 35,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.257905+00:00Z"
   },
   {
     "id": "149",
@@ -1351,7 +1789,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.462934287947085,
     "lng": -0.36179534600499663,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 17,
+    "freeDocks": 3,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.245247+00:00Z"
   },
   {
     "id": "150",
@@ -1369,7 +1810,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.464669282422186,
     "lng": -0.33711726031421224,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 19,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.308052+00:00Z"
   },
   {
     "id": "152",
@@ -1378,7 +1822,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.460925286769694,
     "lng": -0.3727053849231208,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 8,
+    "freeDocks": 7,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.307282+00:00Z"
   },
   {
     "id": "153",
@@ -1387,7 +1834,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48305822805289,
     "lng": -0.3805912745331588,
     "cap": 24,
-    "currentBikes": 12
+    "currentBikes": 12,
+    "freeDocks": 10,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.220477+00:00Z"
   },
   {
     "id": "154",
@@ -1396,7 +1846,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.469876296228996,
     "lng": -0.3295542305651281,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 2,
+    "freeDocks": 12,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.325850+00:00Z"
   },
   {
     "id": "155",
@@ -1405,7 +1858,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46495329574819,
     "lng": -0.3630783484267159,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 5,
+    "freeDocks": 12,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.225612+00:00Z"
   },
   {
     "id": "156",
@@ -1414,7 +1870,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46096428829767,
     "lng": -0.3763453968184098,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 10,
+    "freeDocks": 2,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.216799+00:00Z"
   },
   {
     "id": "157",
@@ -1423,7 +1882,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46405230416093,
     "lng": -0.38736643250783204,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 5,
+    "freeDocks": 13,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.281974+00:00Z"
   },
   {
     "id": "158",
@@ -1432,7 +1894,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46669828513057,
     "lng": -0.3277192268301427,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 0,
+    "freeDocks": 15,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.303483+00:00Z"
   },
   {
     "id": "159",
@@ -1441,7 +1906,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.463449276866356,
     "lng": -0.3347222532485526,
     "cap": 17,
-    "currentBikes": 8
+    "currentBikes": 5,
+    "freeDocks": 9,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.253135+00:00Z"
   },
   {
     "id": "160",
@@ -1450,7 +1918,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.467336291769534,
     "lng": -0.33898126470999496,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 19,
+    "freeDocks": 1,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.254530+00:00Z"
   },
   {
     "id": "161",
@@ -1459,7 +1930,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46796929073871,
     "lng": -0.3317262387298495,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 3,
+    "freeDocks": 12,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.296902+00:00Z"
   },
   {
     "id": "162",
@@ -1468,7 +1942,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46360427573933,
     "lng": -0.3297952360224295,
     "cap": 19,
-    "currentBikes": 9
+    "currentBikes": 1,
+    "freeDocks": 17,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.304571+00:00Z"
   },
   {
     "id": "163",
@@ -1477,7 +1954,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46443727525528,
     "lng": -0.3234012136184579,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 0,
+    "freeDocks": 20,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.236302+00:00Z"
   },
   {
     "id": "164",
@@ -1486,7 +1966,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46846028903177,
     "lng": -0.3246342149862025,
     "cap": 17,
-    "currentBikes": 8
+    "currentBikes": 1,
+    "freeDocks": 16,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.221213+00:00Z"
   },
   {
     "id": "165",
@@ -1495,7 +1978,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.471409299035706,
     "lng": -0.3245702116150898,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 1,
+    "freeDocks": 19,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.253312+00:00Z"
   },
   {
     "id": "166",
@@ -1504,7 +1990,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47334930757559,
     "lng": -0.32881122495787873,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 0,
+    "freeDocks": 15,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.255300+00:00Z"
   },
   {
     "id": "167",
@@ -1513,7 +2002,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.474908310742784,
     "lng": -0.3246102088459378,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 2,
+    "freeDocks": 16,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.258453+00:00Z"
   },
   {
     "id": "168",
@@ -1522,7 +2014,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47687131828106,
     "lng": -0.32788721869941045,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 14,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.215339+00:00Z"
   },
   {
     "id": "169",
@@ -1531,7 +2026,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47878532308192,
     "lng": -0.32464520634897104,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 20,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.303348+00:00Z"
   },
   {
     "id": "170",
@@ -1540,7 +2038,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.482973337910934,
     "lng": -0.32533420529241996,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 20,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.215726+00:00Z"
   },
   {
     "id": "171",
@@ -1549,7 +2050,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.483060339803416,
     "lng": -0.32900821806202085,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 15,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.256790+00:00Z"
   },
   {
     "id": "172",
@@ -1558,7 +2062,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48146236504626,
     "lng": -0.3933454386575609,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 0,
+    "freeDocks": 20,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.239198+00:00Z"
   },
   {
     "id": "173",
@@ -1567,7 +2074,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.484541375368174,
     "lng": -0.394678441209281,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 0,
+    "freeDocks": 20,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.303140+00:00Z"
   },
   {
     "id": "174",
@@ -1576,7 +2086,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.489438388167024,
     "lng": -0.38664740957644866,
     "cap": 19,
-    "currentBikes": 9
+    "currentBikes": 8,
+    "freeDocks": 10,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.330066+00:00Z"
   },
   {
     "id": "175",
@@ -1585,7 +2098,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.49258939642365,
     "lng": -0.38271239433339566,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 0,
+    "freeDocks": 15,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.293812+00:00Z"
   },
   {
     "id": "176",
@@ -1594,7 +2110,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.49201739310727,
     "lng": -0.378853381402734,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 20,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.324050+00:00Z"
   },
   {
     "id": "177",
@@ -1603,7 +2122,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.493545396079504,
     "lng": -0.3734883620528129,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 13,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.328536+00:00Z"
   },
   {
     "id": "178",
@@ -1612,7 +2134,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.49221639017785,
     "lng": -0.3705063522665271,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 20,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.298588+00:00Z"
   },
   {
     "id": "179",
@@ -1621,7 +2146,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45547226612543,
     "lng": -0.36642636792637634,
     "cap": 23,
-    "currentBikes": 11
+    "currentBikes": 16,
+    "freeDocks": 7,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.283168+00:00Z"
   },
   {
     "id": "180",
@@ -1630,7 +2158,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45602126922772,
     "lng": -0.3706833820688013,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 19,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.213356+00:00Z"
   },
   {
     "id": "181",
@@ -1639,7 +2170,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45799927509706,
     "lng": -0.3681913713233589,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 13,
+    "freeDocks": 2,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.321403+00:00Z"
   },
   {
     "id": "182",
@@ -1648,7 +2182,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.455432269344854,
     "lng": -0.37496539716978367,
     "cap": 21,
-    "currentBikes": 10
+    "currentBikes": 20,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.322385+00:00Z"
   },
   {
     "id": "183",
@@ -1657,7 +2194,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45262025913349,
     "lng": -0.3722843899417025,
     "cap": 18,
-    "currentBikes": 9
+    "currentBikes": 18,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.254051+00:00Z"
   },
   {
     "id": "184",
@@ -1666,7 +2206,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45278225629358,
     "lng": -0.36557036636455215,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 1,
+    "freeDocks": 14,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.240870+00:00Z"
   },
   {
     "id": "185",
@@ -1675,7 +2218,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45004424948915,
     "lng": -0.3705033850186671,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 11,
+    "freeDocks": 4,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.211983+00:00Z"
   },
   {
     "id": "186",
@@ -1684,7 +2230,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45039125246078,
     "lng": -0.3740153970137416,
     "cap": 14,
-    "currentBikes": 7
+    "currentBikes": 14,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.328325+00:00Z"
   },
   {
     "id": "187",
@@ -1693,7 +2242,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.447960241518516,
     "lng": -0.3688183809361798,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 9,
+    "freeDocks": 6,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.282495+00:00Z"
   },
   {
     "id": "188",
@@ -1702,7 +2254,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.44462122517277,
     "lng": -0.3751583239336074,
     "cap": 40,
-    "currentBikes": 20
+    "currentBikes": 0,
+    "freeDocks": 40,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.257444+00:00Z"
   },
   {
     "id": "189",
@@ -1711,7 +2266,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.44477922701873,
     "lng": -0.37706532415787625,
     "cap": 30,
-    "currentBikes": 15
+    "currentBikes": 2,
+    "freeDocks": 28,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.308882+00:00Z"
   },
   {
     "id": "190",
@@ -1719,8 +2277,11 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "address": "Cra. Malilla - Bulevar Sur",
     "lat": 39.44608224133691,
     "lng": -0.38029642271654757,
-    "cap": 18,
-    "currentBikes": 9
+    "cap": 15,
+    "currentBikes": 13,
+    "freeDocks": 2,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.317204+00:00Z"
   },
   {
     "id": "191",
@@ -1729,7 +2290,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45032925434954,
     "lng": -0.37886641388495107,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 12,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.215085+00:00Z"
   },
   {
     "id": "192",
@@ -1738,7 +2302,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45263726161547,
     "lng": -0.3787144113919625,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 19,
+    "freeDocks": 1,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.223577+00:00Z"
   },
   {
     "id": "193",
@@ -1747,7 +2314,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45514627443484,
     "lng": -0.386718436578698,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 18,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.258680+00:00Z"
   },
   {
     "id": "194",
@@ -1756,7 +2326,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.461018290993636,
     "lng": -0.38097441235847007,
     "cap": 40,
-    "currentBikes": 20
+    "currentBikes": 3,
+    "freeDocks": 36,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.285809+00:00Z"
   },
   {
     "id": "195",
@@ -1765,7 +2338,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.459384287208486,
     "lng": -0.3842814248129742,
     "cap": 16,
-    "currentBikes": 8
+    "currentBikes": 11,
+    "freeDocks": 4,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.326160+00:00Z"
   },
   {
     "id": "196",
@@ -1774,7 +2350,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45957528956863,
     "lng": -0.3880664379854734,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 10,
+    "freeDocks": 1,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.231050+00:00Z"
   },
   {
     "id": "197",
@@ -1783,7 +2362,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.458184286737165,
     "lng": -0.39233345436447337,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 6,
+    "freeDocks": 7,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.216990+00:00Z"
   },
   {
     "id": "198",
@@ -1792,7 +2374,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46088029740053,
     "lng": -0.395316462028443,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 5,
+    "freeDocks": 15,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.292151+00:00Z"
   },
   {
     "id": "199",
@@ -1801,7 +2386,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46158829801141,
     "lng": -0.39155844823975844,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 9,
+    "freeDocks": 6,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.246826+00:00Z"
   },
   {
     "id": "200",
@@ -1810,7 +2398,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.467737319045916,
     "lng": -0.3932144497376184,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 4,
+    "freeDocks": 11,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.236640+00:00Z"
   },
   {
     "id": "201",
@@ -1819,7 +2410,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47171233289752,
     "lng": -0.39366844724894096,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 9,
+    "freeDocks": 9,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.282232+00:00Z"
   },
   {
     "id": "202",
@@ -1828,7 +2422,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47622234753723,
     "lng": -0.39333444304417053,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 6,
+    "freeDocks": 12,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.224178+00:00Z"
   },
   {
     "id": "203",
@@ -1837,7 +2434,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48460937883364,
     "lng": -0.40118246297404103,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 9,
+    "freeDocks": 6,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.216543+00:00Z"
   },
   {
     "id": "204",
@@ -1846,7 +2446,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.485843380594176,
     "lng": -0.3965874461307865,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 0,
+    "freeDocks": 20,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.303978+00:00Z"
   },
   {
     "id": "205",
@@ -1855,7 +2458,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48928739053543,
     "lng": -0.3930904323547156,
     "cap": 24,
-    "currentBikes": 12
+    "currentBikes": 6,
+    "freeDocks": 18,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.233134+00:00Z"
   },
   {
     "id": "206",
@@ -1864,7 +2470,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.49271239990425,
     "lng": -0.38900741524280136,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 5,
+    "freeDocks": 10,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.284033+00:00Z"
   },
   {
     "id": "207",
@@ -1873,7 +2482,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45539327294658,
     "lng": -0.381905420300487,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 8,
+    "freeDocks": 6,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.221378+00:00Z"
   },
   {
     "id": "208",
@@ -1882,7 +2494,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.451692263769644,
     "lng": -0.38857844617931064,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 10,
+    "freeDocks": 9,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.304066+00:00Z"
   },
   {
     "id": "209",
@@ -1890,8 +2505,11 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "address": "Gaspar Aguilar - Músico Penella",
     "lat": 39.45208226727133,
     "lng": -0.39301546105732643,
-    "cap": 18,
-    "currentBikes": 9
+    "cap": 17,
+    "currentBikes": 4,
+    "freeDocks": 13,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.315546+00:00Z"
   },
   {
     "id": "210",
@@ -1900,7 +2518,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45555328036534,
     "lng": -0.39671647037206986,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 4,
+    "freeDocks": 11,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.284534+00:00Z"
   },
   {
     "id": "211",
@@ -1909,7 +2530,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45872629171394,
     "lng": -0.3977574716661004,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 3,
+    "freeDocks": 12,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.303403+00:00Z"
   },
   {
     "id": "212",
@@ -1918,7 +2542,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46148430130945,
     "lng": -0.40039647823746194,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 0,
+    "freeDocks": 15,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.328078+00:00Z"
   },
   {
     "id": "213",
@@ -1927,7 +2554,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.463165305912604,
     "lng": -0.39697246591763863,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 3,
+    "freeDocks": 12,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.242289+00:00Z"
   },
   {
     "id": "214",
@@ -1936,7 +2566,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.464932313028335,
     "lng": -0.4005764763988502,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 2,
+    "freeDocks": 13,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.237637+00:00Z"
   },
   {
     "id": "215",
@@ -1945,7 +2578,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46567131414367,
     "lng": -0.39674846254882856,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 0,
+    "freeDocks": 15,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.217697+00:00Z"
   },
   {
     "id": "216",
@@ -1954,7 +2590,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.469162243634074,
     "lng": -0.3994613007254756,
     "cap": 17,
-    "currentBikes": 8
+    "currentBikes": 1,
+    "freeDocks": 15,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.218683+00:00Z"
   },
   {
     "id": "217",
@@ -1963,7 +2602,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47032833321364,
     "lng": -0.40459648652865626,
     "cap": 25,
-    "currentBikes": 12
+    "currentBikes": 6,
+    "freeDocks": 18,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.250592+00:00Z"
   },
   {
     "id": "218",
@@ -1972,7 +2614,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47074033078547,
     "lng": -0.3973844614710405,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 7,
+    "freeDocks": 8,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.224813+00:00Z"
   },
   {
     "id": "219",
@@ -1981,7 +2626,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47265724610551,
     "lng": -0.40303029799024204,
     "cap": 18,
-    "currentBikes": 9
+    "currentBikes": 5,
+    "freeDocks": 12,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.285923+00:00Z"
   },
   {
     "id": "220",
@@ -1990,7 +2638,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47385534208041,
     "lng": -0.3983214623957442,
     "cap": 16,
-    "currentBikes": 8
+    "currentBikes": 14,
+    "freeDocks": 1,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.293476+00:00Z"
   },
   {
     "id": "221",
@@ -1999,7 +2650,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.475270348637764,
     "lng": -0.4028534760386356,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 5,
+    "freeDocks": 15,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.247442+00:00Z"
   },
   {
     "id": "222",
@@ -2008,7 +2662,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47689335174765,
     "lng": -0.39728245609920837,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 2,
+    "freeDocks": 18,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.319906+00:00Z"
   },
   {
     "id": "223",
@@ -2017,7 +2674,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47855835893999,
     "lng": -0.4011874677803583,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 1,
+    "freeDocks": 19,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.297073+00:00Z"
   },
   {
     "id": "224",
@@ -2026,7 +2686,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.480568366964896,
     "lng": -0.40358847435527895,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 3,
+    "freeDocks": 16,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.314317+00:00Z"
   },
   {
     "id": "225",
@@ -2035,7 +2698,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.488107390420495,
     "lng": -0.40114246019172434,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 0,
+    "freeDocks": 20,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.284224+00:00Z"
   },
   {
     "id": "226",
@@ -2044,7 +2710,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.49086439918327,
     "lng": -0.3988594505654264,
     "cap": 30,
-    "currentBikes": 15
+    "currentBikes": 2,
+    "freeDocks": 26,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.225789+00:00Z"
   },
   {
     "id": "227",
@@ -2053,7 +2722,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.49024839844318,
     "lng": -0.40293146422681364,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 1,
+    "freeDocks": 19,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.242463+00:00Z"
   },
   {
     "id": "228",
@@ -2062,7 +2734,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.4936924079167,
     "lng": -0.398671446907537,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 1,
+    "freeDocks": 14,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.215520+00:00Z"
   },
   {
     "id": "229",
@@ -2071,7 +2746,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.493104403991694,
     "lng": -0.39480643424749534,
     "cap": 16,
-    "currentBikes": 8
+    "currentBikes": 5,
+    "freeDocks": 11,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.251048+00:00Z"
   },
   {
     "id": "230",
@@ -2080,7 +2758,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.49475040560395,
     "lng": -0.38678440634001116,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 6,
+    "freeDocks": 9,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.308377+00:00Z"
   },
   {
     "id": "231",
@@ -2089,7 +2770,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.49507240298451,
     "lng": -0.3786213772644184,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 5,
+    "freeDocks": 10,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.296581+00:00Z"
   },
   {
     "id": "232",
@@ -2098,7 +2782,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.49464439592328,
     "lng": -0.36575333473149996,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 8,
+    "freeDocks": 7,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.329495+00:00Z"
   },
   {
     "id": "233",
@@ -2107,7 +2794,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.497160406039164,
     "lng": -0.36943734517384297,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 9,
+    "freeDocks": 6,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.233549+00:00Z"
   },
   {
     "id": "234",
@@ -2116,7 +2806,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.49649940567526,
     "lng": -0.3736443597891149,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 14,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.318475+00:00Z"
   },
   {
     "id": "235",
@@ -2125,7 +2818,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.49804541205544,
     "lng": -0.3772033703255944,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 8,
+    "freeDocks": 7,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.259731+00:00Z"
   },
   {
     "id": "236",
@@ -2134,7 +2830,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.49506640496422,
     "lng": -0.38227839001583847,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 3,
+    "freeDocks": 12,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.299338+00:00Z"
   },
   {
     "id": "237",
@@ -2143,7 +2842,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.494758407776374,
     "lng": -0.39103842063587124,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 2,
+    "freeDocks": 12,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.240088+00:00Z"
   },
   {
     "id": "238",
@@ -2152,7 +2854,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.497449418355934,
     "lng": -0.39438342966293366,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 5,
+    "freeDocks": 10,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.328852+00:00Z"
   },
   {
     "id": "239",
@@ -2161,7 +2866,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.4969854198013,
     "lng": -0.39996444953107335,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 1,
+    "freeDocks": 18,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.237123+00:00Z"
   },
   {
     "id": "240",
@@ -2170,7 +2878,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.495004413973305,
     "lng": -0.40154745608135123,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 0,
+    "freeDocks": 18,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.288391+00:00Z"
   },
   {
     "id": "241",
@@ -2179,7 +2890,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.49297840711153,
     "lng": -0.4018904586642118,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 0,
+    "freeDocks": 15,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.323805+00:00Z"
   },
   {
     "id": "242",
@@ -2188,7 +2902,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.487907391410516,
     "lng": -0.4041974712326189,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 2,
+    "freeDocks": 12,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.296089+00:00Z"
   },
   {
     "id": "243",
@@ -2197,7 +2914,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46282029901061,
     "lng": -0.3845424236611566,
     "cap": 18,
-    "currentBikes": 9
+    "currentBikes": 0,
+    "freeDocks": 18,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.254204+00:00Z"
   },
   {
     "id": "244",
@@ -2206,7 +2926,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47850636088407,
     "lng": -0.40613648554970433,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 1,
+    "freeDocks": 19,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.245715+00:00Z"
   },
   {
     "id": "245",
@@ -2215,7 +2938,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47213024806011,
     "lng": -0.40527029936434095,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 5,
+    "freeDocks": 14,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.289085+00:00Z"
   },
   {
     "id": "246",
@@ -2224,7 +2950,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.469090330003425,
     "lng": -0.4065094941412157,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 0,
+    "freeDocks": 20,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.266166+00:00Z"
   },
   {
     "id": "247",
@@ -2233,7 +2962,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.467410323935766,
     "lng": -0.4055734914728698,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 3,
+    "freeDocks": 12,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.252508+00:00Z"
   },
   {
     "id": "248",
@@ -2242,7 +2974,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46284030885798,
     "lng": -0.40496949382893443,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 1,
+    "freeDocks": 19,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.253463+00:00Z"
   },
   {
     "id": "249",
@@ -2251,7 +2986,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.459506295875165,
     "lng": -0.4027404883331656,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 0,
+    "freeDocks": 15,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.240445+00:00Z"
   },
   {
     "id": "250",
@@ -2260,7 +2998,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.456352245577065,
     "lng": -0.4008070181198941,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 9,
+    "freeDocks": 5,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.261188+00:00Z"
   },
   {
     "id": "251",
@@ -2269,7 +3010,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45583028505104,
     "lng": -0.4044134972721287,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 4,
+    "freeDocks": 11,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.298005+00:00Z"
   },
   {
     "id": "252",
@@ -2278,7 +3022,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45028826570709,
     "lng": -0.40357449843597065,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 9,
+    "freeDocks": 9,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.219198+00:00Z"
   },
   {
     "id": "253",
@@ -2287,7 +3034,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45272627278094,
     "lng": -0.4011014879360589,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 11,
+    "freeDocks": 4,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.214292+00:00Z"
   },
   {
     "id": "254",
@@ -2296,7 +3046,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.447714251158565,
     "lng": -0.3899174536874086,
     "cap": 19,
-    "currentBikes": 9
+    "currentBikes": 6,
+    "freeDocks": 12,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.235409+00:00Z"
   },
   {
     "id": "255",
@@ -2305,7 +3058,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.447703249066144,
     "lng": -0.38602944085901075,
     "cap": 18,
-    "currentBikes": 9
+    "currentBikes": 3,
+    "freeDocks": 15,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.322005+00:00Z"
   },
   {
     "id": "256",
@@ -2314,7 +3070,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46396330656933,
     "lng": -0.39223544845537966,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 12,
+    "freeDocks": 2,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.326411+00:00Z"
   },
   {
     "id": "257",
@@ -2323,7 +3082,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.44525124234686,
     "lng": -0.38910445245389036,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 2,
+    "freeDocks": 17,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.304251+00:00Z"
   },
   {
     "id": "258",
@@ -2332,7 +3094,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.43982822413676,
     "lng": -0.3891374575312111,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 7,
+    "freeDocks": 7,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.307051+00:00Z"
   },
   {
     "id": "259",
@@ -2341,7 +3106,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.44546024514969,
     "lng": -0.3930154660803912,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 18,
+    "freeDocks": 2,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.219580+00:00Z"
   },
   {
     "id": "260",
@@ -2350,7 +3118,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45955629873093,
     "lng": -0.4072175039832668,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 6,
+    "freeDocks": 14,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.258057+00:00Z"
   },
   {
     "id": "261",
@@ -2359,7 +3130,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.47667632834523,
     "lng": -0.35037729588168837,
     "cap": 19,
-    "currentBikes": 9
+    "currentBikes": 1,
+    "freeDocks": 18,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.234223+00:00Z"
   },
   {
     "id": "262",
@@ -2368,7 +3142,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.463472312903384,
     "lng": -0.40922550688289966,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 0,
+    "freeDocks": 19,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.219271+00:00Z"
   },
   {
     "id": "263",
@@ -2377,7 +3154,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.467043324648515,
     "lng": -0.4096445056541294,
     "cap": 18,
-    "currentBikes": 9
+    "currentBikes": 4,
+    "freeDocks": 14,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.243990+00:00Z"
   },
   {
     "id": "264",
@@ -2386,7 +3166,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46916033373618,
     "lng": -0.4144325204450301,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 15,
+    "freeDocks": 5,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.294071+00:00Z"
   },
   {
     "id": "265",
@@ -2395,7 +3178,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.470973337167365,
     "lng": -0.40811749816977394,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 1,
+    "freeDocks": 14,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.251859+00:00Z"
   },
   {
     "id": "266",
@@ -2404,7 +3190,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.49028940014262,
     "lng": -0.40637147642320165,
     "cap": 18,
-    "currentBikes": 9
+    "currentBikes": 4,
+    "freeDocks": 13,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.285202+00:00Z"
   },
   {
     "id": "267",
@@ -2412,8 +3201,11 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "address": "Beniferri - Vicent Tomás Martí",
     "lat": 39.49416841275147,
     "lng": -0.4059294716064297,
-    "cap": 16,
-    "currentBikes": 8
+    "cap": 15,
+    "currentBikes": 8,
+    "freeDocks": 7,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.288691+00:00Z"
   },
   {
     "id": "268",
@@ -2422,7 +3214,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.50144544298018,
     "lng": -0.41849350927046264,
     "cap": 10,
-    "currentBikes": 5
+    "currentBikes": 9,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.319132+00:00Z"
   },
   {
     "id": "269",
@@ -2431,7 +3226,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.49990744160243,
     "lng": -0.42626353678444817,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 5,
+    "freeDocks": 10,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.292881+00:00Z"
   },
   {
     "id": "270",
@@ -2440,7 +3238,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.50007542649037,
     "lng": -0.39288942312141745,
     "cap": 16,
-    "currentBikes": 8
+    "currentBikes": 14,
+    "freeDocks": 2,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.216154+00:00Z"
   },
   {
     "id": "271",
@@ -2449,7 +3250,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.49927942267903,
     "lng": -0.38989141267304944,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 3,
+    "freeDocks": 12,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.252029+00:00Z"
   },
   {
     "id": "272",
@@ -2458,7 +3262,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.48062333339468,
     "lng": -0.33219023115385166,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 12,
+    "freeDocks": 3,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.327517+00:00Z"
   },
   {
     "id": "273",
@@ -2467,7 +3274,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.450305232524904,
     "lng": -0.3332722584595297,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 14,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.321761+00:00Z"
   },
   {
     "id": "274",
@@ -2476,7 +3286,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.44807022576504,
     "lng": -0.3331882593063431,
     "cap": 15,
-    "currentBikes": 7
+    "currentBikes": 15,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.253875+00:00Z"
   },
   {
     "id": "275",
@@ -2485,7 +3298,10 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.45230524022502,
     "lng": -0.3350652633218127,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 19,
+    "freeDocks": 0,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.260712+00:00Z"
   },
   {
     "id": "276",
@@ -2494,6 +3310,9 @@ export const DEFAULT_STATIONS: MapStation[] = [
     "lat": 39.46197526682713,
     "lng": -0.32376521655842594,
     "cap": 20,
-    "currentBikes": 10
+    "currentBikes": 0,
+    "freeDocks": 20,
+    "isOpen": true,
+    "updatedAt": "2026-10-14T23:30:55.327076+00:00Z"
   }
 ];

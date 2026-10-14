@@ -350,21 +350,46 @@ export default function App() {
   const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
   const [mapSearchQuery, setMapSearchQuery] = useState('');
 
-  // EFECTO PARA CARGOS DE DATOS REALES DEL MAPA Y FAVORITAS
+  // EFECTO PARA CARGOS DE DATOS REALES DEL MAPA Y FAVORITAS (POLLING ACTIVO 30s)
   useEffect(() => {
-    fetch(getApiUrl('/api/estaciones'))
-      .then(res => {
-        if (!res.ok) throw new Error(`HTTP error ${res.status}`);
-        return res.json();
-      })
-      .then(data => {
-        if (Array.isArray(data) && data.length > 0) {
-          setMapStations(data);
-        }
-      })
-      .catch(err => {
-        console.warn('API /api/estaciones no disponible, manteniendo dataset base local:', err);
-      });
+    let isMounted = true;
+    const fetchStations = () => {
+      fetch(getApiUrl('/api/estaciones'))
+        .then(res => {
+          if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+          return res.json();
+        })
+        .then(data => {
+          if (isMounted && Array.isArray(data) && data.length > 0) {
+            setMapStations(data);
+          }
+        })
+        .catch(err => {
+          console.warn('API /api/estaciones no disponible, manteniendo dataset base local:', err);
+        });
+    };
+
+    // 1. Carga inicial
+    fetchStations();
+
+    // 2. Polling cada 30 segundos para refrescar bicicletas en tiempo real
+    const interval = setInterval(fetchStations, 30000);
+
+    // 3. Sincronización inmediata al volver a enfocar la pestaña
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') {
+        fetchStations();
+      }
+    };
+    window.addEventListener('focus', fetchStations);
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+      window.removeEventListener('focus', fetchStations);
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
   }, []);
 
   // Sincronizar favoritas de la base de datos si el usuario está logueado
@@ -586,6 +611,10 @@ export default function App() {
     temp?: number;
     prec?: number;
     probabilidad_disponible?: number | null;
+    current_bikes?: number;
+    free_docks?: number;
+    is_open?: boolean;
+    updated_at?: string;
   } | null>(null);
 
   // --- LÓGICA DE API (Fetch Simulado para Integración Futura) ---
@@ -641,9 +670,13 @@ export default function App() {
         yhat: data.bicicletas_disponibles,
         yhat_lower: data.yhat_lower,
         yhat_upper: data.yhat_upper,
-        cap: data.cap || 30,
+        cap: data.cap || (matchedStation ? matchedStation.cap : 30),
         occupancy: data.occupancy,
-        probabilidad_disponible: data.probabilidad_disponible
+        probabilidad_disponible: data.probabilidad_disponible,
+        current_bikes: data.current_bikes !== undefined ? data.current_bikes : matchedStation?.currentBikes,
+        free_docks: data.free_docks !== undefined ? data.free_docks : matchedStation?.freeDocks,
+        is_open: data.is_open !== undefined ? data.is_open : matchedStation?.isOpen,
+        updated_at: data.updated_at || matchedStation?.updatedAt
       });
       setShowMap(false);
 
@@ -1023,8 +1056,12 @@ export default function App() {
                                 #{station.id} • {t.predCapacity}: <span className="text-slate-800 font-extrabold">{station.cap} {t.mapTotalBases}</span>
                               </p>
                               {station.currentBikes !== undefined && (
-                                <p className="text-blue-600 font-extrabold text-[11px]">
-                                  🚲 {station.currentBikes} {t.realTimeBikes}
+                                <p className="text-blue-600 font-extrabold text-[11px] flex items-center gap-1">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                  <span>🚲 {station.currentBikes} {t.realTimeBikes}</span>
+                                  {station.freeDocks !== undefined && (
+                                    <span className="text-slate-500 font-normal">({station.freeDocks} {t.liveFreeDocks})</span>
+                                  )}
                                 </p>
                               )}
                               {ESTACIONES_ROTAS.includes(parseInt(station.id, 10)) && (
@@ -1043,7 +1080,8 @@ export default function App() {
                                 <strong className="text-[#2f3b5c] text-sm font-black">{station.cap}</strong> {t.mapTotalBases}
                                 {station.currentBikes !== undefined && (
                                   <span className="block text-blue-600 font-bold mt-0.5">
-                                    ({station.currentBikes} {t.availableBikes})
+                                    🚲 {station.currentBikes} {t.availableBikes}
+                                    {station.freeDocks !== undefined ? ` • ${station.freeDocks} ${t.liveFreeDocks}` : ''}
                                   </span>
                                 )}
                               </p>
@@ -1119,6 +1157,43 @@ export default function App() {
                     </div>
                   </div>
 
+                  {/* CARD DE ESTADO EN DIRECTO / TIEMPO REAL */}
+                  <div className="mb-6 p-4 rounded-2xl bg-slate-50/90 border border-slate-200/80 flex flex-wrap items-center justify-between gap-3 shadow-xs">
+                    <div className="flex items-center gap-3">
+                      <span className="relative flex h-3 w-3">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                      </span>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-black uppercase tracking-wider text-slate-800">
+                            {t.liveNowTitle}
+                          </span>
+                          <span className="px-2 py-0.5 rounded text-[10px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                            LIVE VALENBISI
+                          </span>
+                        </div>
+                        <p className="text-sm text-slate-600 mt-0.5">
+                          {prediction.current_bikes !== undefined ? (
+                            <>
+                              <strong className="text-slate-900 font-black text-base">{prediction.current_bikes}</strong> {t.liveBikesNow}
+                              {prediction.free_docks !== undefined && (
+                                <> • <strong className="text-slate-900 font-black text-base">{prediction.free_docks}</strong> {t.liveFreeDocks}</>
+                              )}
+                            </>
+                          ) : (
+                            <span className="text-slate-400 text-xs">Sincronizando estado en vivo...</span>
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                    {prediction.updated_at && (
+                      <span className="text-[11px] font-mono text-slate-400 bg-white px-2.5 py-1 rounded-lg border border-slate-200 shadow-xs">
+                        {t.liveUpdated}: {new Date(prediction.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                    )}
+                  </div>
+
                   {prediction.model_available === false ? (
                     <div className="text-center py-6 px-4">
                       <div className="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-amber-100">
@@ -1130,11 +1205,15 @@ export default function App() {
                     <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10">
                       {/* NÚMERO GIGANTE (yhat) */}
                       <div className="text-center flex-shrink-0" id="texto_resultado">
-                        <p className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2">{t.predBikesAvailable}</p>
+                        <p className="text-xs font-bold text-blue-600 uppercase tracking-wider mb-2 bg-blue-50 py-1 px-2.5 rounded-lg inline-block">
+                          🔮 {t.predBikesAvailable}
+                        </p>
                         <div className="text-7xl md:text-8xl font-black text-[#2f3b5c] tracking-tighter tabular-nums drop-shadow-sm">
                           {prediction.yhat}
                         </div>
-                        <p className="text-slate-600 font-medium mt-2">{t.predBikesAvailable}: {prediction.yhat}</p>
+                        <p className="text-slate-500 text-xs font-medium mt-2">
+                          {t.predFor} {new Date(dateTime).toLocaleDateString([], { day: 'numeric', month: 'short' })}, {new Date(dateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </p>
                       </div>
 
                       {/* GRÁFICO TIPO GAUGE / BARRA DE PROGRESO */}

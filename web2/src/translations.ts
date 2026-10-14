@@ -43,6 +43,12 @@ export interface Translations {
   predTemperature: string;
   predRain: string;
   predAvailableTag: string;
+  liveNowTitle: string;
+  liveBikesNow: string;
+  liveFreeDocks: string;
+  liveStatusOpen: string;
+  liveStatusClosed: string;
+  liveUpdated: string;
 
   // Map View & Controls
   mapTitle: string;
@@ -181,6 +187,12 @@ export const translations: Record<Language, Translations> = {
     predTemperature: "Temperatura",
     predRain: "Precipitació",
     predAvailableTag: "disponible",
+    liveNowTitle: "En directe ara mateix",
+    liveBikesNow: "bicis disponibles ara",
+    liveFreeDocks: "ancoratges lliures",
+    liveStatusOpen: "Estació operativa",
+    liveStatusClosed: "Estació tancada",
+    liveUpdated: "Actualitzat",
 
     mapTitle: "Mapa Interactiu d'Estacions",
     mapSubtitle: "Fes clic en una estació per a seleccionar-la i fer prediccions directes",
@@ -314,6 +326,12 @@ export const translations: Record<Language, Translations> = {
     predTemperature: "Temperatura",
     predRain: "Precipitación",
     predAvailableTag: "disponible",
+    liveNowTitle: "En directo ahora mismo",
+    liveBikesNow: "bicis disponibles ahora",
+    liveFreeDocks: "anclajes libres",
+    liveStatusOpen: "Estación operativa",
+    liveStatusClosed: "Estación cerrada",
+    liveUpdated: "Actualizado",
 
     mapTitle: "Mapa Interactivo de Estaciones",
     mapSubtitle: "Haz clic en una estación para seleccionarla y realizar predicciones directas",
@@ -447,6 +465,12 @@ export const translations: Record<Language, Translations> = {
     predTemperature: "Temperature",
     predRain: "Precipitation",
     predAvailableTag: "available",
+    liveNowTitle: "Live right now",
+    liveBikesNow: "bikes available now",
+    liveFreeDocks: "free docks",
+    liveStatusOpen: "Station active",
+    liveStatusClosed: "Station closed",
+    liveUpdated: "Updated",
 
     mapTitle: "Interactive Stations Map",
     mapSubtitle: "Click on any station to select it and run direct forecasts",
