@@ -39,11 +39,19 @@ def preparar_datos_prediccion(fecha_usuario):
     # 3. BUSCADOR: Convertimos la lista de tiempos de la API a fechas y buscamos la nuestra
     tiempos_api = pd.to_datetime(respuesta['hourly']['time'])
     
-    try:
-        # Encontramos la posición (índice) exacta de la hora solicitada
-        indice = tiempos_api.get_loc(fecha_objetivo)
-    except KeyError:
-        return "❌ Error: La fecha solicitada está fuera del rango de predicción de la API (máx 7 días)."
+    # Manejo robusto de fechas: si la fecha cae ligeramente antes del primer pronóstico o después del último,
+    # usamos el límite disponible más cercano sin fallar
+    if fecha_objetivo <= tiempos_api[0]:
+        indice = 0
+    elif fecha_objetivo >= tiempos_api[-1]:
+        indice = len(tiempos_api) - 1
+    else:
+        try:
+            indice = tiempos_api.get_loc(fecha_objetivo)
+        except KeyError:
+            # Seleccionar la hora más próxima disponible
+            diferencias = (tiempos_api - fecha_objetivo).abs()
+            indice = int(diferencias.argmin())
 
     # 4. Extraemos los datos brutos solo de esa posición
     temp_prevista = respuesta['hourly']['apparent_temperature'][indice]

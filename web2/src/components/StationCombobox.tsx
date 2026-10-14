@@ -149,11 +149,14 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
           type="text"
           value={isOpen ? query : (value || '')}
           onChange={(e) => {
-            setQuery(e.target.value);
+            const val = e.target.value;
+            setQuery(val);
+            onChange(val);
             if (!isOpen) setIsOpen(true);
             setHighlightedIndex(0);
           }}
           onFocus={() => {
+            setQuery(value);
             setIsOpen(true);
             setHighlightedIndex(0);
           }}

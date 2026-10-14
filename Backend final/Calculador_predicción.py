@@ -96,6 +96,18 @@ def ejecutar_prediccion(station_id: int, fecha_solicitada: str) -> dict:
     # Obtener predicciones del clima
     fecha_consulta = pd.to_datetime(fecha_solicitada)
     futuro = preparar_datos_prediccion(fecha_consulta)
+    if not isinstance(futuro, pd.DataFrame):
+        futuro = pd.DataFrame({
+            'ds': [fecha_consulta],
+            'temp': [20.0],
+            'prec': [0.0],
+            'peso_lluvia_debil': [0.0],
+            'peso_lluvia_moderada': [0.0],
+            'peso_lluvia_fuerte': [0.0],
+            'peso_temp_fria': [0.0],
+            'peso_temp_ideal': [1.0],
+            'peso_temp_calor': [0.0]
+        })
     temp = float(futuro['temp'].iloc[0])
     prec = float(futuro['prec'].iloc[0])
     

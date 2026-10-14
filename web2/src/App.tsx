@@ -381,12 +381,26 @@ export default function App() {
     }
   }, [currentUser?.email]);
 
-  // --- LIMITES DE FECHA ---
+  // --- LIMITES DE FECHA Y RELOJ REACTIVO ---
+  const [currentSystemTime, setCurrentSystemTime] = useState<Date>(() => new Date());
+
+  useEffect(() => {
+    const updateTime = () => setCurrentSystemTime(new Date());
+    const interval = setInterval(updateTime, 5000);
+    window.addEventListener('focus', updateTime);
+    document.addEventListener('visibilitychange', updateTime);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('focus', updateTime);
+      document.removeEventListener('visibilitychange', updateTime);
+    };
+  }, []);
+
   const { minDate, maxDate, defaultDateTime } = useMemo(() => {
     const pad = (n: number) => n.toString().padStart(2, '0');
     const format = (d: Date) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
     
-    const now = new Date();
+    const now = currentSystemTime;
     const remainder = 15 - (now.getMinutes() % 15);
     const roundedNow = new Date(now.getTime() + (remainder === 0 ? 15 : remainder) * 60 * 1000);
     // Limitar la predicción a 3 días vista (Hoy, Mañana y tercer día a las 23:59)
@@ -399,11 +413,21 @@ export default function App() {
       maxDate: format(future),
       defaultDateTime: format(roundedNow)
     };
-  }, []);
+  }, [currentSystemTime]);
 
   // --- ESTADO DEL FORMULARIO ---
   const [stationId, setStationId] = useState<string>('');
   const [dateTime, setDateTime] = useState<string>(() => defaultDateTime);
+
+  // Auto-ajuste si la fecha elegida quedó en el pasado tras cruzar medianoche
+  useEffect(() => {
+    if (dateTime) {
+      const selected = new Date(dateTime).getTime();
+      if (!isNaN(selected) && selected < currentSystemTime.getTime() - 2 * 60 * 1000) {
+        setDateTime(defaultDateTime);
+      }
+    }
+  }, [currentSystemTime, defaultDateTime, dateTime]);
 
   // --- INTERFACES ---
   interface FavoriteStation {

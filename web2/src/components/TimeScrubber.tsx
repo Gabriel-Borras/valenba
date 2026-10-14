@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { CalendarClock, SlidersHorizontal, Sun, Moon, Sunrise, Sunset, ChevronDown } from 'lucide-react';
 import { Translations, Language } from '../translations';
 
@@ -35,7 +35,35 @@ export const TimeScrubber: React.FC<TimeScrubberProps> = ({
     return isNaN(d.getTime()) ? new Date() : d;
   }, [value]);
 
-  const now = useMemo(() => new Date(), []);
+  // Reloj reactivo: se actualiza periódicamente para refrescar automáticamente los días al cruzar la medianoche
+  const [now, setNow] = useState(() => new Date());
+
+  useEffect(() => {
+    const tick = () => setNow(new Date());
+    const interval = setInterval(tick, 5000);
+    window.addEventListener('focus', tick);
+    document.addEventListener('visibilitychange', tick);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('focus', tick);
+      document.removeEventListener('visibilitychange', tick);
+    };
+  }, []);
+
+  // Si la fecha seleccionada quedó en el pasado al pasar las 00:00, auto-ajustar a hoy
+  useEffect(() => {
+    if (value) {
+      const selectedTime = new Date(value).getTime();
+      const currentLimit = now.getTime() - 2 * 60 * 1000;
+      if (selectedTime < currentLimit) {
+        const nextValid = new Date(now);
+        const rem = 15 - (nextValid.getMinutes() % 15);
+        nextValid.setMinutes(nextValid.getMinutes() + (rem === 0 ? 15 : rem));
+        nextValid.setSeconds(0, 0);
+        onChange(formatISO(nextValid));
+      }
+    }
+  }, [now, value, onChange]);
 
   // Minuto actual redondeado al siguiente múltiplo de 15
   const nowMinuteRounded = useMemo(() => {
