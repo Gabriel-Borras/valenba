@@ -145,6 +145,26 @@ export interface Translations {
   drawerSyncActive: string;
   drawerUnlimitedAccess: string;
   drawerSelectLang: string;
+
+  // Footer & Legal / RGPD
+  footerDisclaimer: string;
+  footerLegalNotice: string;
+  footerPrivacyPolicy: string;
+  footerRights: string;
+  drawerPrivacyConsent: string;
+  drawerPrivacyRequired: string;
+  legalModalTitle: string;
+  legalResponsibleTitle: string;
+  legalResponsibleText: string;
+  legalPurposeTitle: string;
+  legalPurposeText: string;
+  legalRightsTitle: string;
+  legalRightsText: string;
+  legalSecurityTitle: string;
+  legalSecurityText: string;
+  legalBrandNoticeTitle: string;
+  legalBrandNoticeText: string;
+  legalCloseBtn: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -284,7 +304,26 @@ export const translations: Record<Language, Translations> = {
     drawerPredictQuick: "Preveure",
     drawerSyncActive: "Sincronització en base de dades activa",
     drawerUnlimitedAccess: "Accés il·limitat a models predictius Prophet",
-    drawerSelectLang: "Idioma / Llengua:"
+    drawerSelectLang: "Idioma / Llengua:",
+
+    footerDisclaimer: "Valenba és una plataforma analítica i predictiva independent. Valenbisi® és una marca comercial registrada de JCDecaux i de l'Ajuntament de València. Aquesta aplicació no està patrocinada, vinculada ni afiliada oficialment amb aquestes entitats.",
+    footerLegalNotice: "Avís Legal",
+    footerPrivacyPolicy: "Política de Privacitat",
+    footerRights: "Tots els drets reservats.",
+    drawerPrivacyConsent: "He llegit i accepte la Política de Privacitat i l'Avís Legal.",
+    drawerPrivacyRequired: "Has d'acceptar la Política de Privacitat per a poder registrar-te.",
+    legalModalTitle: "Avís Legal i Política de Privacitat (RGPD)",
+    legalResponsibleTitle: "1. Responsable del Tractament",
+    legalResponsibleText: "El responsable del tractament de les dades recollides a través d'aquesta plataforma és l'equip de desenrotllament de Valenba.",
+    legalPurposeTitle: "2. Finalitat i Legitimació",
+    legalPurposeText: "Les dades de registre (nom, correu electrònic i estacions preferides) es tracten exclusivament amb el consentiment de l'usuari per a oferir accés personalitzat, sincronització de favorites i persistència de dades. En cap cas es vendran ni cediran a tercers.",
+    legalRightsTitle: "3. Els Teus Drets (RGPD / LOPD-GDD)",
+    legalRightsText: "Pots exercir els teus drets d'accés, rectificació, supressió (dret a l'oblit), limitació del tractament i portabilitat de dades directament tancant sessió o eliminant el teu compte des del panell d'usuari o contactant amb nosaltres.",
+    legalSecurityTitle: "4. Seguretat i Xifratge",
+    legalSecurityText: "Les contrasenyes s'emmagatzemen protegides mitjançant algoritmes de resum criptogràfic (hash unidireccional amb sal PBKDF2/SHA-256). Totes les comunicacions es realitzen mitjançant protocols xifrats TLS/HTTPS.",
+    legalBrandNoticeTitle: "5. Propietat Industrial i Dades Obertes",
+    legalBrandNoticeText: "La informació sobre disponibilitat de bicicletes prové de fonts obertes de dades públiques (Open Data). Valenbisi® és una marca registrada propietat de JCDecaux i de l'Ajuntament de València. Valenba és un servici d'analítica predictiva totalment independent.",
+    legalCloseBtn: "Entés i Tancar"
   },
 
   es: {
@@ -423,7 +462,26 @@ export const translations: Record<Language, Translations> = {
     drawerPredictQuick: "Predecir",
     drawerSyncActive: "Sincronización en base de datos activa",
     drawerUnlimitedAccess: "Acceso ilimitado a modelos predictivos Prophet",
-    drawerSelectLang: "Idioma / Lengua:"
+    drawerSelectLang: "Idioma / Lengua:",
+
+    footerDisclaimer: "Valenba es una plataforma analítica y predictiva independiente. Valenbisi® es una marca comercial registrada de JCDecaux y del Ayuntamiento de Valencia. Esta aplicación no está respaldada, patrocinada ni afiliada oficialmente con dichas entidades.",
+    footerLegalNotice: "Aviso Legal",
+    footerPrivacyPolicy: "Política de Privacidad",
+    footerRights: "Todos los derechos reservados.",
+    drawerPrivacyConsent: "He leído y acepto la Política de Privacidad y el Aviso Legal.",
+    drawerPrivacyRequired: "Debes aceptar la Política de Privacidad para poder registrarte.",
+    legalModalTitle: "Aviso Legal y Política de Privacidad (RGPD)",
+    legalResponsibleTitle: "1. Responsable del Tratamiento",
+    legalResponsibleText: "El responsable del tratamiento de los datos recopilados a través de esta plataforma es el equipo de desarrollo de Valenba.",
+    legalPurposeTitle: "2. Finalidad y Legitimación",
+    legalPurposeText: "Los datos facilitados durante el registro (nombre, correo electrónico y estaciones favoritas) son tratados bajo el consentimiento del usuario con la única finalidad de permitir el acceso a su cuenta personalizada, sincronización de favoritas y persistencia de datos. Bajo ninguna circunstancia se cederán a terceros.",
+    legalRightsTitle: "3. Tus Derechos (RGPD / LOPD-GDD)",
+    legalRightsText: "Tienes derecho a acceder, rectificar, limitar o solicitar la supresión completa de tus datos personales (derecho al olvido) en cualquier momento desde los ajustes de tu cuenta o contactando con nuestro soporte.",
+    legalSecurityTitle: "4. Seguridad y Cifrado",
+    legalSecurityText: "Las contraseñas se almacenan protegidas mediante algoritmos de hash unidireccional con sal (PBKDF2/SHA-256). Todas las transmisiones cliente-servidor se encuentran protegidas mediante cifrado TLS/HTTPS.",
+    legalBrandNoticeTitle: "5. Propiedad Industrial y Fuentes Abiertas",
+    legalBrandNoticeText: "La información de disponibilidad de bicicletas se obtiene de portales de datos abiertos (Open Data). Valenbisi® es una marca registrada de JCDecaux y del Ayuntamiento de Valencia. Valenba opera como un servicio de inteligencia predictiva independiente.",
+    legalCloseBtn: "Entendido y Cerrar"
   },
 
   en: {
@@ -562,6 +620,25 @@ export const translations: Record<Language, Translations> = {
     drawerPredictQuick: "Forecast",
     drawerSyncActive: "Database synchronization active",
     drawerUnlimitedAccess: "Unlimited access to Prophet AI forecast models",
-    drawerSelectLang: "Language:"
+    drawerSelectLang: "Language:",
+
+    footerDisclaimer: "Valenba is an independent analytical and predictive platform. Valenbisi® is a registered trademark of JCDecaux and Valencia City Council. This application is not officially endorsed, sponsored, or affiliated with these entities.",
+    footerLegalNotice: "Legal Notice",
+    footerPrivacyPolicy: "Privacy Policy",
+    footerRights: "All rights reserved.",
+    drawerPrivacyConsent: "I have read and agree to the Privacy Policy and Legal Notice.",
+    drawerPrivacyRequired: "You must accept the Privacy Policy to register.",
+    legalModalTitle: "Legal Notice & Privacy Policy (GDPR)",
+    legalResponsibleTitle: "1. Data Controller",
+    legalResponsibleText: "The data controller responsible for the personal data collected through this application is the Valenba Development Team.",
+    legalPurposeTitle: "2. Purpose and Legal Basis",
+    legalPurposeText: "Data provided upon registration (name, email address, and favorite stations) is processed solely with your explicit consent to manage your personal account, synchronize favorites, and persist preferences. We never share or sell personal data to third parties.",
+    legalRightsTitle: "3. Your Rights (GDPR)",
+    legalRightsText: "You are entitled to access, rectify, limit processing, or request full deletion of your personal data at any time directly through your account drawer or by reaching out to support.",
+    legalSecurityTitle: "4. Security & Encryption",
+    legalSecurityText: "User passwords are secure using one-way salted hashing algorithms (PBKDF2/SHA-256). All communications are protected over secure encrypted TLS/HTTPS protocols.",
+    legalBrandNoticeTitle: "5. Intellectual Property & Open Data",
+    legalBrandNoticeText: "Real-time bicycle inventory is sourced via Open Data feeds. Valenbisi® is a registered trademark of JCDecaux and Valencia City Council. Valenba is an autonomous predictive intelligence project.",
+    legalCloseBtn: "Understood & Close"
   }
 };

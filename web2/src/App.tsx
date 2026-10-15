@@ -258,6 +258,8 @@ export default function App() {
   const [authError, setAuthError] = useState<string | null>(null);
   const [authSuccess, setAuthSuccess] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [privacyConsent, setPrivacyConsent] = useState(false);
+  const [showLegalModal, setShowLegalModal] = useState(false);
 
   const handleAuthSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -274,6 +276,10 @@ export default function App() {
 
     try {
       if (authMode === 'register') {
+        if (!privacyConsent) {
+          setAuthError(t.drawerPrivacyRequired);
+          return;
+        }
         const nameTrimmed = authName.trim();
         if (!nameTrimmed) {
           setAuthError('Por favor indica tu nombre.');
@@ -1324,6 +1330,152 @@ export default function App() {
         </div>
       </main>
 
+      {/* FOOTER PROFESIONAL DE PRODUCCIÓN */}
+      <footer className="mt-20 border-t border-slate-200/80 bg-white/80 backdrop-blur-md relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+            {/* Columna Marca & Identidad */}
+            <div className="md:col-span-5 space-y-3">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-xl bg-[#2f3b5c] flex items-center justify-center text-white shadow-sm">
+                  <Bike className="w-4 h-4 text-amber-400" />
+                </div>
+                <span className="text-xl font-black tracking-tight text-[#2f3b5c] font-sans">
+                  valen<span className="text-amber-500">BA</span>
+                </span>
+                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200 ml-2">
+                  v3.0 Production
+                </span>
+              </div>
+              <p className="text-xs text-slate-500 leading-relaxed pr-4">
+                {t.heroSubtitle}
+              </p>
+              <div className="flex items-center gap-3 pt-1">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/80">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                  JCDecaux Oficial Live
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-200/80">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  RGPD Compliant
+                </span>
+              </div>
+            </div>
+
+            {/* Columna Aviso Legal y Disclaimer de Marca */}
+            <div className="md:col-span-7 bg-slate-50/80 p-5 rounded-2xl border border-slate-200/80 space-y-2.5">
+              <div className="flex items-center gap-2 text-xs font-bold text-slate-700">
+                <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>{t.footerLegalNotice} & {t.legalBrandNoticeTitle}</span>
+              </div>
+              <p className="text-[11px] text-slate-500 leading-relaxed">
+                {t.footerDisclaimer}
+              </p>
+              <div className="flex flex-wrap items-center gap-4 pt-1.5 border-t border-slate-200/60">
+                <button
+                  type="button"
+                  onClick={() => setShowLegalModal(true)}
+                  className="text-xs font-bold text-[#2f3b5c] hover:text-blue-600 underline cursor-pointer"
+                >
+                  {t.footerPrivacyPolicy} & {t.footerLegalNotice} (RGPD)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowHowItWorks(true)}
+                  className="text-xs font-medium text-slate-500 hover:text-slate-800 underline cursor-pointer"
+                >
+                  Documentación Técnica
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
+            <p>© {new Date().getFullYear()} Valenba Mobility Analytics. {t.footerRights}</p>
+            <p className="text-[11px] text-slate-400 font-mono">
+              Valencia • Valenbisi® Smart AI Forecaster
+            </p>
+          </div>
+        </div>
+      </footer>
+
+      {/* MODAL AVISO LEGAL Y PRIVACIDAD RGPD */}
+      <AnimatePresence>
+        {showLegalModal && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm"
+            onClick={() => setShowLegalModal(false)}
+          >
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0, y: 10 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 10 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white rounded-3xl shadow-2xl p-6 md:p-8 max-w-2xl w-full max-h-[85vh] overflow-y-auto space-y-6 border border-slate-100"
+            >
+              <div className="flex justify-between items-start pb-2 border-b border-slate-100">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                    <ShieldCheck className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-black text-[#2f3b5c]">
+                      {t.legalModalTitle}
+                    </h2>
+                    <p className="text-xs text-slate-400">Reglamento General de Protección de Datos (UE 2016/679) & LOPD-GDD</p>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => setShowLegalModal(false)} 
+                  className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors shrink-0"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="space-y-4 text-xs text-slate-600 leading-relaxed">
+                <section className="bg-slate-50 p-4 rounded-2xl border border-slate-200/80">
+                  <h3 className="font-bold text-slate-800 text-sm mb-1">{t.legalResponsibleTitle}</h3>
+                  <p>{t.legalResponsibleText}</p>
+                </section>
+
+                <section className="p-3 rounded-xl">
+                  <h3 className="font-bold text-slate-800 text-sm mb-1">{t.legalPurposeTitle}</h3>
+                  <p>{t.legalPurposeText}</p>
+                </section>
+
+                <section className="p-3 rounded-xl">
+                  <h3 className="font-bold text-slate-800 text-sm mb-1">{t.legalRightsTitle}</h3>
+                  <p>{t.legalRightsText}</p>
+                </section>
+
+                <section className="p-3 rounded-xl">
+                  <h3 className="font-bold text-slate-800 text-sm mb-1">{t.legalSecurityTitle}</h3>
+                  <p>{t.legalSecurityText}</p>
+                </section>
+
+                <section className="bg-amber-50/70 p-4 rounded-2xl border border-amber-200/80">
+                  <h3 className="font-bold text-amber-900 text-sm mb-1">{t.legalBrandNoticeTitle}</h3>
+                  <p className="text-amber-800">{t.legalBrandNoticeText}</p>
+                </section>
+              </div>
+
+              <div className="pt-2 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => setShowLegalModal(false)}
+                  className="bg-[#2f3b5c] hover:bg-[#1a233a] text-white font-bold text-xs px-6 py-2.5 rounded-xl transition-all shadow-md shadow-[#2f3b5c]/20 cursor-pointer"
+                >
+                  {t.legalCloseBtn}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* MODAL CÓMO FUNCIONA */}
       <AnimatePresence>
@@ -1566,7 +1718,7 @@ export default function App() {
                     {/* Selector de Pestañas Login vs Registro */}
                     <div className="bg-slate-100 p-1 rounded-xl flex">
                       <button
-                        onClick={() => { setAuthMode('login'); setAuthError(null); setAuthSuccess(null); }}
+                        onClick={() => { setAuthMode('login'); setAuthError(null); setAuthSuccess(null); setPrivacyConsent(false); }}
                         className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 ${
                           authMode === 'login' ? 'bg-white text-[#2f3b5c] shadow-sm' : 'text-slate-500 hover:text-slate-800'
                         }`}
@@ -1575,7 +1727,7 @@ export default function App() {
                         {t.drawerLoginTab}
                       </button>
                       <button
-                        onClick={() => { setAuthMode('register'); setAuthError(null); setAuthSuccess(null); }}
+                        onClick={() => { setAuthMode('register'); setAuthError(null); setAuthSuccess(null); setPrivacyConsent(false); }}
                         className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 ${
                           authMode === 'register' ? 'bg-white text-[#2f3b5c] shadow-sm' : 'text-slate-500 hover:text-slate-800'
                         }`}
@@ -1661,6 +1813,33 @@ export default function App() {
                         </div>
                       </div>
 
+                      {/* Casilla de Aceptación RGPD / Política de Privacidad */}
+                      {authMode === 'register' && (
+                        <div className="flex items-start gap-2.5 pt-1 pb-1">
+                          <input
+                            id="reg-privacy-consent"
+                            type="checkbox"
+                            checked={privacyConsent}
+                            onChange={(e) => setPrivacyConsent(e.target.checked)}
+                            className="mt-0.5 h-4 w-4 rounded border-slate-300 text-[#2f3b5c] focus:ring-[#2f3b5c]/30 cursor-pointer shrink-0"
+                            required
+                          />
+                          <label htmlFor="reg-privacy-consent" className="text-[11px] text-slate-500 leading-snug cursor-pointer select-none">
+                            {t.drawerPrivacyConsent}{' '}
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setShowLegalModal(true);
+                              }}
+                              className="text-[#2f3b5c] font-bold underline hover:text-blue-700 ml-1 inline-flex items-center gap-0.5 cursor-pointer"
+                            >
+                              <span>{t.footerLegalNotice}</span>
+                            </button>
+                          </label>
+                        </div>
+                      )}
+
                       <button
                         type="submit"
                         className="w-full bg-[#2f3b5c] hover:bg-[#1f2840] text-white font-bold text-xs py-3.5 rounded-xl transition-all shadow-md shadow-[#2f3b5c]/20 flex items-center justify-center gap-2 mt-2"
@@ -1692,6 +1871,7 @@ export default function App() {
                           setAuthMode(authMode === 'login' ? 'register' : 'login');
                           setAuthError(null);
                           setAuthSuccess(null);
+                          setPrivacyConsent(false);
                         }}
                         className="font-bold text-[#2f3b5c] hover:underline"
                       >
