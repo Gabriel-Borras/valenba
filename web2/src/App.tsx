@@ -1322,9 +1322,9 @@ export default function App() {
         </div>
       </main>
 
-      {/* FOOTER CORPORATIVO */}
-      <footer className="mt-16 mb-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-[#2f3b5c] text-white rounded-2xl p-6 sm:p-8 space-y-4 shadow-sm">
+      {/* FOOTER CORPORATIVO (DE LADO A LADO) */}
+      <footer className="mt-20 w-full bg-[#2f3b5c] text-white border-t border-slate-700/40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
             <span className="text-lg font-bold tracking-tight text-white font-sans">
               valenBA
