@@ -1163,38 +1163,30 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* CARD DE ESTADO EN DIRECTO / TIEMPO REAL */}
-                  <div className="mb-6 p-4 rounded-2xl bg-slate-50/90 border border-slate-200/80 flex flex-wrap items-center justify-between gap-3 shadow-xs">
+                  {/* ESTADO EN DIRECTO */}
+                  <div className="mb-6 p-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex flex-wrap items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <span className="relative flex h-3 w-3">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-                      </span>
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#2f3b5c]"></div>
                       <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-black uppercase tracking-wider text-slate-800">
-                            {t.liveNowTitle}
-                          </span>
-                          <span className="px-2 py-0.5 rounded text-[10px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-200">
-                            LIVE VALENBISI
-                          </span>
+                        <div className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                          {t.liveNowTitle}
                         </div>
                         <p className="text-sm text-slate-600 mt-0.5">
                           {prediction.current_bikes !== undefined ? (
                             <>
-                              <strong className="text-slate-900 font-black text-base">{prediction.current_bikes}</strong> {t.liveBikesNow}
+                              <strong className="text-slate-900 font-bold text-base">{prediction.current_bikes}</strong> {t.liveBikesNow}
                               {prediction.free_docks !== undefined && (
-                                <> • <strong className="text-slate-900 font-black text-base">{prediction.free_docks}</strong> {t.liveFreeDocks}</>
+                                <> • <strong className="text-slate-900 font-bold text-base">{prediction.free_docks}</strong> {t.liveFreeDocks}</>
                               )}
                             </>
                           ) : (
-                            <span className="text-slate-400 text-xs">Sincronizando estado en vivo...</span>
+                            <span className="text-slate-400 text-xs">Sincronizando...</span>
                           )}
                         </p>
                       </div>
                     </div>
                     {prediction.updated_at && (
-                      <span className="text-[11px] font-mono text-slate-400 bg-white px-2.5 py-1 rounded-lg border border-slate-200 shadow-xs">
+                      <span className="text-xs font-mono text-slate-400">
                         {t.liveUpdated}: {new Date(prediction.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
                     )}
@@ -1211,8 +1203,8 @@ export default function App() {
                     <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10">
                       {/* NÚMERO GIGANTE (yhat) */}
                       <div className="text-center flex-shrink-0" id="texto_resultado">
-                        <p className="text-xs font-bold text-blue-600 uppercase tracking-wider mb-2 bg-blue-50 py-1 px-2.5 rounded-lg inline-block">
-                          🔮 {t.predBikesAvailable}
+                        <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                          {t.predBikesAvailable}
                         </p>
                         <div className="text-7xl md:text-8xl font-black text-[#2f3b5c] tracking-tighter tabular-nums drop-shadow-sm">
                           {prediction.yhat}
@@ -1330,71 +1322,44 @@ export default function App() {
         </div>
       </main>
 
-      {/* FOOTER PROFESIONAL DE PRODUCCIÓN */}
-      <footer className="mt-20 border-t border-slate-200/80 bg-white/80 backdrop-blur-md relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-            {/* Columna Marca & Identidad */}
-            <div className="md:col-span-5 space-y-3">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-[#2f3b5c] flex items-center justify-center text-white shadow-sm">
-                  <Bike className="w-4 h-4 text-amber-400" />
-                </div>
-                <span className="text-xl font-black tracking-tight text-[#2f3b5c] font-sans">
-                  valen<span className="text-amber-500">BA</span>
-                </span>
-                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200 ml-2">
-                  v3.0 Production
-                </span>
-              </div>
-              <p className="text-xs text-slate-500 leading-relaxed pr-4">
-                {t.heroSubtitle}
-              </p>
-              <div className="flex items-center gap-3 pt-1">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/80">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                  JCDecaux Oficial Live
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-200/80">
-                  <ShieldCheck className="w-3.5 h-3.5" />
-                  RGPD Compliant
-                </span>
-              </div>
-            </div>
-
-            {/* Columna Aviso Legal y Disclaimer de Marca */}
-            <div className="md:col-span-7 bg-slate-50/80 p-5 rounded-2xl border border-slate-200/80 space-y-2.5">
-              <div className="flex items-center gap-2 text-xs font-bold text-slate-700">
-                <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>{t.footerLegalNotice} & {t.legalBrandNoticeTitle}</span>
-              </div>
-              <p className="text-[11px] text-slate-500 leading-relaxed">
-                {t.footerDisclaimer}
-              </p>
-              <div className="flex flex-wrap items-center gap-4 pt-1.5 border-t border-slate-200/60">
-                <button
-                  type="button"
-                  onClick={() => setShowLegalModal(true)}
-                  className="text-xs font-bold text-[#2f3b5c] hover:text-blue-600 underline cursor-pointer"
-                >
-                  {t.footerPrivacyPolicy} & {t.footerLegalNotice} (RGPD)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowHowItWorks(true)}
-                  className="text-xs font-medium text-slate-500 hover:text-slate-800 underline cursor-pointer"
-                >
-                  Documentación Técnica
-                </button>
-              </div>
+      {/* FOOTER CORPORATIVO */}
+      <footer className="mt-16 mb-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-[#2f3b5c] text-white rounded-2xl p-6 sm:p-8 space-y-4 shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
+            <span className="text-lg font-bold tracking-tight text-white font-sans">
+              valenBA
+            </span>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-slate-300">
+              <button
+                type="button"
+                onClick={() => setShowLegalModal(true)}
+                className="hover:text-white underline cursor-pointer"
+              >
+                {t.footerLegalNotice}
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowLegalModal(true)}
+                className="hover:text-white underline cursor-pointer"
+              >
+                {t.footerPrivacyPolicy}
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowHowItWorks(true)}
+                className="hover:text-white underline cursor-pointer"
+              >
+                Documentación
+              </button>
             </div>
           </div>
 
-          <div className="mt-8 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
-            <p>© {new Date().getFullYear()} Valenba Mobility Analytics. {t.footerRights}</p>
-            <p className="text-[11px] text-slate-400 font-mono">
-              Valencia • Valenbisi® Smart AI Forecaster
-            </p>
+          <p className="text-xs text-slate-300 leading-relaxed font-sans">
+            {t.footerDisclaimer}
+          </p>
+
+          <div className="text-[11px] text-slate-400 pt-1 font-sans">
+            © {new Date().getFullYear()} Valenba. {t.footerRights}
           </div>
         </div>
       </footer>
@@ -1406,68 +1371,65 @@ export default function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm"
+            className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm"
             onClick={() => setShowLegalModal(false)}
           >
             <motion.div 
-              initial={{ scale: 0.95, opacity: 0, y: 10 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 10 }}
+              initial={{ scale: 0.98, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.98, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-3xl shadow-2xl p-6 md:p-8 max-w-2xl w-full max-h-[85vh] overflow-y-auto space-y-6 border border-slate-100"
+              className="bg-white rounded-2xl shadow-xl p-6 md:p-8 max-w-2xl w-full max-h-[85vh] overflow-y-auto space-y-5 border border-slate-200"
             >
-              <div className="flex justify-between items-start pb-2 border-b border-slate-100">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-                    <ShieldCheck className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-black text-[#2f3b5c]">
-                      {t.legalModalTitle}
-                    </h2>
-                    <p className="text-xs text-slate-400">Reglamento General de Protección de Datos (UE 2016/679) & LOPD-GDD</p>
-                  </div>
+              <div className="flex justify-between items-start pb-3 border-b border-slate-200">
+                <div>
+                  <h2 className="text-lg font-bold text-[#2f3b5c]">
+                    {t.legalModalTitle}
+                  </h2>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Reglamento General de Protección de Datos (RGPD UE 2016/679) & LOPD-GDD
+                  </p>
                 </div>
                 <button 
                   onClick={() => setShowLegalModal(false)} 
-                  className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors shrink-0"
+                  className="p-1 text-slate-400 hover:text-slate-600 rounded-lg transition-colors shrink-0"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              <div className="space-y-4 text-xs text-slate-600 leading-relaxed">
-                <section className="bg-slate-50 p-4 rounded-2xl border border-slate-200/80">
-                  <h3 className="font-bold text-slate-800 text-sm mb-1">{t.legalResponsibleTitle}</h3>
+              <div className="space-y-4 text-xs text-slate-700 leading-relaxed">
+                <div>
+                  <h3 className="font-bold text-slate-900 mb-1">{t.legalResponsibleTitle}</h3>
                   <p>{t.legalResponsibleText}</p>
-                </section>
+                </div>
 
-                <section className="p-3 rounded-xl">
-                  <h3 className="font-bold text-slate-800 text-sm mb-1">{t.legalPurposeTitle}</h3>
+                <div>
+                  <h3 className="font-bold text-slate-900 mb-1">{t.legalPurposeTitle}</h3>
                   <p>{t.legalPurposeText}</p>
-                </section>
+                </div>
 
-                <section className="p-3 rounded-xl">
-                  <h3 className="font-bold text-slate-800 text-sm mb-1">{t.legalRightsTitle}</h3>
+                <div>
+                  <h3 className="font-bold text-slate-900 mb-1">{t.legalRightsTitle}</h3>
                   <p>{t.legalRightsText}</p>
-                </section>
+                </div>
 
-                <section className="p-3 rounded-xl">
-                  <h3 className="font-bold text-slate-800 text-sm mb-1">{t.legalSecurityTitle}</h3>
+                <div>
+                  <h3 className="font-bold text-slate-900 mb-1">{t.legalSecurityTitle}</h3>
                   <p>{t.legalSecurityText}</p>
-                </section>
+                </div>
 
-                <section className="bg-amber-50/70 p-4 rounded-2xl border border-amber-200/80">
-                  <h3 className="font-bold text-amber-900 text-sm mb-1">{t.legalBrandNoticeTitle}</h3>
-                  <p className="text-amber-800">{t.legalBrandNoticeText}</p>
-                </section>
+                <div>
+                  <h3 className="font-bold text-slate-900 mb-1">{t.legalBrandNoticeTitle}</h3>
+                  <p>{t.legalBrandNoticeText}</p>
+                </div>
               </div>
 
-              <div className="pt-2 flex justify-end">
+              <div className="pt-3 border-t border-slate-100 flex justify-end">
                 <button
                   type="button"
                   onClick={() => setShowLegalModal(false)}
-                  className="bg-[#2f3b5c] hover:bg-[#1a233a] text-white font-bold text-xs px-6 py-2.5 rounded-xl transition-all shadow-md shadow-[#2f3b5c]/20 cursor-pointer"
+                  className="bg-[#2f3b5c] hover:bg-[#1a233a] text-white font-bold text-xs px-5 py-2 rounded-xl transition-all cursor-pointer"
                 >
                   {t.legalCloseBtn}
                 </button>
