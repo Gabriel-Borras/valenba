@@ -729,16 +729,13 @@ export default function App() {
 
       {/* CONTENIDO PRINCIPAL */}
           {/* HERO SECTION / BANNER PREDICCIÓN */}
-          <div className="bg-[#2f3b5c] text-white py-12 px-4 shadow-inner relative overflow-hidden">
+          <div className="bg-[#2f3b5c] text-white py-6 md:py-8 px-4 shadow-inner relative overflow-hidden">
             {/* Subtle background pattern */}
             <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '32px 32px' }}></div>
             <div className="max-w-7xl mx-auto relative z-10">
-              <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-4">
+              <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">
                 {t.heroTitle}
               </h1>
-              <p className="text-lg text-slate-300 max-w-2xl font-medium">
-                {t.heroSubtitle}
-              </p>
             </div>
           </div>
 

@@ -175,8 +175,8 @@ export const translations: Record<Language, Translations> = {
     navUserLogin: "Iniciar Sessió",
     navUserProfile: "El Meu Compte",
 
-    heroTitle: "Previsió de Disponibilitat",
-    heroSubtitle: "El nostre motor d'IA analitza dades històriques i meteorològiques per a estimar si hi haurà bicicletes disponibles quan les necessites.",
+    heroTitle: "Previsió de Disponibilitat de Bicicletes",
+    heroSubtitle: "Estat en temps real i estimació de disponibilitat a les estacions de Valenbisi.",
 
     formTitle: "Configurar Predicció",
     formStationLabel: "Carrer o ID de l'Estació",
@@ -333,8 +333,8 @@ export const translations: Record<Language, Translations> = {
     navUserLogin: "Iniciar Sesión",
     navUserProfile: "Mi Cuenta",
 
-    heroTitle: "Previsión de Disponibilidad",
-    heroSubtitle: "Nuestro motor de IA analiza datos históricos y meteorológicos para estimar si habrá bicicletas disponibles cuando las necesites.",
+    heroTitle: "Previsión de Disponibilidad de Bicicletas",
+    heroSubtitle: "Estado en tiempo real y estimación de disponibilidad en las estaciones de Valenbisi.",
 
     formTitle: "Configurar Predicción",
     formStationLabel: "Calle o ID de la Estación",
@@ -491,8 +491,8 @@ export const translations: Record<Language, Translations> = {
     navUserLogin: "Sign In",
     navUserProfile: "My Account",
 
-    heroTitle: "Availability Forecast",
-    heroSubtitle: "Our AI engine analyzes historical and weather data to estimate bike availability right when you need it.",
+    heroTitle: "Bicycle Availability Forecast",
+    heroSubtitle: "Real-time status and availability forecast across Valenbisi stations.",
 
     formTitle: "Configure Forecast",
     formStationLabel: "Street or Station ID",
