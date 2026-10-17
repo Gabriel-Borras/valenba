@@ -840,9 +840,11 @@ export default function App() {
               className="flex items-center gap-2.5 cursor-pointer group"
               onClick={() => setShowMap(true)}
             >
-              <div className="w-10 h-10 bg-[#2f3b5c] group-hover:bg-[#1a84ce] transition-colors rounded-xl flex items-center justify-center shadow-xs">
-                <Bike className="text-white w-5 h-5" />
-              </div>
+              <img
+                src="/favicon.svg"
+                alt="valenBA logo"
+                className="w-10 h-10 rounded-xl shadow-xs shrink-0"
+              />
               <div className="flex flex-col">
                 <span className="text-2xl font-black text-[#2f3b5c] tracking-tight leading-none">
                   valen<span className="text-[#1a84ce]">BA</span>
