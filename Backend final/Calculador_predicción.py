@@ -97,9 +97,12 @@ def ejecutar_prediccion(station_id: int, fecha_solicitada: str) -> dict:
     # Ajustamos muestras de incertidumbre para la velocidad de la API en web
     modelo.uncertainty_samples = 5000
     
-    # Obtener predicciones del clima
+    # Obtener predicciones del clima con protección ante fallos externos
     fecha_consulta = pd.to_datetime(fecha_solicitada)
-    futuro = preparar_datos_prediccion(fecha_consulta)
+    try:
+        futuro = preparar_datos_prediccion(fecha_consulta)
+    except Exception:
+        futuro = None
     if not isinstance(futuro, pd.DataFrame):
         futuro = pd.DataFrame({
             'ds': [fecha_consulta],
