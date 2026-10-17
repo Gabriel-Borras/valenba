@@ -934,7 +934,7 @@ export default function App() {
 
             <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 px-3 py-1.5 rounded-xl backdrop-blur-xs">
               <span className="text-xs font-mono font-extrabold text-[#7be362] tabular-nums">
-                🚲 {networkStats.totalBikes.toLocaleString()}
+                {networkStats.totalBikes.toLocaleString()}
               </span>
               <span className="text-[11px] font-medium text-blue-100">
                 {t.networkBikesAvailable}
@@ -943,7 +943,7 @@ export default function App() {
 
             <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 px-3 py-1.5 rounded-xl backdrop-blur-xs">
               <span className="text-xs font-mono font-extrabold text-sky-300 tabular-nums">
-                🅿️ {networkStats.totalFreeDocks.toLocaleString()}
+                {networkStats.totalFreeDocks.toLocaleString()}
               </span>
               <span className="text-[11px] font-medium text-blue-100">
                 {t.networkFreeDocks}
@@ -1069,7 +1069,7 @@ export default function App() {
                               : 'text-[#3b8a28]'
                           }`}
                         >
-                          🚲 {selectedStationObj.currentBikes ?? '—'}
+                          {selectedStationObj.currentBikes ?? '—'}
                         </span>
                       </div>
 
@@ -1078,7 +1078,6 @@ export default function App() {
                           {t.liveFreeDocks}
                         </span>
                         <span className="font-mono text-sm font-extrabold text-[#1a84ce] tabular-nums">
-                          🅿️{' '}
                           {selectedStationObj.freeDocks !== undefined
                             ? selectedStationObj.freeDocks
                             : Math.max(0, selectedStationObj.cap - (selectedStationObj.currentBikes || 0))}
@@ -1312,8 +1311,7 @@ export default function App() {
                           : 'text-slate-600 hover:bg-slate-100'
                       }`}
                     >
-                      <span>🚲</span>
-                      <span className="hidden sm:inline">{t.filterWithBikes}</span>
+                      <span>{t.filterWithBikes}</span>
                     </button>
                     <button
                       type="button"
@@ -1324,8 +1322,7 @@ export default function App() {
                           : 'text-slate-600 hover:bg-slate-100'
                       }`}
                     >
-                      <span>🅿️</span>
-                      <span className="hidden sm:inline">{t.filterWithDocks}</span>
+                      <span>{t.filterWithDocks}</span>
                     </button>
 
                     {favorites.length > 0 && (
@@ -1476,16 +1473,16 @@ export default function App() {
                               {station.currentBikes !== undefined && (
                                 <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-100 font-mono text-[11px] font-bold">
                                   <span className={station.currentBikes === 0 ? 'text-[#be0000]' : 'text-[#3b8a28]'}>
-                                    🚲 {station.currentBikes} {t.availableBikes}
+                                    {station.currentBikes} {t.availableBikes}
                                   </span>
                                   <span className="text-[#1a84ce]">
-                                    🅿️ {freeDocks} {t.liveFreeDocks}
+                                    {freeDocks} {t.liveFreeDocks}
                                   </span>
                                 </div>
                               )}
                               {isBroken && (
                                 <span className="inline-flex items-center gap-1 text-[#be0000] font-bold uppercase text-[9px] bg-red-50 px-1.5 py-0.5 rounded mt-1">
-                                  ⚠️ {t.mapMaintenanceTag}
+                                  {t.mapMaintenanceTag}
                                 </span>
                               )}
                             </div>
@@ -1508,7 +1505,7 @@ export default function App() {
                                 <div className="grid grid-cols-2 gap-1.5 bg-[#FAF9F5] p-2 rounded-lg border border-slate-200/80 text-center">
                                   <div>
                                     <span className="block font-mono text-sm font-black text-[#3b8a28]">
-                                      🚲 {station.currentBikes}
+                                      {station.currentBikes}
                                     </span>
                                     <span className="block text-[9px] font-bold uppercase text-slate-500">
                                       {t.availableBikes}
@@ -1516,7 +1513,7 @@ export default function App() {
                                   </div>
                                   <div>
                                     <span className="block font-mono text-sm font-black text-[#1a84ce]">
-                                      🅿️ {freeDocks}
+                                      {freeDocks}
                                     </span>
                                     <span className="block text-[9px] font-bold uppercase text-slate-500">
                                       {t.liveFreeDocks}
@@ -1620,9 +1617,9 @@ export default function App() {
                         <p className="text-xs text-slate-600 mt-0.5 font-mono">
                           {prediction.current_bikes !== undefined ? (
                             <>
-                              <strong className="text-[#3b8a28] font-extrabold text-sm">🚲 {prediction.current_bikes}</strong> {t.liveBikesNow}
+                              <strong className="text-[#3b8a28] font-extrabold text-sm">{prediction.current_bikes}</strong> {t.liveBikesNow}
                               {prediction.free_docks !== undefined && (
-                                <> • <strong className="text-[#1a84ce] font-extrabold text-sm">🅿️ {prediction.free_docks}</strong> {t.liveFreeDocks}</>
+                                <> • <strong className="text-[#1a84ce] font-extrabold text-sm">{prediction.free_docks}</strong> {t.liveFreeDocks}</>
                               )}
                             </>
                           ) : (
@@ -1656,7 +1653,7 @@ export default function App() {
                         >
                           <div className="flex items-center justify-between">
                             <span className="text-xs font-extrabold text-[#2f3b5c] uppercase tracking-wider">
-                              🚲 {t.predBikesAvailable}
+                              {t.predBikesAvailable}
                             </span>
                             <span className="text-[11px] font-mono font-bold text-slate-400">
                               {new Date(dateTime).toLocaleDateString([], { day: 'numeric', month: 'short' })},{' '}
@@ -1683,7 +1680,7 @@ export default function App() {
                         <div className="p-5 rounded-2xl bg-[#FAF9F5] border border-slate-200/90 flex flex-col justify-between">
                           <div className="flex items-center justify-between">
                             <span className="text-xs font-extrabold text-[#1a84ce] uppercase tracking-wider">
-                              🅿️ {t.predFreeDocksEst}
+                              {t.predFreeDocksEst}
                             </span>
                             <span className="text-[11px] font-mono font-bold text-slate-400">
                               {prediction.occupancy !== null ? `${Math.round(prediction.occupancy)}% ocup.` : ''}
@@ -1859,11 +1856,10 @@ export default function App() {
 
                       <div className="flex items-center gap-3 text-xs font-mono font-bold pt-0.5">
                         <span className="text-[#3b8a28]">
-                          🚲 {planBStation.station.currentBikes ?? planBStation.station.cap} {t.availableBikes}
+                          {planBStation.station.currentBikes ?? planBStation.station.cap} {t.availableBikes}
                         </span>
                         <span className="text-slate-300">•</span>
                         <span className="text-[#1a84ce]">
-                          🅿️{' '}
                           {planBStation.station.freeDocks !== undefined
                             ? planBStation.station.freeDocks
                             : Math.max(0, planBStation.station.cap - (planBStation.station.currentBikes || 0))}{' '}
