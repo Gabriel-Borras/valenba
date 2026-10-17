@@ -37,3 +37,7 @@ Datasets/*.csv
 Thumbs.db
 .vscode/
 .idea/
+
+# Archivos de imagen y carpetas de medios
+*.png
+Miscelanea/
