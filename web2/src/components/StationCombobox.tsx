@@ -140,8 +140,8 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
     <div ref={containerRef} className="relative w-full">
       {/* Campo de Entrada Principal */}
       <div className="relative flex items-center">
-        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-          <Search className="w-5 h-5 text-slate-400" />
+        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#2f3b5c]/50">
+          <Search className="w-5 h-5" />
         </div>
 
         <input
@@ -162,7 +162,7 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
           }}
           onKeyDown={handleKeyDown}
           placeholder={value ? value : effectivePlaceholder}
-          className="w-full pl-11 pr-24 py-3.5 bg-slate-50 hover:bg-slate-100/70 focus:bg-white border border-slate-300 focus:border-[#2f3b5c] rounded-2xl text-slate-800 placeholder-slate-400 font-medium text-base shadow-xs focus:ring-4 focus:ring-[#2f3b5c]/10 transition-all outline-none"
+          className="w-full pl-11 pr-24 py-3.5 bg-[#FAF9F5] hover:bg-white focus:bg-white border-2 border-[#2f3b5c]/15 focus:border-[#2f3b5c] rounded-2xl text-[#18233C] placeholder-[#2f3b5c]/40 font-bold text-sm sm:text-base shadow-2xs transition-all outline-none"
         />
 
         {/* Botones de acción derecha (Limpiar + Favorito) */}
@@ -171,7 +171,7 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
             <button
               type="button"
               onClick={handleClear}
-              className="p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-200 transition-colors"
+              className="p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-200/70 transition-colors"
               title={t.comboboxClear}
             >
               <X className="w-4 h-4" />
@@ -182,13 +182,13 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
             <button
               type="button"
               onClick={() => onToggleFavorite(currentId)}
-              className="p-1.5 rounded-xl hover:bg-slate-100 transition-all focus:outline-none"
+              className="p-1.5 rounded-xl hover:bg-amber-50 transition-all focus:outline-none"
               title={isSelectedFav ? t.comboboxRemoveFav : t.comboboxAddFav}
             >
               <Star
                 className={`w-5 h-5 transition-all ${
                   isSelectedFav
-                    ? 'text-amber-400 fill-amber-400 drop-shadow-sm scale-110'
+                    ? 'text-amber-500 fill-amber-400 scale-110'
                     : 'text-slate-300 hover:text-amber-400'
                 }`}
               />
@@ -201,15 +201,15 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -6, scale: 0.99 }}
+            initial={{ opacity: 0, y: -4, scale: 0.99 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -6, scale: 0.99 }}
-            transition={{ duration: 0.15, ease: 'easeOut' }}
-            className="absolute left-0 right-0 top-full mt-2 z-[500] bg-white rounded-2xl border border-slate-200 shadow-2xl shadow-slate-900/15 overflow-hidden backdrop-blur-xl"
+            exit={{ opacity: 0, y: -4, scale: 0.99 }}
+            transition={{ duration: 0.14, ease: 'easeOut' }}
+            className="absolute left-0 right-0 top-full mt-2 z-[500] bg-white rounded-2xl border-2 border-[#2f3b5c]/15 shadow-2xl shadow-[#18233C]/15 overflow-hidden"
           >
             {/* Cabecera del desplegable con estadísticas rápidas */}
-            <div className="px-4 py-2 bg-slate-50/90 border-b border-slate-100 flex items-center justify-between text-xs">
-              <span className="font-bold text-slate-500 uppercase tracking-wider text-[11px]">
+            <div className="px-4 py-2.5 bg-[#FAF9F5] border-b border-[#2f3b5c]/10 flex items-center justify-between text-xs">
+              <span className="font-black text-[#2f3b5c]/70 uppercase tracking-wider text-[10px] font-mono">
                 {query 
                   ? `${t.comboboxMatches} (${filteredStations.length})` 
                   : (showOnlyFavorites ? `${filteredStations.length} ${t.mapFavoriteStations}` : t.comboboxTotalStations)}
@@ -224,8 +224,8 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
                     }}
                     className={`px-2 py-0.5 rounded-lg text-[11px] font-bold border transition-all flex items-center gap-1 cursor-pointer ${
                       showOnlyFavorites
-                        ? 'bg-amber-100 border-amber-300 text-amber-800 shadow-xs'
-                        : 'bg-white border-slate-200 text-slate-600 hover:text-amber-600 hover:border-amber-200'
+                        ? 'bg-amber-100 border-amber-300 text-amber-900 shadow-2xs'
+                        : 'bg-white border-slate-200 text-slate-600 hover:text-amber-700 hover:border-amber-200'
                     }`}
                     title={showOnlyFavorites ? t.viewAllStations : t.filterOnlyFavorites}
                   >
@@ -241,9 +241,9 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
 
             {/* Sección rápida de Favoritas si existen y el input está vacío */}
             {!query && favorites.length > 0 && (
-              <div className="p-2.5 bg-amber-50/50 border-b border-amber-100/60">
-                <div className="flex items-center gap-1.5 px-2 mb-1.5 text-[11px] font-black uppercase tracking-wider text-amber-800">
-                  <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
+              <div className="p-2.5 bg-amber-50/40 border-b border-amber-200/50">
+                <div className="flex items-center gap-1.5 px-2 mb-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-amber-900">
+                  <Star className="w-3 h-3 fill-amber-500 text-amber-500" />
                   <span>{t.comboboxFavsTitle}</span>
                 </div>
                 <div className="flex flex-wrap gap-1.5 px-1">
@@ -255,9 +255,9 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
                         key={fav.id}
                         type="button"
                         onClick={() => st ? handleSelect(st) : onChange(`${fav.id} - ${name}`)}
-                        className="px-2.5 py-1 rounded-xl bg-white border border-amber-200/80 hover:border-amber-300 text-slate-700 text-xs font-bold shadow-xs hover:shadow-sm flex items-center gap-1.5 transition-all"
+                        className="px-2.5 py-1 rounded-xl bg-white border border-amber-300/80 hover:border-[#2f3b5c] text-[#18233C] text-xs font-bold shadow-2xs flex items-center gap-1.5 transition-all"
                       >
-                        <span className="text-amber-600 font-mono text-[10px]">#{fav.id}</span>
+                        <span className="text-[#2f3b5c] font-mono font-extrabold text-[10px]">#{fav.id}</span>
                         <span className="truncate max-w-[140px]">{name}</span>
                       </button>
                     );
@@ -271,7 +271,7 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
               {filteredStations.length === 0 ? (
                 <div className="p-8 text-center text-slate-400 space-y-2">
                   <Bike className="w-8 h-8 mx-auto text-slate-300" />
-                  <p className="text-sm font-semibold text-slate-600">{t.comboboxNoResults}</p>
+                  <p className="text-sm font-bold text-slate-600">{t.comboboxNoResults}</p>
                   <p className="text-xs text-slate-400">{t.comboboxNoResultsHint}</p>
                 </div>
               ) : (
@@ -281,6 +281,7 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
                   const isFav = favorites.some(f => f.id.toString() === station.id.toString());
                   const isBroken = brokenStations.includes(parseInt(station.id.toString(), 10));
                   const bikes = station.currentBikes;
+                  const docks = station.freeDocks;
 
                   return (
                     <div
@@ -288,55 +289,63 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
                       onMouseEnter={() => setHighlightedIndex(idx)}
                       onClick={() => handleSelect(station)}
                       className={`combobox-item px-4 py-3 cursor-pointer flex items-center justify-between gap-3 transition-colors ${
-                        isHighlighted ? 'bg-slate-100/80' : isSelected ? 'bg-blue-50/70' : 'hover:bg-slate-50'
+                        isHighlighted ? 'bg-[#FAF9F5]' : isSelected ? 'bg-[#2f3b5c]/5' : 'hover:bg-[#FAF9F5]/60'
                       }`}
                     >
                       <div className="flex items-center gap-3 min-w-0">
-                        {/* ID Badge */}
-                        <span className="px-2 py-1 rounded-lg bg-slate-200/80 text-slate-700 font-mono text-xs font-bold shrink-0">
+                        {/* ID Badge estilo billete */}
+                        <span className={`px-2 py-1 rounded-lg font-mono text-xs font-extrabold shrink-0 ${
+                          isSelected ? 'bg-[#2f3b5c] text-white' : 'bg-[#FAF9F5] border border-[#2f3b5c]/15 text-[#2f3b5c]'
+                        }`}>
                           #{station.id}
                         </span>
 
                         {/* Nombre y Dirección */}
                         <div className="truncate">
-                          <p className="text-sm font-bold text-slate-800 truncate leading-tight">
+                          <p className="text-sm font-bold text-[#18233C] truncate leading-tight">
                             {station.name}
                           </p>
-                          {station.address && station.address !== station.name && (
-                            <p className="text-[11px] text-slate-400 truncate flex items-center gap-1 mt-0.5">
-                              <MapPin className="w-3 h-3 shrink-0" />
-                              {station.address}
-                            </p>
-                          )}
+                          <p className="text-[11px] text-slate-500 truncate flex items-center gap-1 mt-0.5 font-medium">
+                            {station.address && station.address !== station.name ? (
+                              <>
+                                <MapPin className="w-3 h-3 shrink-0 text-slate-400" />
+                                <span className="truncate">{station.address}</span>
+                              </>
+                            ) : (
+                              <span>{t.predCapacity}: {station.cap} {t.mapTotalBases}</span>
+                            )}
+                          </p>
                         </div>
                       </div>
 
                       {/* Estado en tiempo real y Anclajes */}
                       <div className="flex items-center gap-2.5 shrink-0">
                         {isBroken ? (
-                          <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-red-600 bg-red-50 border border-red-200 px-2 py-0.5 rounded-full">
+                          <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold uppercase tracking-wider text-[#be0000] bg-red-50 border border-red-200 px-2 py-0.5 rounded-md">
                             <AlertTriangle className="w-3 h-3" /> {t.mapMaintenanceTag}
                           </span>
                         ) : bikes !== undefined ? (
                           <div className="text-right">
                             <span
-                              className={`inline-flex items-center gap-1 text-xs font-black px-2 py-0.5 rounded-lg ${
+                              className={`inline-flex items-center gap-1.5 text-xs font-mono font-extrabold px-2 py-0.5 rounded-lg border ${
                                 bikes > 5
-                                  ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/80'
+                                  ? 'bg-[#55b73e]/10 text-[#2b6cb0] border-[#55b73e]/30 !text-[#22543d]'
                                   : bikes > 0
-                                  ? 'bg-amber-50 text-amber-700 border border-amber-200/80'
-                                  : 'bg-rose-50 text-rose-700 border border-rose-200/80'
+                                  ? 'bg-amber-50 text-amber-800 border-amber-200'
+                                  : 'bg-red-50 text-[#be0000] border-red-200'
                               }`}
                             >
-                              <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
+                              <span className={`w-2 h-2 rounded-full ${
+                                bikes > 5 ? 'bg-[#55b73e]' : bikes > 0 ? 'bg-amber-500' : 'bg-[#be0000]'
+                              }`} />
                               {bikes} {t.bikesTag}
                             </span>
-                            <span className="block text-[10px] text-slate-400 font-medium">
-                              {station.cap} {t.mapTotalBases}
+                            <span className="block text-[10px] text-slate-500 font-mono font-semibold mt-0.5">
+                              {docks !== undefined ? `${docks} ${t.liveFreeDocks}` : `${station.cap} ${t.mapTotalBases}`}
                             </span>
                           </div>
                         ) : (
-                          <span className="text-xs text-slate-400 font-medium">
+                          <span className="text-xs text-slate-400 font-mono font-semibold">
                             {station.cap} {t.mapTotalBases}
                           </span>
                         )}
@@ -348,10 +357,10 @@ export const StationCombobox: React.FC<StationComboboxProps> = ({
                             e.stopPropagation();
                             onToggleFavorite(station.id);
                           }}
-                          className="p-1 rounded-lg text-slate-300 hover:text-amber-400 hover:bg-slate-200/60 transition-colors"
+                          className="p-1 rounded-lg text-slate-300 hover:text-amber-500 hover:bg-amber-50 transition-colors"
                           title={isFav ? t.comboboxRemoveFav : t.comboboxAddFav}
                         >
-                          <Star className={`w-4 h-4 ${isFav ? 'fill-amber-400 text-amber-400' : ''}`} />
+                          <Star className={`w-4 h-4 ${isFav ? 'fill-amber-400 text-amber-500' : ''}`} />
                         </button>
                       </div>
                     </div>

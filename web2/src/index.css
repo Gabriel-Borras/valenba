@@ -2,72 +2,170 @@
 
 @theme {
   --font-sans: 'Raleway', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --font-valenbisi: 'Raleway', system-ui, sans-serif;
+}
+
+:root {
+  --valenbisi-primary: #2f3b5c;
+  --valenbisi-ink: #18233C;
+  --valenbisi-blue: #1a84ce;
+  --valenbisi-green: #55b73e;
+  --valenbisi-amber: #f59e0b;
+  --valenbisi-red: #be0000;
 }
 
 html, body {
   font-family: 'Raleway', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #F6F5F0;
+  color: #18233C;
 }
 
-/* Estilos personalizados para los marcadores de Leaflet */
+/* Lienzo mediterráneo cálido con micro-trama arquitectónica sutil */
+.bg-valenba-canvas {
+  background-color: #F6F5F0;
+  background-image: radial-gradient(rgba(47, 59, 92, 0.07) 0.75px, transparent 0.75px);
+  background-size: 20px 20px;
+}
+
+/* Estilos personalizados para los marcadores dinámicos de Leaflet */
 .custom-bike-marker {
   background: transparent !important;
   border: none !important;
 }
 
-/* Base del pin circular */
-.marker-pin {
-  width: 36px;
-  height: 36px;
-  border-radius: 50% !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  border: 2px solid #cbd5e1 !important; /* border-slate-300 */
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important; /* shadow-lg */
-  transition: all 0.2s ease-in-out !important;
+/* Cápsula dinámica (Dynamic Pill Marker estilo Transit / Valenbisi) */
+.marker-pill-wrapper {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Estación normal: azul */
-.marker-pin-normal {
+.marker-pill-wrapper:hover {
+  transform: translateY(-2px) scale(1.08);
+  z-index: 900 !important;
+}
+
+.marker-pill-wrapper.is-selected {
+  transform: translateY(-3px) scale(1.16);
+  z-index: 1000 !important;
+}
+
+.marker-pill {
+  height: 28px;
+  min-width: 44px;
+  padding: 0 7px;
+  border-radius: 9999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-weight: 800 !important;
+  font-size: 11px !important;
+  line-height: 1 !important;
+  letter-spacing: -0.02em;
+  border: 1.5px solid #ffffff !important;
+  box-shadow: 0 3px 8px rgba(24, 35, 60, 0.25), 0 1px 2px rgba(0, 0, 0, 0.15) !important;
+  transition: all 0.15s ease-out !important;
+  white-space: nowrap;
+}
+
+/* Estado normal con bicis (>5): Azul corporativo Valenbisi con punto verde #55b73e */
+.marker-pill-normal {
   background-color: #2f3b5c !important;
   color: #ffffff !important;
+}
+
+/* Estado pocas bicis (1-5): Azul corporativo con borde ámbar */
+.marker-pill-low {
+  background-color: #2f3b5c !important;
+  color: #fef08a !important;
+  border-color: #fbbf24 !important;
+}
+
+/* Estado 0 bicis (vacía): Rojo oficial Valenbisi #be0000 */
+.marker-pill-empty {
+  background-color: #be0000 !important;
+  color: #ffffff !important;
+  border-color: #fecaca !important;
+}
+
+/* Estado mantenimiento / inactiva */
+.marker-pill-broken {
+  background-color: #64748b !important;
+  color: #e2e8f0 !important;
   border-color: #cbd5e1 !important;
 }
 
-/* Estación favorita: amarillo/oro */
-.marker-pin-favorite {
-  background-color: #fbbf24 !important; /* bg-amber-400 */
-  color: #0f172a !important; /* text-slate-900 */
-  border-color: #fde047 !important; /* border-yellow-300 */
+/* Estación favorita: Oro cálido con tinta marina */
+.marker-pill-favorite {
+  background-color: #fbbf24 !important;
+  color: #18233C !important;
+  border: 2px solid #18233C !important;
 }
 
-/* Sombra/Anillo de selección (ring-4 equivalent) */
-.marker-pin-normal.selected {
-  box-shadow: 0 0 0 4px rgba(47, 59, 92, 0.3) !important;
+/* Anillo de selección */
+.marker-pill.selected {
+  box-shadow: 0 0 0 3.5px rgba(26, 132, 206, 0.45), 0 6px 14px rgba(24, 35, 60, 0.35) !important;
+  border-color: #ffffff !important;
 }
 
-.marker-pin-favorite.selected {
-  box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.4) !important;
+.marker-pill-favorite.selected {
+  box-shadow: 0 0 0 3.5px rgba(251, 191, 36, 0.65), 0 6px 14px rgba(24, 35, 60, 0.35) !important;
 }
 
 /* Puntero triangular inferior */
-.marker-arrow {
-  position: absolute;
-  bottom: -3px;
-  left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-  width: 6px;
-  height: 6px;
-  z-index: -10;
+.marker-Set-arrow {
+  width: 7px;
+  height: 7px;
+  transform: rotate(45deg);
+  margin-top: -4px;
+  z-index: -1;
+  border-right: 1.5px solid #ffffff;
+  border-bottom: 1.5px solid #ffffff;
 }
 
-.marker-arrow-normal {
+.arrow-normal {
   background-color: #2f3b5c !important;
 }
 
-.marker-arrow-favorite {
-  background-color: #fbbf24 !important;
+.arrow-low {
+  background-color: #2f3b5c !important;
+  border-color: #fbbf24 !important;
 }
+
+.arrow-empty {
+  background-color: #be0000 !important;
+  border-color: #fecaca !important;
+}
+
+.arrow-broken {
+  background-color: #64748b !important;
+}
+
+.arrow-favorite {
+  background-color: #fbbf24 !important;
+  border-color: #18233C !important;
+}
+
+/* Personalización sutil de Popups y Tooltips de Leaflet */
+.leaflet-popup-content-wrapper {
+  border-radius: 16px !important;
+  border: 1px solid rgba(47, 59, 92, 0.12) !important;
+  box-shadow: 0 10px 25px -5px rgba(24, 35, 60, 0.15) !important;
+  padding: 2px !important;
+}
+
+.leaflet-tooltip {
+  border-radius: 12px !important;
+  border: 1px solid rgba(47, 59, 92, 0.15) !important;
+  box-shadow: 0 8px 20px -4px rgba(24, 35, 60, 0.14) !important;
+  padding: 4px 8px !important;
+}
+

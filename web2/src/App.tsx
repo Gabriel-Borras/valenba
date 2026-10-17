@@ -7,12 +7,8 @@ import {
   AlertTriangle, 
   Info,
   ChevronRight,
-  TrendingDown,
-  TrendingUp,
   Map as MapIcon,
-  Home,
   User,
-  Menu,
   BarChart,
   Star,
   Edit2,
@@ -30,7 +26,11 @@ import {
   Eye,
   EyeOff,
   ShieldCheck,
-  Search
+  LocateFixed,
+  BookOpen,
+  Navigation,
+  Layers,
+  ArrowRight
 } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup, Tooltip, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -92,27 +92,71 @@ const FlagUK = () => (
   </svg>
 );
 
-// Custom Leaflet Dynamic Icon function
-const getStationIcon = (stationId: string, cap: number, isSelected: boolean, isFavorite?: boolean) => {
-  const pinClass = isFavorite ? 'marker-pin-favorite' : 'marker-pin-normal';
-  const arrowClass = isFavorite ? 'marker-arrow-favorite' : 'marker-arrow-normal';
+// Fórmula geodésica Haversine para calcular distancia en metros entre dos coordenadas
+const getDistanceMeters = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+  const R = 6371e3;
+  const toRad = (deg: number) => (deg * Math.PI) / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return Math.round(R * c);
+};
+
+// Marcador Píldora Dinámico con número de bicicletas en tiempo real (Inspirado en Valenbisi / Transit)
+const getStationIcon = (
+  stationId: string,
+  cap: number,
+  isSelected: boolean,
+  isFavorite?: boolean,
+  currentBikes?: number,
+  isBroken?: boolean
+) => {
+  const bikesNum = currentBikes !== undefined ? currentBikes : cap;
+  let pillVariant = 'marker-pill-normal';
+  let arrowVariant = 'marker-pill-arrow-normal';
+  let statusIndicatorHtml = '<span class="w-2 h-2 rounded-full bg-[#55b73e] shrink-0"></span>';
+
+  if (isBroken) {
+    pillVariant = 'marker-pill-broken';
+    arrowVariant = 'marker-pill-arrow-broken';
+    statusIndicatorHtml = '<span class="w-2 h-2 rounded-full bg-slate-300 shrink-0"></span>';
+  } else if (isFavorite) {
+    pillVariant = 'marker-pill-favorite';
+    arrowVariant = 'marker-pill-arrow-favorite';
+    statusIndicatorHtml =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="#78350f" stroke="#78350f" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+  } else if (bikesNum === 0) {
+    pillVariant = 'marker-pill-empty';
+    arrowVariant = 'marker-pill-arrow-empty';
+    statusIndicatorHtml = '<span class="w-1.5 h-1.5 rounded-full bg-white/90 shrink-0"></span>';
+  } else if (bikesNum <= 4) {
+    pillVariant = 'marker-pill-low';
+    arrowVariant = 'marker-pill-arrow-normal';
+    statusIndicatorHtml = '<span class="w-2 h-2 rounded-full bg-[#fbbf24] shrink-0"></span>';
+  }
+
   const selectedClass = isSelected ? 'selected' : '';
+  const displayValue = isBroken ? '—' : bikesNum;
 
   return L.divIcon({
     html: `
-      <div class="relative flex items-center justify-center">
-        ${isSelected ? `<span class="absolute inline-flex h-10 w-10 animate-ping rounded-full ${isFavorite ? 'bg-yellow-400/20' : 'bg-slate-500/20'} opacity-75"></span>` : ''}
-        <div class="relative marker-pin ${pinClass} ${selectedClass}">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bike"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg>
+      <div class="relative flex flex-col items-center justify-center">
+        ${isSelected ? `<span class="absolute -top-1 inline-flex h-8 w-11 animate-ping rounded-full ${isFavorite ? 'bg-amber-400/35' : 'bg-[#2f3b5c]/30'}"></span>` : ''}
+        <div class="relative marker-pill ${pillVariant} ${selectedClass}">
+          ${statusIndicatorHtml}
+          <span>${displayValue}</span>
         </div>
-        <div class="marker-arrow ${arrowClass}"></div>
+        <div class="marker-pill-arrow ${arrowVariant}"></div>
       </div>
     `,
     className: 'custom-bike-marker',
-    iconSize: [36, 36],
-    iconAnchor: [18, 36],
-    popupAnchor: [0, -36],
-    tooltipAnchor: [0, -36]
+    iconSize: [44, 32],
+    iconAnchor: [22, 30],
+    popupAnchor: [0, -30],
+    tooltipAnchor: [0, -28]
   });
 };
 
@@ -129,18 +173,11 @@ function ChangeMapView({ center, zoom }: { center: [number, number]; zoom: numbe
   return null;
 }
 
-// Mock Valencia Stations
+// Valencia Center Coordinates
 const VALENCIA_CENTER: [number, number] = [39.4699, -0.3763];
-const MOCK_STATIONS = [
-  { id: '92', name: 'Blasco Ibáñez - Aragón', lat: 39.47586032883543, lng: -0.35596831583559707, cap: 20, currentBikes: 10 },
-  { id: '111', name: 'UPV Galileo', lat: 39.48066419504159, lng: -0.3395082613341325, cap: 30, currentBikes: 15 },
-  { id: '113', name: 'UPV Caminos', lat: 39.48127634089521, lng: -0.3436112694462359, cap: 38, currentBikes: 19 },
-  { id: '114', name: 'UPV Informática', lat: 39.4818043438759, lng: -0.346591279156021, cap: 30, currentBikes: 15 }
-];
 
 // --- CONFIGURACIÓN & REGLAS DE NEGOCIO ---
 const ESTACIONES_ROTAS = [105, 146, 168, 299];
-const URL_BACKEND = '/api/predict'; // Reemplazar con endpoint real (ej. ngrok, AWS, heroku)
 const CARTO_API_KEY: string = String((import.meta as any).env?.VITE_CARTO_API_KEY || '').trim();
 
 // Resolver de URL de API preparado para Producción (Vercel / Dominio propio / Local)
@@ -354,6 +391,9 @@ export default function App() {
   const [mapCenter, setMapCenter] = useState<[number, number]>(VALENCIA_CENTER);
   const [mapZoom, setMapZoom] = useState<number>(14);
   const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
+  const [mapFilterMode, setMapFilterMode] = useState<'all' | 'bikes' | 'docks'>('all');
+  const [mapStyle, setMapStyle] = useState<'light' | 'voyager' | 'osm'>('light');
+  const [isLocating, setIsLocating] = useState(false);
   const [mapSearchQuery, setMapSearchQuery] = useState('');
 
   // EFECTO PARA CARGOS DE DATOS REALES DEL MAPA Y FAVORITAS (POLLING ACTIVO 30s)
@@ -411,6 +451,25 @@ export default function App() {
         .catch(console.error);
     }
   }, [currentUser?.email]);
+
+  // --- TELEMETRÍA EN DIRECTO DE LA RED VALENBISI ---
+  const networkStats = useMemo(() => {
+    let activeCount = 0;
+    let totalBikes = 0;
+    let totalFreeDocks = 0;
+    for (const s of mapStations) {
+      const numId = parseInt(s.id, 10);
+      const isBroken = !isNaN(numId) && ESTACIONES_ROTAS.includes(numId);
+      if (!isBroken && s.isOpen !== false) {
+        activeCount++;
+      }
+      const bikes = s.currentBikes !== undefined ? s.currentBikes : 0;
+      const docks = s.freeDocks !== undefined ? s.freeDocks : Math.max(0, s.cap - bikes);
+      totalBikes += bikes;
+      totalFreeDocks += docks;
+    }
+    return { activeCount, totalBikes, totalFreeDocks };
+  }, [mapStations]);
 
   // --- LIMITES DE FECHA Y RELOJ REACTIVO ---
   const [currentSystemTime, setCurrentSystemTime] = useState<Date>(() => new Date());
@@ -503,7 +562,6 @@ export default function App() {
     DEFAULT_STATIONS.map(s => `${s.id} - ${s.name}`)
   );
   useEffect(() => {
-    // GET a /calles con fallback a DEFAULT_STATIONS
     fetch(getApiUrl('/calles'))
       .then(res => res.json())
       .then(data => {
@@ -539,13 +597,21 @@ export default function App() {
     return trimmed;
   };
 
-  // Memoized filtered stations list based on the "showOnlyFavorites" toggle and search query
+  // Memoized filtered stations list based on favorites toggle, filter mode (bikes/docks), and search query
   const displayedStations = useMemo(() => {
     const q = mapSearchQuery.trim().toLowerCase();
     return mapStations.filter(station => {
       if (showOnlyFavorites) {
         const isFav = favorites.some(f => f.id && getCleanId(f.id.toString()) === station.id.toString());
         if (!isFav) return false;
+      }
+      if (mapFilterMode === 'bikes') {
+        const bikes = station.currentBikes !== undefined ? station.currentBikes : station.cap;
+        if (bikes <= 0) return false;
+      } else if (mapFilterMode === 'docks') {
+        const bikes = station.currentBikes !== undefined ? station.currentBikes : 0;
+        const docks = station.freeDocks !== undefined ? station.freeDocks : Math.max(0, station.cap - bikes);
+        if (docks <= 0) return false;
       }
       if (q) {
         const matchName = station.name && station.name.toLowerCase().includes(q);
@@ -555,11 +621,49 @@ export default function App() {
       }
       return true;
     });
-  }, [mapStations, showOnlyFavorites, favorites, mapSearchQuery]);
+  }, [mapStations, showOnlyFavorites, mapFilterMode, favorites, mapSearchQuery]);
 
   const currentStationStr = typeof stationId === 'string' ? stationId.trim() : (stationId ? (stationId as any).toString().trim() : '');
   const cleanCurrentStationId = getCleanId(currentStationStr);
   const isCurrentFavorite = cleanCurrentStationId !== '' && favorites.some(f => f.id && getCleanId(f.id.toString()) === cleanCurrentStationId);
+
+  const selectedStationObj = useMemo(() => {
+    if (!cleanCurrentStationId) return null;
+    return mapStations.find(s => s.id.toString() === cleanCurrentStationId) || null;
+  }, [cleanCurrentStationId, mapStations]);
+
+  // Geolocalización: encontrar la estación operativa más cercana al usuario
+  const handleLocateMe = () => {
+    if (!navigator.geolocation) return;
+    setIsLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setIsLocating(false);
+        const { latitude, longitude } = pos.coords;
+        let closest: MapStation | null = null;
+        let minDist = Infinity;
+        for (const s of mapStations) {
+          const numId = parseInt(s.id, 10);
+          if (!isNaN(numId) && ESTACIONES_ROTAS.includes(numId)) continue;
+          const d = getDistanceMeters(latitude, longitude, s.lat, s.lng);
+          if (d < minDist) {
+            minDist = d;
+            closest = s;
+          }
+        }
+        if (closest) {
+          setStationId(`${closest.id} - ${closest.name}`);
+          setMapCenter([closest.lat, closest.lng]);
+          setMapZoom(16);
+          setShowMap(true);
+        }
+      },
+      () => {
+        setIsLocating(false);
+      },
+      { enableHighAccuracy: true, timeout: 6000 }
+    );
+  };
 
   const toggleFavorite = (id: string | number) => {
     if (id === null || id === undefined) return;
@@ -623,14 +727,40 @@ export default function App() {
     updated_at?: string;
   } | null>(null);
 
-  // --- LÓGICA DE API (Fetch Simulado para Integración Futura) ---
-  const handlePredict = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // Estación alternativa más cercana ("Plan B" geodésico) para la estación predicha
+  const planBStation = useMemo(() => {
+    const targetId = prediction?.station_id || cleanCurrentStationId;
+    if (!targetId) return null;
+    const origin = mapStations.find(s => s.id.toString() === targetId.toString());
+    if (!origin) return null;
+
+    let best: { station: MapStation; distanceMeters: number; walkMins: number } | null = null;
+    for (const candidate of mapStations) {
+      if (candidate.id.toString() === origin.id.toString()) continue;
+      const numId = parseInt(candidate.id, 10);
+      if (!isNaN(numId) && ESTACIONES_ROTAS.includes(numId)) continue;
+      if (candidate.isOpen === false) continue;
+      // Priorizar estaciones con bicicletas disponibles en tiempo real
+      if (candidate.currentBikes !== undefined && candidate.currentBikes === 0) continue;
+
+      const dist = getDistanceMeters(origin.lat, origin.lng, candidate.lat, candidate.lng);
+      if (!best || dist < best.distanceMeters) {
+        best = {
+          station: candidate,
+          distanceMeters: dist,
+          walkMins: Math.max(1, Math.round(dist / 75))
+        };
+      }
+    }
+    return best;
+  }, [prediction?.station_id, cleanCurrentStationId, mapStations]);
+
+  // Función reutilizable para ejecutar predicción sobre cualquier estación
+  const runPredictionForStation = async (targetStationStr: string) => {
     setError(null);
     setPrediction(null);
 
-    // 1. Validación de Frontend
-    const cleanId = getCleanId(stationId);
+    const cleanId = getCleanId(targetStationStr);
     if (!cleanId) {
       setError('Por favor introduce una estación válida.');
       return;
@@ -649,7 +779,7 @@ export default function App() {
 
     try {
       const payload = {
-        estacion: stationId,
+        estacion: targetStationStr,
         fecha_solicitada: dateTime
       };
 
@@ -665,7 +795,7 @@ export default function App() {
       
       const favInfo = favorites.find(f => f.id.toString() === cleanId);
       const matchedStation = mapStations.find(s => s.id.toString() === cleanId);
-      const stationTitle = favInfo?.customName || (matchedStation ? `${matchedStation.id} - ${matchedStation.name}` : (parseInt(cleanId, 10).toString() !== "NaN" ? `Estación ${cleanId}` : stationId));
+      const stationTitle = favInfo?.customName || (matchedStation ? `${matchedStation.id} - ${matchedStation.name}` : (parseInt(cleanId, 10).toString() !== "NaN" ? `Estación ${cleanId}` : targetStationStr));
 
       setPrediction({
         ...data,
@@ -693,33 +823,80 @@ export default function App() {
     }
   };
 
+  // --- LÓGICA DE API ---
+  const handlePredict = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await runPredictionForStation(stationId);
+  };
+
   // --- RENDERIZADO DE INTERFAZ ---
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-800 pb-16 md:pb-0 flex flex-col">
-      {/* HEADER TIPO VALENBISI */}
-      <header className="bg-white shadow-sm border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-8">
-            <div className="flex items-center gap-2 cursor-pointer" onClick={() => setShowMap(true)}>
-              <div className="w-10 h-10 bg-[#2f3b5c] rounded-full flex items-center justify-center">
-                <Bike className="text-white w-6 h-6" />
+    <div className="min-h-screen bg-valenba-canvas font-sans text-slate-800 pb-16 md:pb-0 flex flex-col">
+      {/* HEADER INSTITUCIONAL / FUNCIONAL ESTILO VALENBISI */}
+      <header className="bg-white/95 backdrop-blur-md shadow-2xs border-b border-slate-200/90 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 h-18 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div
+              className="flex items-center gap-2.5 cursor-pointer group"
+              onClick={() => setShowMap(true)}
+            >
+              <div className="w-10 h-10 bg-[#2f3b5c] group-hover:bg-[#1a84ce] transition-colors rounded-xl flex items-center justify-center shadow-xs">
+                <Bike className="text-white w-5 h-5" />
               </div>
-              <span className="text-2xl font-black text-[#2f3b5c] tracking-tight italic">
-                valenBA
-              </span>
+              <div className="flex flex-col">
+                <span className="text-2xl font-black text-[#2f3b5c] tracking-tight leading-none">
+                  valen<span className="text-[#1a84ce]">BA</span>
+                </span>
+                <span className="text-[10px] font-mono font-bold text-slate-400 tracking-widest uppercase mt-0.5">
+                  VALÈNCIA • {networkStats.activeCount} EST.
+                </span>
+              </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Selector compacto de idioma en cabecera (estilo Valenbisi oficial) */}
+            <div className="hidden md:flex items-center bg-[#FAF9F5] p-1 rounded-xl border border-slate-200/90">
+              {(['es', 'va', 'en'] as Language[]).map((langCode) => {
+                const isActive = currentLang === langCode;
+                const label = langCode === 'va' ? 'VAL' : langCode.toUpperCase();
+                return (
+                  <button
+                    key={langCode}
+                    type="button"
+                    onClick={() => changeLanguage(langCode)}
+                    className={`px-2.5 py-1 rounded-lg text-[11px] font-mono font-extrabold transition-all cursor-pointer ${
+                      isActive
+                        ? 'bg-[#2f3b5c] text-white shadow-2xs'
+                        : 'text-slate-500 hover:text-[#2f3b5c]'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Botón directo a Metodología */}
+            <button
+              type="button"
+              onClick={() => setShowHowItWorks(true)}
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200/90 bg-[#FAF9F5] hover:bg-slate-100 text-xs font-bold text-[#2f3b5c] transition-colors cursor-pointer"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-[#1a84ce]" />
+              <span>{t.methodologyBtn}</span>
+            </button>
+
+            {/* Botón de Perfil / Acceso */}
             <button 
               onClick={() => setIsUserDrawerOpen(true)}
-              className="flex items-center gap-2.5 px-3 py-2 rounded-full border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all text-slate-700 shadow-sm"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-slate-200/90 bg-white hover:border-[#2f3b5c]/40 hover:bg-[#FAF9F5] transition-all text-slate-700 shadow-2xs cursor-pointer"
               title={currentUser ? `Perfil de ${currentUser.name}` : t.navUserLogin}
             >
-              <div className="w-8 h-8 rounded-full bg-[#2f3b5c] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
-                {currentUser ? currentUser.name.charAt(0).toUpperCase() : <User className="w-4 h-4 text-white" />}
+              <div className="w-7 h-7 rounded-lg bg-[#2f3b5c] text-white flex items-center justify-center font-bold text-xs shrink-0">
+                {currentUser ? currentUser.name.charAt(0).toUpperCase() : <User className="w-3.5 h-3.5 text-white" />}
               </div>
-              <span className="hidden sm:inline text-xs font-bold truncate max-w-[130px]">
+              <span className="hidden sm:inline text-xs font-bold truncate max-w-[120px]">
                 {currentUser ? currentUser.name : t.navUserLogin}
               </span>
             </button>
@@ -727,51 +904,102 @@ export default function App() {
         </div>
       </header>
 
-      {/* CONTENIDO PRINCIPAL */}
-          {/* HERO SECTION / BANNER PREDICCIÓN */}
-          <div className="bg-[#2f3b5c] text-white py-6 md:py-8 px-4 shadow-inner relative overflow-hidden">
-            {/* Subtle background pattern */}
-            <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '32px 32px' }}></div>
-            <div className="max-w-7xl mx-auto relative z-10">
-              <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">
-                {t.heroTitle}
-              </h1>
-            </div>
+      {/* BANNER CORPORATIVO VALENBISI CON TELEMETRÍA EN DIRECTO DE LA RED */}
+      <div className="bg-[#2f3b5c] text-white py-5 md:py-6 px-4 border-b border-[#1d263d] relative overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-10 pointer-events-none"
+          style={{
+            backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+            backgroundSize: '28px 28px'
+          }}
+        />
+        <div className="max-w-7xl mx-auto relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-white">
+              {t.heroTitle}
+            </h1>
           </div>
 
-          {/* CONTENIDO PRINCIPAL */}
-          <main className="max-w-7xl mx-auto px-4 py-8 md:py-12 grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* Telemetría agregada en vivo de las 276 estaciones */}
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 px-3 py-1.5 rounded-xl backdrop-blur-xs">
+              <span className="w-2 h-2 rounded-full bg-[#55b73e] animate-pulse shrink-0" />
+              <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-blue-100">
+                {t.networkLiveBadge}:
+              </span>
+              <span className="text-xs font-mono font-extrabold text-white tabular-nums">
+                {networkStats.activeCount} est.
+              </span>
+            </div>
+
+            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 px-3 py-1.5 rounded-xl backdrop-blur-xs">
+              <span className="text-xs font-mono font-extrabold text-[#7be362] tabular-nums">
+                🚲 {networkStats.totalBikes.toLocaleString()}
+              </span>
+              <span className="text-[11px] font-medium text-blue-100">
+                {t.networkBikesAvailable}
+              </span>
+            </div>
+
+            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 px-3 py-1.5 rounded-xl backdrop-blur-xs">
+              <span className="text-xs font-mono font-extrabold text-sky-300 tabular-nums">
+                🅿️ {networkStats.totalFreeDocks.toLocaleString()}
+              </span>
+              <span className="text-[11px] font-medium text-blue-100">
+                {t.networkFreeDocks}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* CONTENIDO PRINCIPAL */}
+      <main className="max-w-7xl w-full mx-auto px-4 py-6 md:py-10 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 flex-1">
         
-        {/* COLUMNA IZQUIERDA: FORMULARIO */}
+        {/* COLUMNA IZQUIERDA: CONFIGURADOR TÁCTIL DE CONSULTA */}
         <motion.section 
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          className="lg:col-span-5 bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden"
+          className="lg:col-span-5 bg-white rounded-2xl shadow-md shadow-slate-900/5 border-2 border-[#2f3b5c]/12 overflow-hidden self-start"
         >
-          <div className="p-6 md:p-8">
-            <h2 className="text-2xl font-extrabold text-[#2f3b5c] mb-6 flex items-center gap-2">
-              <MapIcon className="w-6 h-6" />
-              {t.formTitle}
-            </h2>
+          <div className="p-5 sm:p-7">
+            <div className="flex items-center justify-between pb-4 mb-5 border-b border-slate-100">
+              <h2 className="text-lg sm:text-xl font-black text-[#2f3b5c] flex items-center gap-2 tracking-tight">
+                <MapPin className="w-5 h-5 text-[#1a84ce]" />
+                {t.formTitle}
+              </h2>
+              <button
+                type="button"
+                onClick={handleLocateMe}
+                disabled={isLocating}
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#2f3b5c] hover:text-white bg-[#FAF9F5] hover:bg-[#2f3b5c] px-3 py-1.5 rounded-xl border border-[#2f3b5c]/20 transition-all cursor-pointer shadow-2xs"
+                title={t.locateMeBtn}
+              >
+                <LocateFixed className={`w-3.5 h-3.5 ${isLocating ? 'animate-spin text-[#1a84ce]' : 'text-[#1a84ce] group-hover:text-white'}`} />
+                <span>{isLocating ? t.locatingMsg : t.locateMeBtn}</span>
+              </button>
+            </div>
 
             <form onSubmit={handlePredict} className="space-y-6">
               
-              {/* SELECTOR DE ESTACIÓN PROPIO (REEMPLAZA A DATALIST NATIVO) */}
-              <div className="space-y-2">
-                <div className="flex justify-between items-center mb-1">
-                  <label className="block text-sm font-bold text-slate-700 uppercase tracking-wider">
-                    {t.formStationLabel}
+              {/* PASO 01: SELECTOR DE ESTACIÓN */}
+              <div className="space-y-2.5">
+                <div className="flex justify-between items-center">
+                  <label className="flex items-center gap-2 text-xs font-extrabold text-slate-700 uppercase tracking-wider">
+                    <span className="font-mono text-[11px] bg-[#2f3b5c] text-white px-2 py-0.5 rounded-md">
+                      01
+                    </span>
+                    <span>{t.formStationLabel}</span>
                   </label>
                   <div className="flex items-center gap-2">
-                    {/* Botón de filtro de favoritas: solo sale si hay mínimo una estación favorita */}
                     {favorites.length > 0 && (
                       <button
                         type="button"
                         onClick={() => setShowOnlyFavorites(prev => !prev)}
-                        className={`text-xs font-bold px-2.5 py-1 rounded-xl border transition-all flex items-center gap-1.5 cursor-pointer ${
+                        className={`text-xs font-bold px-2.5 py-1 rounded-lg border transition-all flex items-center gap-1.5 cursor-pointer ${
                           showOnlyFavorites 
-                            ? 'bg-amber-400/20 border-amber-400 text-amber-900 shadow-xs' 
-                            : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-slate-300 hover:text-amber-600'
+                            ? 'bg-amber-400/20 border-amber-400 text-amber-900 shadow-2xs' 
+                            : 'bg-[#FAF9F5] border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-amber-700'
                         }`}
                         title={showOnlyFavorites ? t.viewAllStations : t.filterOnlyFavorites}
                       >
@@ -779,9 +1007,6 @@ export default function App() {
                         <span>{showOnlyFavorites ? t.viewAllStations : `${t.filterOnlyFavorites} (${favorites.length})`}</span>
                       </button>
                     )}
-                    <span className="text-xs text-slate-400 font-medium hidden sm:inline">
-                      {showOnlyFavorites ? `${displayedStations.length} ${t.mapFavoriteStations}` : t.activeStationsCount}
-                    </span>
                   </div>
                 </div>
 
@@ -802,10 +1027,82 @@ export default function App() {
                   }}
                 />
 
-                {/* FAVORITAS (CHIPS) */}
+                {/* TARJETA EN VIVO DE LA ESTACIÓN SELECCIONADA (PREVIEW INSTANTÁNEO) */}
+                {selectedStationObj && (
+                  <div className="p-3.5 rounded-xl bg-[#FAF9F5] border border-[#2f3b5c]/15 space-y-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className="font-mono text-xs font-extrabold px-2 py-0.5 rounded-md bg-[#2f3b5c] text-white shrink-0">
+                          #{selectedStationObj.id}
+                        </span>
+                        <span className="text-xs font-extrabold text-[#2f3b5c] truncate">
+                          {selectedStationObj.name}
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => toggleFavorite(selectedStationObj.id)}
+                        className="p-1 rounded-lg hover:bg-slate-200/70 transition-colors shrink-0 cursor-pointer"
+                        title={t.favoriteBtn}
+                      >
+                        <Star
+                          className={`w-4 h-4 ${
+                            isCurrentFavorite
+                              ? 'fill-amber-400 text-amber-400'
+                              : 'text-slate-400 hover:text-amber-500'
+                          }`}
+                        />
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-2 pt-0.5">
+                      <div className="bg-white px-2.5 py-1.5 rounded-lg border border-slate-200/80">
+                        <span className="block text-[10px] font-bold uppercase text-slate-400">
+                          {t.availableBikes}
+                        </span>
+                        <span
+                          className={`font-mono text-sm font-extrabold tabular-nums ${
+                            (selectedStationObj.currentBikes ?? 0) === 0
+                              ? 'text-[#be0000]'
+                              : (selectedStationObj.currentBikes ?? 0) <= 4
+                              ? 'text-amber-600'
+                              : 'text-[#3b8a28]'
+                          }`}
+                        >
+                          🚲 {selectedStationObj.currentBikes ?? '—'}
+                        </span>
+                      </div>
+
+                      <div className="bg-white px-2.5 py-1.5 rounded-lg border border-slate-200/80">
+                        <span className="block text-[10px] font-bold uppercase text-slate-400">
+                          {t.liveFreeDocks}
+                        </span>
+                        <span className="font-mono text-sm font-extrabold text-[#1a84ce] tabular-nums">
+                          🅿️{' '}
+                          {selectedStationObj.freeDocks !== undefined
+                            ? selectedStationObj.freeDocks
+                            : Math.max(0, selectedStationObj.cap - (selectedStationObj.currentBikes || 0))}
+                        </span>
+                      </div>
+
+                      <div className="bg-white px-2.5 py-1.5 rounded-lg border border-slate-200/80">
+                        <span className="block text-[10px] font-bold uppercase text-slate-400">
+                          {t.predCapacity}
+                        </span>
+                        <span className="font-mono text-sm font-extrabold text-slate-700 tabular-nums">
+                          {selectedStationObj.cap} {t.mapTotalBases}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* FAVORITAS (CHIPS DE ACCESO RÁPIDO) */}
                 {favorites.length > 0 && (
-                  <div className="pt-2 flex flex-wrap gap-2 items-center">
-                    <span className="text-xs font-bold text-slate-400 uppercase">{t.favoritesPrefix}</span>
+                  <div className="pt-1 flex flex-wrap gap-1.5 items-center">
+                    <span className="text-[11px] font-extrabold text-slate-400 uppercase mr-1">
+                      {t.favoritesPrefix}
+                    </span>
                     {favorites.map(fav => {
                       const favIdStr = fav.id.toString();
                       const isSelected = getCleanId(currentStationStr) === getCleanId(favIdStr);
@@ -813,8 +1110,8 @@ export default function App() {
                       
                       if (isEditing) {
                         return (
-                          <div key={`edit-${fav.id}`} className="flex items-center bg-white border border-blue-400 rounded-full overflow-hidden shadow-sm pl-3 pr-1 py-0.5">
-                            <span className="text-xs font-bold text-slate-400 mr-2">#{fav.id}</span>
+                          <div key={`edit-${fav.id}`} className="flex items-center bg-white border border-[#2f3b5c] rounded-lg overflow-hidden shadow-2xs pl-2.5 pr-1 py-0.5">
+                            <span className="text-xs font-mono font-bold text-slate-400 mr-1.5">#{fav.id}</span>
                             <input
                               type="text"
                               value={editingName}
@@ -824,10 +1121,10 @@ export default function App() {
                               autoFocus
                               onKeyDown={e => e.key === 'Enter' && saveEditingFav(favIdStr, e as any)}
                             />
-                            <button type="button" onClick={(e) => saveEditingFav(favIdStr, e)} className="p-1 hover:bg-green-50 text-green-600 rounded-full transition-colors">
+                            <button type="button" onClick={(e) => saveEditingFav(favIdStr, e)} className="p-1 hover:bg-green-50 text-green-600 rounded transition-colors">
                               <Check className="w-3.5 h-3.5" />
                             </button>
-                            <button type="button" onClick={cancelEditingFav} className="p-1 hover:bg-red-50 text-red-600 rounded-full transition-colors">
+                            <button type="button" onClick={cancelEditingFav} className="p-1 hover:bg-red-50 text-red-600 rounded transition-colors">
                               <X className="w-3.5 h-3.5" />
                             </button>
                           </div>
@@ -838,23 +1135,30 @@ export default function App() {
                         <button
                           key={fav.id}
                           type="button"
-                          onClick={() => setStationId(favIdStr)}
-                          className={`text-xs font-bold pl-3 pr-2 py-1.5 rounded-full border transition-colors flex items-center gap-1.5 group ${
+                          onClick={() => {
+                            setStationId(favIdStr);
+                            const st = mapStations.find(s => s.id.toString() === favIdStr);
+                            if (st) {
+                              setMapCenter([st.lat, st.lng]);
+                              setMapZoom(16);
+                            }
+                          }}
+                          className={`text-xs font-bold pl-2.5 pr-2 py-1 rounded-lg border transition-colors flex items-center gap-1.5 group cursor-pointer ${
                             isSelected 
-                              ? 'bg-yellow-50 border-yellow-300 text-yellow-800'
-                              : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-slate-300'
+                              ? 'bg-amber-50 border-amber-400 text-amber-900'
+                              : 'bg-[#FAF9F5] border-slate-200 text-slate-600 hover:bg-white hover:border-slate-300'
                           }`}
                         >
-                          <Star className={`w-3.5 h-3.5 shrink-0 ${isSelected ? 'fill-yellow-500 text-yellow-500' : 'text-slate-400 group-hover:text-yellow-500'}`} />
-                          <span className="truncate max-w-[100px]">
-                            {fav.customName || `Estación ${fav.id}`}
+                          <Star className={`w-3 h-3 shrink-0 ${isSelected ? 'fill-amber-500 text-amber-500' : 'text-amber-500/70 group-hover:text-amber-500'}`} />
+                          <span className="truncate max-w-[110px]">
+                            {fav.customName || `#${fav.id}`}
                           </span>
                           <div 
                             onClick={(e) => startEditingFav(fav, e)}
-                            className={`p-0.5 rounded-full hover:bg-slate-200 transition-colors opacity-0 group-hover:opacity-100 ${isSelected ? 'hover:bg-yellow-200' : ''}`}
+                            className={`p-0.5 rounded hover:bg-slate-200 transition-colors opacity-0 group-hover:opacity-100 ${isSelected ? 'hover:bg-amber-200' : ''}`}
                             title={t.renameStation}
                           >
-                            <Edit2 className="w-3 h-3 text-slate-500" />
+                            <Edit2 className="w-2.5 h-2.5 text-slate-500" />
                           </div>
                         </button>
                       );
@@ -863,10 +1167,13 @@ export default function App() {
                 )}
               </div>
 
-              {/* SELECTOR TEMPORAL CONTINUO (TIME SCRUBBER #4) */}
-              <div className="space-y-2">
-                <label className="block text-sm font-bold text-slate-700 uppercase tracking-wider">
-                  {t.formDateLabel}
+              {/* PASO 02: SELECTOR TEMPORAL CONTINUO (TIME SCRUBBER) */}
+              <div className="space-y-2.5">
+                <label className="flex items-center gap-2 text-xs font-extrabold text-slate-700 uppercase tracking-wider">
+                  <span className="font-mono text-[11px] bg-[#2f3b5c] text-white px-2 py-0.5 rounded-md">
+                    02
+                  </span>
+                  <span>{t.formDateLabel}</span>
                 </label>
                 <TimeScrubber
                   value={dateTime}
@@ -887,29 +1194,29 @@ export default function App() {
                     exit={{ opacity: 0, height: 0 }}
                     className="overflow-hidden"
                   >
-                    <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl flex items-start gap-3 mt-4">
-                      <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-                      <p className="text-sm font-medium">{error}</p>
+                    <div className="bg-red-50 border-2 border-[#be0000]/25 text-[#be0000] px-4 py-3 rounded-xl flex items-start gap-3">
+                      <AlertTriangle className="w-5 h-5 text-[#be0000] shrink-0 mt-0.5" />
+                      <p className="text-xs font-bold leading-relaxed">{error}</p>
                     </div>
                   </motion.div>
                 )}
               </AnimatePresence>
 
-              {/* BOTÓN DE ACCIÓN TIPO VALENBISI */}
+              {/* BOTÓN TÁCTIL MECÁNICO DE CONSULTA */}
               <button
                 id="boton_predecir"
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-[#2f3b5c] hover:bg-[#1a233a] active:bg-[#0f1424] text-white py-4 rounded-full font-bold text-lg shadow-lg shadow-[#2f3b5c]/30 hover:shadow-[#2f3b5c]/50 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed group mt-6"
+                className="w-full bg-[#2f3b5c] hover:bg-[#232d48] text-white py-4 px-6 rounded-xl font-extrabold text-base tracking-wide shadow-[0_4px_0_0_#18233C] hover:shadow-[0_3px_0_0_#18233C] hover:translate-y-[1px] active:translate-y-[3px] active:shadow-none transition-all flex items-center justify-center gap-2.5 disabled:opacity-70 disabled:cursor-not-allowed group cursor-pointer"
               >
                 {isLoading ? (
                   <>
-                    <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    {t.formCalculating}
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <span>{t.formCalculating}</span>
                   </>
                 ) : (
                   <>
-                    {t.formSubmitBtn}
+                    <span>{t.formSubmitBtn}</span>
                     <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </>
                 )}
@@ -919,20 +1226,20 @@ export default function App() {
         </motion.section>
 
 
-        {/* COLUMNA DERECHA: DASHBOARD DE RESULTADOS Y MAPA */}
+        {/* COLUMNA DERECHA: MAPA INTERACTIVO CON PÍLDORAS EN VIVO Y BENTO DE PREDICCIÓN */}
         <div className="lg:col-span-7 flex flex-col space-y-4">
 
           {/* Barra superior para alternar entre Mapa y Predicción cuando existe una predicción */}
           {prediction && (
-            <div className="flex items-center justify-between bg-white p-1.5 rounded-2xl border border-slate-200/80 shadow-sm">
+            <div className="flex items-center justify-between bg-white p-1.5 rounded-xl border-2 border-[#2f3b5c]/12 shadow-2xs">
               <div className="flex items-center gap-1.5">
                 <button
                   type="button"
                   onClick={() => setShowMap(false)}
-                  className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                  className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
                     !showMap 
-                      ? 'bg-[#2f3b5c] text-white shadow-xs' 
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                      ? 'bg-[#2f3b5c] text-white shadow-2xs' 
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-[#FAF9F5]'
                   }`}
                 >
                   <BarChart className="w-3.5 h-3.5" />
@@ -941,10 +1248,10 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => setShowMap(true)}
-                  className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                  className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-extrabold transition-all cursor-pointer ${
                     showMap 
-                      ? 'bg-[#2f3b5c] text-white shadow-xs' 
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                      ? 'bg-[#2f3b5c] text-white shadow-2xs' 
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-[#FAF9F5]'
                   }`}
                 >
                   <MapIcon className="w-3.5 h-3.5" />
@@ -955,16 +1262,16 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setShowMap(!showMap)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-[#2f3b5c] hover:bg-slate-100 transition-all mr-1"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-[#2f3b5c] hover:bg-[#FAF9F5] transition-all cursor-pointer"
               >
                 {showMap ? (
                   <>
-                    <BarChart className="w-3.5 h-3.5 text-blue-600" />
+                    <BarChart className="w-3.5 h-3.5 text-[#1a84ce]" />
                     <span>{t.tabViewPrediction}</span>
                   </>
                 ) : (
                   <>
-                    <MapIcon className="w-3.5 h-3.5 text-blue-600" />
+                    <MapIcon className="w-3.5 h-3.5 text-[#1a84ce]" />
                     <span>{t.btnBackToMap}</span>
                   </>
                 )}
@@ -978,48 +1285,122 @@ export default function App() {
                 key="map"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                exit={{ opacity: 0, transition: { duration: 0.2 } }}
-                className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden relative flex flex-col h-[580px] lg:h-[620px] isolate"
+                exit={{ opacity: 0, transition: { duration: 0.15 } }}
+                className="bg-white rounded-2xl shadow-md shadow-slate-900/5 border-2 border-[#2f3b5c]/15 overflow-hidden relative flex flex-col h-[580px] lg:h-[650px] isolate"
               >
-                {/* BARRA SUPERIOR FLOTANTE DEL MAPA */}
+                {/* BARRA SUPERIOR FLOTANTE DE FILTROS DEL MAPA */}
                 <div className="absolute top-3 left-3 right-3 z-20 flex flex-wrap items-center justify-between pointer-events-none gap-2">
-                  <div className="bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-xl shadow-md border border-slate-200/80 pointer-events-auto flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
-                    <span className="text-xs font-bold text-[#2f3b5c]">
-                      {showOnlyFavorites ? `${displayedStations.length} ${t.mapFavoriteStations}` : t.activeStationsCount}
-                    </span>
-                  </div>
+                  {/* Filtros rápidos de disponibilidad en el mapa (Todas / Con bicis / Con anclajes / Favoritas) */}
+                  <div className="bg-white/95 backdrop-blur-md p-1 rounded-xl shadow-md border border-slate-200/90 pointer-events-auto flex flex-wrap items-center gap-1">
+                    <button
+                      type="button"
+                      onClick={() => setMapFilterMode('all')}
+                      className={`px-2.5 py-1 rounded-lg text-[11px] font-extrabold transition-all cursor-pointer ${
+                        mapFilterMode === 'all'
+                          ? 'bg-[#2f3b5c] text-white'
+                          : 'text-slate-600 hover:bg-slate-100'
+                      }`}
+                    >
+                      {t.filterAll} ({displayedStations.length})
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setMapFilterMode('bikes')}
+                      className={`px-2.5 py-1 rounded-lg text-[11px] font-extrabold transition-all flex items-center gap-1 cursor-pointer ${
+                        mapFilterMode === 'bikes'
+                          ? 'bg-[#55b73e] text-white'
+                          : 'text-slate-600 hover:bg-slate-100'
+                      }`}
+                    >
+                      <span>🚲</span>
+                      <span className="hidden sm:inline">{t.filterWithBikes}</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setMapFilterMode('docks')}
+                      className={`px-2.5 py-1 rounded-lg text-[11px] font-extrabold transition-all flex items-center gap-1 cursor-pointer ${
+                        mapFilterMode === 'docks'
+                          ? 'bg-[#1a84ce] text-white'
+                          : 'text-slate-600 hover:bg-slate-100'
+                      }`}
+                    >
+                      <span>🅿️</span>
+                      <span className="hidden sm:inline">{t.filterWithDocks}</span>
+                    </button>
 
-                  <div className="flex items-center gap-2 pointer-events-auto">
-                    {/* Botón de filtro de favoritas en el mapa: solo sale si hay mínimo una estación favorita */}
                     {favorites.length > 0 && (
                       <button
                         type="button"
                         onClick={() => setShowOnlyFavorites(prev => !prev)}
-                        className={`px-3.5 py-1.5 rounded-xl shadow-md text-xs font-bold transition-all flex items-center gap-1.5 border cursor-pointer ${
+                        className={`px-2.5 py-1 rounded-lg text-[11px] font-extrabold transition-all flex items-center gap-1 cursor-pointer ${
                           showOnlyFavorites
-                            ? 'bg-amber-500 border-amber-600 text-white shadow-amber-500/20'
-                            : 'bg-white/95 backdrop-blur-md border-slate-200/80 text-slate-700 hover:bg-slate-50 hover:text-amber-600'
+                            ? 'bg-amber-400 text-amber-950'
+                            : 'text-slate-600 hover:bg-amber-50'
                         }`}
-                        title={showOnlyFavorites ? t.viewAllStations : t.filterOnlyFavorites}
                       >
-                        <Star className={`w-3.5 h-3.5 ${showOnlyFavorites ? 'fill-white text-white' : 'text-amber-500 fill-amber-500'}`} />
-                        <span>{showOnlyFavorites ? t.viewAllStations : `${t.filterOnlyFavorites} (${favorites.length})`}</span>
+                        <Star className={`w-3 h-3 ${showOnlyFavorites ? 'fill-amber-950 text-amber-950' : 'fill-amber-400 text-amber-500'}`} />
+                        <span>{favorites.length}</span>
                       </button>
                     )}
+                  </div>
 
-                    {/* Botón flotante para ver resultados de predicción si ya se ha calculado */}
+                  {/* Controles derechos del mapa: Selector de capa cartográfica + Ver predicción */}
+                  <div className="flex items-center gap-1.5 pointer-events-auto">
+                    <div className="bg-white/95 backdrop-blur-md p-1 rounded-xl shadow-md border border-slate-200/90 flex items-center gap-0.5">
+                      <Layers className="w-3.5 h-3.5 text-slate-400 ml-1.5 mr-1 hidden sm:inline" />
+                      {([
+                        { id: 'light', label: t.mapStyleLight },
+                        { id: 'voyager', label: t.mapStyleVoyager },
+                        { id: 'osm', label: t.mapStyleOsm }
+                      ] as const).map((layer) => (
+                        <button
+                          key={layer.id}
+                          type="button"
+                          onClick={() => setMapStyle(layer.id)}
+                          className={`px-2 py-1 rounded-lg text-[10px] font-mono font-bold transition-all cursor-pointer ${
+                            mapStyle === layer.id
+                              ? 'bg-[#2f3b5c] text-white'
+                              : 'text-slate-600 hover:bg-slate-100'
+                          }`}
+                        >
+                          {layer.label}
+                        </button>
+                      ))}
+                    </div>
+
                     {prediction && (
                       <button
                         type="button"
                         onClick={() => setShowMap(false)}
-                        className="bg-[#2f3b5c] hover:bg-[#1a233a] text-white px-3.5 py-1.5 rounded-xl shadow-md text-xs font-bold transition-all flex items-center gap-1.5"
+                        className="bg-[#2f3b5c] hover:bg-[#1a233a] text-white px-3 py-1.5 rounded-xl shadow-md text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
                         title={t.tabViewPrediction}
                       >
-                        <BarChart className="w-3.5 h-3.5 text-blue-300" />
-                        <span>{t.tabViewPrediction}</span>
+                        <BarChart className="w-3.5 h-3.5 text-sky-300" />
+                        <span className="hidden sm:inline">{t.tabViewPrediction}</span>
                       </button>
                     )}
+                  </div>
+                </div>
+
+                {/* LEYENDA INFERIOR FLOTANTE ESTILO VALENBISI */}
+                <div className="absolute bottom-3 left-3 z-20 pointer-events-none">
+                  <div className="bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-xl shadow-md border border-slate-200/90 pointer-events-auto flex flex-wrap items-center gap-3 text-[11px] font-bold text-slate-700">
+                    <span className="inline-flex items-center gap-1.5">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#55b73e]" />
+                      <span>{t.legendAvailable}</span>
+                    </span>
+                    <span className="inline-flex items-center gap-1.5">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#f59e0b]" />
+                      <span>{t.legendLowBikes}</span>
+                    </span>
+                    <span className="inline-flex items-center gap-1.5">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#be0000]" />
+                      <span>{t.legendEmpty}</span>
+                    </span>
+                    <span className="inline-flex items-center gap-1">
+                      <Star className="w-3 h-3 fill-amber-400 text-amber-500" />
+                      <span>{t.legendFavorite}</span>
+                    </span>
                   </div>
                 </div>
 
@@ -1027,22 +1408,51 @@ export default function App() {
                 <div className="flex-1 w-full h-full relative z-0">
                   <MapContainer center={mapCenter} zoom={mapZoom} style={{ height: '100%', width: '100%', zIndex: 0 }}>
                     <ChangeMapView center={mapCenter} zoom={mapZoom} />
-                    <TileLayer
-                      key={`carto-positron-${CARTO_API_KEY ? 'keyed' : 'free'}`}
-                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-                      subdomains="abcd"
-                      maxZoom={20}
-                      url={`https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png${CARTO_API_KEY ? `?key=${encodeURIComponent(CARTO_API_KEY)}` : ''}`}
-                    />
+                    {mapStyle === 'osm' ? (
+                      <TileLayer
+                        key="osm-standard"
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+                        maxZoom={19}
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                      />
+                    ) : mapStyle === 'voyager' ? (
+                      <TileLayer
+                        key={`carto-voyager-${CARTO_API_KEY ? 'keyed' : 'free'}`}
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+                        subdomains="abcd"
+                        maxZoom={20}
+                        url={`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png${CARTO_API_KEY ? `?key=${encodeURIComponent(CARTO_API_KEY)}` : ''}`}
+                      />
+                    ) : (
+                      <TileLayer
+                        key={`carto-positron-${CARTO_API_KEY ? 'keyed' : 'free'}`}
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+                        subdomains="abcd"
+                        maxZoom={20}
+                        url={`https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png${CARTO_API_KEY ? `?key=${encodeURIComponent(CARTO_API_KEY)}` : ''}`}
+                      />
+                    )}
                     {displayedStations.map((station) => {
-                      const isSelected = stationId && getCleanId(stationId) === station.id.toString();
+                      const isSelected = Boolean(stationId && getCleanId(stationId) === station.id.toString());
                       const isFavorite = favorites.some((f) => f.id && station.id && f.id.toString() === station.id.toString());
-                      
+                      const isBroken = ESTACIONES_ROTAS.includes(parseInt(station.id, 10));
+                      const freeDocks =
+                        station.freeDocks !== undefined
+                          ? station.freeDocks
+                          : Math.max(0, station.cap - (station.currentBikes || 0));
+
                       return (
                         <Marker 
-                          key={`${station.id}-${isSelected}-${isFavorite}`} 
+                          key={`${station.id}-${isSelected}-${isFavorite}-${station.currentBikes ?? 'na'}`} 
                           position={[station.lat, station.lng]}
-                          icon={getStationIcon(station.id, station.cap, isSelected, isFavorite)}
+                          icon={getStationIcon(
+                            station.id,
+                            station.cap,
+                            isSelected,
+                            isFavorite,
+                            station.currentBikes,
+                            isBroken
+                          )}
                           eventHandlers={{
                             click: () => {
                               setStationId(`${station.id} - ${station.name}`);
@@ -1052,48 +1462,74 @@ export default function App() {
                           }}
                         >
                           {/* HOVER TOOLTIP */}
-                          <Tooltip direction="top" offset={[0, -28]} opacity={0.98} sticky>
-                            <div className="font-sans text-xs p-1.5 space-y-1">
-                              <p className="font-black text-[#2f3b5c] leading-tight">{station.name}</p>
-                              <p className="text-slate-500 font-bold">
-                                #{station.id} • {t.predCapacity}: <span className="text-slate-800 font-extrabold">{station.cap} {t.mapTotalBases}</span>
-                              </p>
+                          <Tooltip direction="top" offset={[0, -26]} opacity={0.98} sticky>
+                            <div className="font-sans text-xs p-1.5 space-y-1 min-w-[175px]">
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="font-mono text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-[#2f3b5c] text-white">
+                                  #{station.id}
+                                </span>
+                                <span className="font-mono text-[10px] font-bold text-slate-400">
+                                  {t.predCapacity}: {station.cap}
+                                </span>
+                              </div>
+                              <p className="font-extrabold text-[#2f3b5c] leading-snug pt-0.5">{station.name}</p>
                               {station.currentBikes !== undefined && (
-                                <p className="text-blue-600 font-extrabold text-[11px] flex items-center gap-1">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                                  <span>🚲 {station.currentBikes} {t.realTimeBikes}</span>
-                                  {station.freeDocks !== undefined && (
-                                    <span className="text-slate-500 font-normal">({station.freeDocks} {t.liveFreeDocks})</span>
-                                  )}
-                                </p>
+                                <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-100 font-mono text-[11px] font-bold">
+                                  <span className={station.currentBikes === 0 ? 'text-[#be0000]' : 'text-[#3b8a28]'}>
+                                    🚲 {station.currentBikes} {t.availableBikes}
+                                  </span>
+                                  <span className="text-[#1a84ce]">
+                                    🅿️ {freeDocks} {t.liveFreeDocks}
+                                  </span>
+                                </div>
                               )}
-                              {ESTACIONES_ROTAS.includes(parseInt(station.id, 10)) && (
-                                <span className="inline-flex items-center gap-1 text-red-500 font-bold uppercase text-[9px] bg-red-50 px-1.5 py-0.5 rounded-md mt-1">⚠️ {t.mapMaintenanceTag}</span>
+                              {isBroken && (
+                                <span className="inline-flex items-center gap-1 text-[#be0000] font-bold uppercase text-[9px] bg-red-50 px-1.5 py-0.5 rounded mt-1">
+                                  ⚠️ {t.mapMaintenanceTag}
+                                </span>
                               )}
                             </div>
                           </Tooltip>
 
                           {/* POPUP CARD */}
                           <Popup>
-                            <div className="text-center p-1.5 min-w-[160px] font-sans">
-                              <h3 className="font-extrabold text-[#2f3b5c] mb-1.5 text-xs leading-tight">{station.name}</h3>
+                            <div className="p-1.5 min-w-[190px] font-sans space-y-2">
+                              <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-1.5">
+                                <span className="font-mono text-[11px] font-extrabold px-1.5 py-0.5 rounded bg-[#2f3b5c] text-white">
+                                  #{station.id}
+                                </span>
+                                <span className="font-mono text-[11px] font-bold text-slate-500">
+                                  {station.cap} {t.mapTotalBases}
+                                </span>
+                              </div>
+                              <h3 className="font-extrabold text-[#2f3b5c] text-xs leading-snug">{station.name}</h3>
                               
-                              <p className="text-xs text-slate-600 mb-2 leading-tight">
-                                {t.mapPopupCapacity}<br/>
-                                <strong className="text-[#2f3b5c] text-sm font-black">{station.cap}</strong> {t.mapTotalBases}
-                                {station.currentBikes !== undefined && (
-                                  <span className="block text-blue-600 font-bold mt-0.5">
-                                    🚲 {station.currentBikes} {t.availableBikes}
-                                    {station.freeDocks !== undefined ? ` • ${station.freeDocks} ${t.liveFreeDocks}` : ''}
-                                  </span>
-                                )}
-                              </p>
+                              {station.currentBikes !== undefined && (
+                                <div className="grid grid-cols-2 gap-1.5 bg-[#FAF9F5] p-2 rounded-lg border border-slate-200/80 text-center">
+                                  <div>
+                                    <span className="block font-mono text-sm font-black text-[#3b8a28]">
+                                      🚲 {station.currentBikes}
+                                    </span>
+                                    <span className="block text-[9px] font-bold uppercase text-slate-500">
+                                      {t.availableBikes}
+                                    </span>
+                                  </div>
+                                  <div>
+                                    <span className="block font-mono text-sm font-black text-[#1a84ce]">
+                                      🅿️ {freeDocks}
+                                    </span>
+                                    <span className="block text-[9px] font-bold uppercase text-slate-500">
+                                      {t.liveFreeDocks}
+                                    </span>
+                                  </div>
+                                </div>
+                              )}
 
                               <button 
                                 onClick={() => {
                                   setStationId(`${station.id} - ${station.name}`);
                                 }}
-                                className="text-[11px] font-bold bg-[#2f3b5c] hover:bg-[#151a29] text-white px-3 py-1.5 rounded-lg transition-colors w-full flex items-center justify-center gap-1.5"
+                                className="text-[11px] font-extrabold bg-[#2f3b5c] hover:bg-[#1a233a] text-white px-3 py-2 rounded-lg transition-colors w-full flex items-center justify-center gap-1.5 cursor-pointer"
                               >
                                 <Check className="w-3.5 h-3.5" />
                                 <span>{t.mapSelectBtn}</span>
@@ -1109,71 +1545,84 @@ export default function App() {
             ) : (
               <motion.div 
                 key="results"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="flex-1 space-y-6"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex-1 space-y-5"
               >
-                {/* KPI PRINCIPAL */}
-                <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 p-8 border border-slate-100 relative overflow-hidden">
-                  <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 to-[#2f3b5c]"></div>
+                {/* BENTO 1: TARJETA PRINCIPAL DE PRONÓSTICO (BICIS + ANCLAJES LIBRES) */}
+                <div className="bg-white rounded-2xl shadow-md shadow-slate-900/5 p-6 sm:p-7 border-2 border-[#2f3b5c]/15 relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-1.5 bg-[#2f3b5c]" />
                   
-                  <div className="flex justify-between items-start mb-8 gap-4">
+                  {/* Encabezado de la estación */}
+                  <div className="flex justify-between items-start mb-6 gap-4">
                     <div className="min-w-0 flex-1">
-                      <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2 ${
-                        prediction.model_available === false 
-                          ? 'bg-amber-50 text-amber-700' 
-                          : 'bg-blue-50 text-blue-700'
-                      }`}>
-                        <div className={`w-2 h-2 rounded-full ${
-                          prediction.model_available === false ? 'bg-amber-500' : 'bg-blue-500 animate-pulse'
-                        }`}></div>
-                        {prediction.model_available === false ? t.mapModelUnavailable : 'IA OK'}
-                      </span>
-                      <h3 className="text-2xl font-bold text-slate-800 flex items-center gap-2 flex-wrap min-w-0">
-                        <span className="break-words block max-w-full">
+                      <div className="flex flex-wrap items-center gap-2 mb-2">
+                        {prediction.station_id && (
+                          <span className="font-mono text-xs font-extrabold px-2.5 py-0.5 rounded-md bg-[#2f3b5c] text-white">
+                            #{prediction.station_id}
+                          </span>
+                        )}
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] font-mono font-bold uppercase tracking-wider ${
+                          prediction.model_available === false 
+                            ? 'bg-amber-50 text-amber-800 border border-amber-200' 
+                            : 'bg-[#FAF9F5] text-[#2f3b5c] border border-slate-200'
+                        }`}>
+                          <span className={`w-2 h-2 rounded-full ${
+                            prediction.model_available === false ? 'bg-amber-500' : 'bg-[#55b73e]'
+                          }`} />
+                          {prediction.model_available === false ? t.mapModelUnavailable : t.limit72hBadge}
+                        </span>
+                      </div>
+
+                      <h3 className="text-xl sm:text-2xl font-black text-[#2f3b5c] flex items-center gap-2 flex-wrap min-w-0 leading-tight">
+                        <span className="break-words">
                           {prediction.station_title || (prediction.station_id ? `Estación ${prediction.station_id}` : '')}
                         </span>
-                        {prediction.is_favorite && (
-                          <Star className="w-5 h-5 fill-yellow-400 text-yellow-400 drop-shadow-sm shrink-0" title="Favorita" />
-                        )}
-                        {prediction.custom_name && prediction.station_id && (
-                          <span className="text-lg font-medium text-slate-400 shrink-0">
-                            (#{prediction.station_id})
-                          </span>
+                        {prediction.station_id && (
+                          <button
+                            type="button"
+                            onClick={() => toggleFavorite(prediction.station_id!)}
+                            className="p-1 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
+                            title={t.favoriteBtn}
+                          >
+                            <Star
+                              className={`w-5 h-5 shrink-0 ${
+                                favorites.some(f => f.id.toString() === prediction.station_id?.toString())
+                                  ? 'fill-amber-400 text-amber-400'
+                                  : 'text-slate-300 hover:text-amber-400'
+                              }`}
+                            />
+                          </button>
                         )}
                       </h3>
                     </div>
-                    <div className="text-right flex-shrink-0 flex flex-col items-end gap-2">
-                      <div>
-                        <p className="text-sm font-medium text-slate-500 whitespace-nowrap">{t.predCapacity}</p>
-                        <p className="text-2xl font-black text-slate-800">{prediction.cap}</p>
+
+                    <div className="text-right shrink-0 flex flex-col items-end gap-2">
+                      <div className="bg-[#FAF9F5] px-3 py-1.5 rounded-xl border border-slate-200/80 text-right">
+                        <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                          {t.predCapacity}
+                        </p>
+                        <p className="text-lg font-mono font-extrabold text-[#2f3b5c] tabular-nums leading-tight">
+                          {prediction.cap} <span className="text-xs font-normal text-slate-500">{t.mapTotalBases}</span>
+                        </p>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => setShowMap(true)}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-[#2f3b5c] text-slate-700 hover:text-white transition-all shadow-xs"
-                        title={t.tabViewMap}
-                      >
-                        <MapIcon className="w-3.5 h-3.5" />
-                        <span>{t.btnBackToMap}</span>
-                      </button>
                     </div>
                   </div>
 
-                  {/* ESTADO EN DIRECTO */}
-                  <div className="mb-6 p-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex flex-wrap items-center justify-between gap-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#2f3b5c]"></div>
+                  {/* COMPARATIVA EN TIEMPO REAL ("AHORA EN LA ESTACIÓN") */}
+                  <div className="mb-6 p-3.5 rounded-xl bg-[#FAF9F5] border border-slate-200/90 flex flex-wrap items-center justify-between gap-3">
+                    <div className="flex items-center gap-2.5">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#55b73e] animate-pulse shrink-0" />
                       <div>
-                        <div className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                        <span className="text-[11px] font-extrabold text-[#2f3b5c] uppercase tracking-wider block">
                           {t.liveNowTitle}
-                        </div>
-                        <p className="text-sm text-slate-600 mt-0.5">
+                        </span>
+                        <p className="text-xs text-slate-600 mt-0.5 font-mono">
                           {prediction.current_bikes !== undefined ? (
                             <>
-                              <strong className="text-slate-900 font-bold text-base">{prediction.current_bikes}</strong> {t.liveBikesNow}
+                              <strong className="text-[#3b8a28] font-extrabold text-sm">🚲 {prediction.current_bikes}</strong> {t.liveBikesNow}
                               {prediction.free_docks !== undefined && (
-                                <> • <strong className="text-slate-900 font-bold text-base">{prediction.free_docks}</strong> {t.liveFreeDocks}</>
+                                <> • <strong className="text-[#1a84ce] font-extrabold text-sm">🅿️ {prediction.free_docks}</strong> {t.liveFreeDocks}</>
                               )}
                             </>
                           ) : (
@@ -1183,7 +1632,7 @@ export default function App() {
                       </div>
                     </div>
                     {prediction.updated_at && (
-                      <span className="text-xs font-mono text-slate-400">
+                      <span className="text-[11px] font-mono font-semibold text-slate-400">
                         {t.liveUpdated}: {new Date(prediction.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
                     )}
@@ -1191,127 +1640,254 @@ export default function App() {
 
                   {prediction.model_available === false ? (
                     <div className="text-center py-6 px-4">
-                      <div className="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-amber-100">
-                        <Clock className="w-8 h-8 text-amber-600" />
+                      <div className="w-14 h-14 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-3 border border-amber-200">
+                        <Clock className="w-7 h-7 text-amber-600" />
                       </div>
-                      <p className="text-lg font-bold text-slate-700">{t.predModelDev}</p>
+                      <p className="text-base font-bold text-slate-700">{t.predModelDev}</p>
                     </div>
                   ) : (
-                    <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10">
-                      {/* NÚMERO GIGANTE (yhat) */}
-                      <div className="text-center flex-shrink-0" id="texto_resultado">
-                        <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-                          {t.predBikesAvailable}
-                        </p>
-                        <div className="text-7xl md:text-8xl font-black text-[#2f3b5c] tracking-tighter tabular-nums drop-shadow-sm">
-                          {prediction.yhat}
+                    <div className="space-y-6">
+                      {/* DOBLE KPI SIMÉTRICO: COGER BICI VS DEJAR BICI */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {/* KPI 1: Bicicletas Disponibles Estimadas */}
+                        <div
+                          id="texto_resultado"
+                          className="p-5 rounded-2xl bg-[#FAF9F5] border-2 border-[#2f3b5c]/15 flex flex-col justify-between"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-extrabold text-[#2f3b5c] uppercase tracking-wider">
+                              🚲 {t.predBikesAvailable}
+                            </span>
+                            <span className="text-[11px] font-mono font-bold text-slate-400">
+                              {new Date(dateTime).toLocaleDateString([], { day: 'numeric', month: 'short' })},{' '}
+                              {new Date(dateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </span>
+                          </div>
+                          <div className="my-3 flex items-baseline gap-2">
+                            <span className="text-5xl sm:text-6xl font-mono font-extrabold text-[#2f3b5c] tracking-tight tabular-nums">
+                              {prediction.yhat}
+                            </span>
+                            <span className="text-xs font-mono font-bold text-slate-400">
+                              / {prediction.cap}
+                            </span>
+                          </div>
+                          <p className="text-[11px] font-semibold text-slate-500">
+                            {t.predFor}{' '}
+                            <strong className="text-slate-700 font-mono">
+                              {new Date(dateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </strong>
+                          </p>
                         </div>
-                        <p className="text-slate-500 text-xs font-medium mt-2">
-                          {t.predFor} {new Date(dateTime).toLocaleDateString([], { day: 'numeric', month: 'short' })}, {new Date(dateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                        </p>
+
+                        {/* KPI 2: Anclajes Libres Estimados (para devolver bici) */}
+                        <div className="p-5 rounded-2xl bg-[#FAF9F5] border border-slate-200/90 flex flex-col justify-between">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-extrabold text-[#1a84ce] uppercase tracking-wider">
+                              🅿️ {t.predFreeDocksEst}
+                            </span>
+                            <span className="text-[11px] font-mono font-bold text-slate-400">
+                              {prediction.occupancy !== null ? `${Math.round(prediction.occupancy)}% ocup.` : ''}
+                            </span>
+                          </div>
+                          <div className="my-3 flex items-baseline gap-2">
+                            <span className="text-5xl sm:text-6xl font-mono font-extrabold text-[#1a84ce] tracking-tight tabular-nums">
+                              {Math.max(0, Math.round((prediction.cap - (Number(prediction.yhat) || 0)) * 10) / 10)}
+                            </span>
+                            <span className="text-xs font-mono font-bold text-slate-400">
+                              / {prediction.cap}
+                            </span>
+                          </div>
+                          <p className="text-[11px] font-semibold text-slate-500">
+                            {t.liveFreeDocks} ({t.predCapacity}: {prediction.cap})
+                          </p>
+                        </div>
                       </div>
 
-                      {/* GRÁFICO TIPO GAUGE / BARRA DE PROGRESO */}
-                      <div className="flex-1 w-full min-w-0 space-y-4">
-                        <div className="flex justify-between text-sm font-bold text-slate-600 mb-1">
+                      {/* BARRA PROPORCIONAL DE OCUPACIÓN ESTIMADA */}
+                      <div className="space-y-2">
+                        <div className="flex justify-between text-xs font-extrabold text-slate-600">
                           <span>{t.predOccupancyEst}</span>
-                          <span>{prediction.occupancy !== null ? Math.round(prediction.occupancy) : 0}%</span>
+                          <span className="font-mono tabular-nums">
+                            {prediction.occupancy !== null ? Math.round(prediction.occupancy) : 0}%
+                          </span>
                         </div>
-                        <div className="h-6 w-full bg-slate-100 rounded-full overflow-hidden relative shadow-inner">
+                        <div className="h-4 w-full bg-slate-200/80 rounded-lg overflow-hidden relative p-0.5">
                           <motion.div 
-                            className={`absolute top-0 left-0 h-full rounded-full ${
-                              prediction.occupancy !== null && prediction.occupancy > 85 ? 'bg-emerald-500' :
-                              prediction.occupancy !== null && prediction.occupancy < 15 ? 'bg-red-500' :
+                            className={`h-full rounded-md ${
+                              prediction.occupancy !== null && prediction.occupancy > 70 ? 'bg-[#55b73e]' :
+                              prediction.occupancy !== null && prediction.occupancy < 15 ? 'bg-[#be0000]' :
                               'bg-[#2f3b5c]'
                             }`}
                             initial={{ width: 0 }}
-                            animate={{ width: `${prediction.occupancy || 0}%` }}
-                            transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+                            animate={{ width: `${Math.min(100, Math.max(0, prediction.occupancy || 0))}%` }}
+                            transition={{ duration: 0.7, ease: 'easeOut' }}
                           />
                         </div>
-                        <div className="flex justify-between text-xs font-semibold text-slate-400 uppercase">
-                          <span>{t.predSuccessLow} (0)</span>
-                          <span>{t.predSuccessHigh} ({prediction.cap})</span>
+                        <div className="flex justify-between text-[11px] font-mono font-bold text-slate-400">
+                          <span>0 ({t.legendEmpty})</span>
+                          <span>{prediction.cap} ({t.mapTotalBases})</span>
                         </div>
                       </div>
                     </div>
                   )}
                 </div>
 
-                {/* CONTEXTO Y CONFIANZA */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Intervalo de Confianza */}
+                {/* BENTO 2: BANDA DE CONFIANZA 95% (ESTILO OUR WORLD IN DATA) + FIABILIDAD */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   {prediction.model_available !== false ? (
-                    <div className="bg-white rounded-2xl p-6 shadow-md border border-slate-100 flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center shrink-0">
-                        <AlertTriangle className="w-6 h-6 text-orange-500" />
-                      </div>
+                    <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border-2 border-[#2f3b5c]/12 flex flex-col justify-between space-y-4">
                       <div>
-                        <h4 className="text-sm font-bold text-slate-800 mb-1">{t.predUncertaintyMargin}</h4>
-                        <p className="text-sm text-slate-600 leading-relaxed">
-                          [{prediction.yhat_lower} — {prediction.yhat_upper}] {t.predAvailableTag}
+                        <div className="flex items-center justify-between gap-2 mb-1">
+                          <h4 className="text-xs font-extrabold uppercase tracking-wider text-[#2f3b5c]">
+                            {t.predConfidenceBandTitle}
+                          </h4>
+                          <span className="font-mono text-xs font-extrabold px-2 py-0.5 rounded bg-[#2f3b5c]/10 text-[#2f3b5c] tabular-nums">
+                            [{prediction.yhat_lower} — {prediction.yhat_upper}]
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-500 leading-relaxed">
+                          {t.predConfidenceBandDesc}
                         </p>
+                      </div>
+
+                      {/* Visualizador gráfico de banda de intervalo [yhat_lower, yhat_upper] sobre [0, cap] */}
+                      <div className="space-y-1.5 pt-1">
+                        <div className="relative h-5 w-full bg-[#FAF9F5] rounded-lg border border-slate-200 overflow-hidden">
+                          {(() => {
+                            const cap = Math.max(1, prediction.cap || 30);
+                            const low = Math.max(0, Math.min(cap, Number(prediction.yhat_lower) || 0));
+                            const high = Math.max(low, Math.min(cap, Number(prediction.yhat_upper) || 0));
+                            const mid = Math.max(0, Math.min(cap, Number(prediction.yhat) || 0));
+                            const leftPct = (low / cap) * 100;
+                            const widthPct = Math.max(3, ((high - low) / cap) * 100);
+                            const midPct = (mid / cap) * 100;
+                            return (
+                              <>
+                                <div
+                                  className="absolute top-0 bottom-0 bg-[#1a84ce]/25 border-x-2 border-[#1a84ce]"
+                                  style={{ left: `${leftPct}%`, width: `${widthPct}%` }}
+                                />
+                                <div
+                                  className="absolute top-0 bottom-0 w-1 bg-[#2f3b5c]"
+                                  style={{ left: `calc(${midPct}% - 2px)` }}
+                                />
+                              </>
+                            );
+                          })()}
+                        </div>
+                        <div className="flex justify-between text-[10px] font-mono font-bold text-slate-400 tabular-nums">
+                          <span>Mín: {prediction.yhat_lower}</span>
+                          <span className="text-[#2f3b5c]">Est: {prediction.yhat}</span>
+                          <span>Máx: {prediction.yhat_upper}</span>
+                        </div>
                       </div>
                     </div>
                   ) : (
-                    <div className="bg-white rounded-2xl p-6 shadow-md border border-slate-100 flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
-                        <Info className="w-6 h-6 text-amber-500" />
+                    <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex items-start gap-4">
+                      <div className="w-11 h-11 rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
+                        <Info className="w-5 h-5 text-amber-600" />
                       </div>
                       <div>
                         <h4 className="text-sm font-bold text-slate-800 mb-1">{t.predWeatherConditions}</h4>
-                        <p className="text-sm text-slate-600 leading-relaxed">
+                        <p className="text-sm font-mono text-slate-600">
                           {prediction.temp}ºC • {prediction.prec}mm
                         </p>
                       </div>
                     </div>
                   )}
 
-                  {/* Probabilidad de Disponibilidad */}
-                  <div className="bg-white rounded-2xl p-6 shadow-md border border-slate-100 flex items-start gap-4">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${
+                  {/* Probabilidad / Fiabilidad de encontrar bici */}
+                  <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border-2 border-[#2f3b5c]/12 flex items-start gap-4">
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 font-mono font-black ${
                       prediction.model_available === false ? 'bg-amber-50 text-amber-500' :
-                      prediction.probabilidad_disponible !== undefined && prediction.probabilidad_disponible !== null && prediction.probabilidad_disponible > 75 ? 'bg-emerald-50 text-emerald-600' :
-                      prediction.probabilidad_disponible !== undefined && prediction.probabilidad_disponible !== null && prediction.probabilidad_disponible < 25 ? 'bg-red-50 text-red-600' :
-                      'bg-orange-50 text-orange-600'
+                      (prediction.probabilidad_disponible ?? 0) > 75 ? 'bg-[#55b73e]/15 text-[#3b8a28]' :
+                      (prediction.probabilidad_disponible ?? 0) < 25 ? 'bg-[#be0000]/10 text-[#be0000]' :
+                      'bg-amber-50 text-amber-600'
                     }`}>
                       <Percent className="w-6 h-6" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-bold text-slate-800 mb-1">{t.predSuccessProb}</h4>
+                      <h4 className="text-xs font-extrabold uppercase tracking-wider text-[#2f3b5c] mb-1">
+                        {t.predSuccessProb}
+                      </h4>
                       {prediction.model_available === false ? (
                         <p className="text-xs text-slate-500 mt-1 leading-normal font-medium">
                           {t.predModelDev}
                         </p>
                       ) : (
-                        <div className="mt-1">
-                          <div className="flex items-baseline gap-1">
-                            <span className="text-2xl font-black text-slate-800 tracking-tight">
+                        <div>
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-3xl font-mono font-extrabold text-[#2f3b5c] tracking-tight tabular-nums">
                               {prediction.probabilidad_disponible}%
                             </span>
-                            <span className="text-xs font-semibold text-slate-400">{t.predAvailableTag}</span>
-                          </div>
-                          <p className="text-[11px] text-slate-500 leading-normal mt-1">
-                            {t.predSuccessHint}
-                          </p>
-                          <div className="mt-2 flex items-center gap-1.5">
-                            <span className={`w-2 h-2 rounded-full ${
-                              prediction.probabilidad_disponible !== undefined && prediction.probabilidad_disponible !== null && prediction.probabilidad_disponible > 75 ? 'bg-emerald-500 animate-pulse' :
-                              prediction.probabilidad_disponible !== undefined && prediction.probabilidad_disponible !== null && prediction.probabilidad_disponible < 25 ? 'bg-red-500 animate-pulse' :
-                              'bg-orange-500 animate-pulse'
-                            }`} />
-                            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                              {prediction.probabilidad_disponible !== undefined && prediction.probabilidad_disponible !== null && prediction.probabilidad_disponible > 75 ? t.predSuccessHigh :
-                               prediction.probabilidad_disponible !== undefined && prediction.probabilidad_disponible !== null && prediction.probabilidad_disponible < 25 ? t.predSuccessLow :
-                               t.predSuccessMedium
-                              }
+                            <span className={`text-[10px] font-mono font-extrabold uppercase px-2 py-0.5 rounded ${
+                              (prediction.probabilidad_disponible ?? 0) > 75 ? 'bg-[#55b73e]/15 text-[#3b8a28]' :
+                              (prediction.probabilidad_disponible ?? 0) < 25 ? 'bg-[#be0000]/15 text-[#be0000]' :
+                              'bg-amber-100 text-amber-800'
+                            }`}>
+                              {(prediction.probabilidad_disponible ?? 0) > 75 ? t.predSuccessHigh :
+                               (prediction.probabilidad_disponible ?? 0) < 25 ? t.predSuccessLow :
+                               t.predSuccessMedium}
                             </span>
                           </div>
+                          <p className="text-xs text-slate-500 leading-relaxed mt-1.5">
+                            {t.predSuccessHint}
+                          </p>
                         </div>
                       )}
                     </div>
                   </div>
                 </div>
+
+                {/* BENTO 3: ESTACIÓN ALTERNATIVA MÁS CERCANA ("PLAN B" GEODÉSICO) */}
+                {planBStation && (
+                  <div className="bg-[#FAF9F5] rounded-2xl p-5 border-2 border-[#2f3b5c]/15 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="space-y-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="inline-flex items-center gap-1 text-[11px] font-extrabold uppercase tracking-wider text-[#2f3b5c]">
+                          <Navigation className="w-3.5 h-3.5 text-[#1a84ce]" />
+                          {t.planBTitle}
+                        </span>
+                        <span className="font-mono text-[11px] font-extrabold px-2 py-0.5 rounded bg-white border border-slate-200 text-slate-700 tabular-nums">
+                          {planBStation.distanceMeters} m • ~{planBStation.walkMins} {t.planBWalkTime}
+                        </span>
+                      </div>
+
+                      <p className="text-sm font-extrabold text-[#2f3b5c] truncate">
+                        #{planBStation.station.id} — {planBStation.station.name}
+                      </p>
+
+                      <div className="flex items-center gap-3 text-xs font-mono font-bold pt-0.5">
+                        <span className="text-[#3b8a28]">
+                          🚲 {planBStation.station.currentBikes ?? planBStation.station.cap} {t.availableBikes}
+                        </span>
+                        <span className="text-slate-300">•</span>
+                        <span className="text-[#1a84ce]">
+                          🅿️{' '}
+                          {planBStation.station.freeDocks !== undefined
+                            ? planBStation.station.freeDocks
+                            : Math.max(0, planBStation.station.cap - (planBStation.station.currentBikes || 0))}{' '}
+                          {t.liveFreeDocks}
+                        </span>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const nextStr = `${planBStation.station.id} - ${planBStation.station.name}`;
+                        setStationId(nextStr);
+                        setMapCenter([planBStation.station.lat, planBStation.station.lng]);
+                        setMapZoom(16);
+                        runPredictionForStation(nextStr);
+                      }}
+                      className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-white hover:bg-[#2f3b5c] text-[#2f3b5c] hover:text-white border-2 border-[#2f3b5c]/20 font-extrabold text-xs transition-all shrink-0 cursor-pointer shadow-2xs"
+                    >
+                      <span>{t.planBSwitchBtn}</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                )}
 
               </motion.div>
             )}
@@ -1320,11 +1896,11 @@ export default function App() {
       </main>
 
       {/* FOOTER CORPORATIVO (DE LADO A LADO) */}
-      <footer className="mt-20 w-full bg-[#2f3b5c] text-white border-t border-slate-700/40">
+      <footer className="mt-16 w-full bg-[#2f3b5c] text-white border-t border-slate-700/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
-            <span className="text-lg font-bold tracking-tight text-white font-sans">
-              valenBA
+            <span className="text-lg font-black tracking-tight text-white font-sans">
+              valen<span className="text-sky-300">BA</span>
             </span>
             <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-slate-300">
               <button
@@ -1346,7 +1922,7 @@ export default function App() {
                 onClick={() => setShowHowItWorks(true)}
                 className="hover:text-white underline cursor-pointer"
               >
-                Documentación
+                {t.methodologyBtn}
               </button>
             </div>
           </div>
@@ -1436,7 +2012,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* MODAL CÓMO FUNCIONA */}
+      {/* MODAL DE METODOLOGÍA Y ARQUITECTURA DE DATOS (ESTILO EDITORIAL SUIZO) */}
       <AnimatePresence>
         {showHowItWorks && (
           <motion.div 
@@ -1447,79 +2023,76 @@ export default function App() {
             onClick={() => setShowHowItWorks(false)}
           >
             <motion.div 
-              initial={{ scale: 0.95, opacity: 0 }}
+              initial={{ scale: 0.97, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
+              exit={{ scale: 0.97, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-3xl shadow-2xl p-6 md:p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+              className="bg-white rounded-2xl shadow-2xl p-6 md:p-8 max-w-2xl w-full max-h-[88vh] overflow-y-auto border-2 border-[#2f3b5c]/15 space-y-6"
             >
-              <div className="flex justify-between items-start mb-6">
-                <h2 className="text-2xl font-black text-[#2f3b5c] flex items-center gap-2">
-                  <Info className="w-6 h-6 text-blue-500 shrink-0" />
-                  ¿Cómo funciona y entorno local?
-                </h2>
-                <button onClick={() => setShowHowItWorks(false)} className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors shrink-0">
-                  <X className="w-6 h-6" />
+              <div className="flex justify-between items-start pb-4 border-b border-slate-200">
+                <div>
+                  <span className="font-mono text-[10px] font-extrabold uppercase tracking-widest px-2 py-0.5 rounded bg-[#2f3b5c] text-white">
+                    VALENBA • SPEC v2.4
+                  </span>
+                  <h2 className="text-xl sm:text-2xl font-black text-[#2f3b5c] mt-2">
+                    {t.methodologyTitle}
+                  </h2>
+                  <p className="text-xs font-medium text-slate-500 mt-0.5">
+                    {t.methodologySubtitle}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowHowItWorks(false)}
+                  className="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors shrink-0 cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
                 </button>
               </div>
 
-              <div className="space-y-6 text-slate-600">
-                <section>
-                  <h3 className="text-lg font-bold text-slate-800 mb-2">Arquitectura del Proyecto</h3>
-                  <p>
-                    Esta aplicación es el frontend en React (Vite) que se conecta a una API externa (por defecto en <code className="bg-slate-100 px-1.5 py-0.5 rounded text-sm text-[#2f3b5c] font-mono break-all">http://127.0.0.1:8000</code>) donde residen los modelos predictivos de Machine Learning (ej. Prophet) para estimar la disponibilidad de bicicletas en base a coordenadas y capacidad de la estación.
+              <div className="grid grid-cols-1 gap-4 text-slate-700">
+                <section className="p-4 rounded-xl bg-[#FAF9F5] border border-slate-200/90 space-y-1.5">
+                  <h3 className="text-sm font-extrabold text-[#2f3b5c] font-mono">
+                    {t.methSec1Title}
+                  </h3>
+                  <p className="text-xs sm:text-sm leading-relaxed text-slate-600">
+                    {t.methSec1Text}
                   </p>
                 </section>
 
-                <hr className="border-slate-100" />
-
-                <section>
-                  <h3 className="text-lg font-bold text-slate-800 mb-2">Ejecutar el Frontend en Local</h3>
-                  <ol className="list-decimal pl-5 space-y-2 text-sm md:text-base">
-                    <li>Clona el repositorio en tu ordenador.</li>
-                    <li>Abre una terminal en la carpeta del proyecto.</li>
-                    <li>Instala las dependencias ejecutando: <code className="bg-slate-100 px-1.5 py-0.5 rounded text-[#2f3b5c] font-mono">npm install</code></li>
-                    <li>Inicia el servidor de desarrollo: <code className="bg-slate-100 px-1.5 py-0.5 rounded text-[#2f3b5c] font-mono">npm run dev</code></li>
-                    <li>Abre <code className="bg-slate-100 px-1.5 py-0.5 rounded text-[#2f3b5c] font-mono">http://localhost:3000</code> en tu navegador.</li>
-                  </ol>
-                </section>
-
-                <hr className="border-slate-100" />
-
-                <section>
-                  <h3 className="text-lg font-bold text-slate-800 mb-2">Configurar el Backend (Python/FastAPI)</h3>
-                  <p className="mb-3 text-sm md:text-base">
-                    Para que las predicciones funcionen en local, necesitas levantar un servidor backend en el puerto 8000, que reciba las peticiones del modelo.
+                <section className="p-4 rounded-xl bg-[#FAF9F5] border border-slate-200/90 space-y-1.5">
+                  <h3 className="text-sm font-extrabold text-[#2f3b5c] font-mono">
+                    {t.methSec2Title}
+                  </h3>
+                  <p className="text-xs sm:text-sm leading-relaxed text-slate-600">
+                    {t.methSec2Text}
                   </p>
-                  <ol className="list-decimal pl-5 space-y-2 text-sm md:text-base">
-                    <li>Crea un entorno virtual de Python: <code className="bg-slate-100 px-1.5 py-0.5 rounded text-[#2f3b5c] font-mono">python -m venv venv</code></li>
-                    <li>Activa el entorno: 
-                      <ul className="list-disc pl-5 mt-1 text-slate-500">
-                        <li>Windows: <code className="bg-slate-100 px-1.5 py-0.5 rounded text-[#2f3b5c] font-mono break-all">venv\Scripts\activate</code></li>
-                        <li>Mac/Linux: <code className="bg-slate-100 px-1.5 py-0.5 rounded text-[#2f3b5c] font-mono break-all">source venv/bin/activate</code></li>
-                      </ul>
-                    </li>
-                    <li>Instala las librerías necesarias (ej. fastapi, uvicorn, prophet, pandas): <code className="bg-slate-100 px-1.5 py-0.5 rounded text-[#2f3b5c] font-mono break-all">pip install -r requirements.txt</code></li>
-                    <li>Inicia el servidor backend: <code className="bg-slate-100 px-1.5 py-0.5 rounded text-[#2f3b5c] font-mono break-all">uvicorn main:app --reload --port 8000</code></li>
-                  </ol>
                 </section>
-                
-                <hr className="border-slate-100" />
-                
-                <section>
-                  <h3 className="text-lg font-bold text-slate-800 mb-2">Integrar datos reales (JSON o CSV)</h3>
-                  <p className="text-sm md:text-base leading-relaxed">
-                    Si tienes un dataset de coordenadas, puedes alimentar el mapa modificando el código. Ve a <code className="bg-slate-100 px-1.5 py-0.5 rounded text-[#2f3b5c] font-mono">App.tsx</code> y descomenta el bloque <code className="bg-slate-100 px-1.5 py-0.5 rounded text-[#2f3b5c] font-mono">fetch('/dataset_coordenadas.json')</code> en el <code className="bg-slate-100 px-1.5 py-0.5 rounded text-[#2f3b5c] font-mono">useEffect</code> del mapa para cargar un archivo local ubicado en la carpeta <strong>public</strong>. O expón un endpoint en FastAPI para servir un JSON con el array de estaciones generadas desde tu CSV.
+
+                <section className="p-4 rounded-xl bg-[#FAF9F5] border border-slate-200/90 space-y-1.5">
+                  <h3 className="text-sm font-extrabold text-[#2f3b5c] font-mono">
+                    {t.methSec3Title}
+                  </h3>
+                  <p className="text-xs sm:text-sm leading-relaxed text-slate-600">
+                    {t.methSec3Text}
+                  </p>
+                </section>
+
+                <section className="p-4 rounded-xl bg-[#FAF9F5] border border-slate-200/90 space-y-1.5">
+                  <h3 className="text-sm font-extrabold text-[#2f3b5c] font-mono">
+                    {t.methSec4Title}
+                  </h3>
+                  <p className="text-xs sm:text-sm leading-relaxed text-slate-600">
+                    {t.methSec4Text}
                   </p>
                 </section>
               </div>
 
-              <div className="mt-8">
+              <div className="pt-2 border-t border-slate-100 flex justify-end">
                 <button 
                   onClick={() => setShowHowItWorks(false)}
-                  className="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 py-3 md:py-4 rounded-xl font-bold transition-colors"
+                  className="bg-[#2f3b5c] hover:bg-[#1a233a] text-white px-6 py-2.5 rounded-xl font-extrabold text-xs transition-colors cursor-pointer"
                 >
-                  Entendido
+                  {t.methCloseBtn}
                 </button>
               </div>
             </motion.div>
