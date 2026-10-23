@@ -169,3 +169,25 @@ html, body {
   padding: 4px 8px !important;
 }
 
+
+.marker-pill-arrow {
+  width: 7px;
+  height: 7px;
+  transform: rotate(45deg);
+  margin-top: -4px;
+  z-index: -1;
+  border-right: 1.5px solid #ffffff;
+  border-bottom: 1.5px solid #ffffff;
+}
+
+.marker-pill-arrow-normal {
+  background-color: #2f3b5c !important;
+}
+
+.marker-pill-arrow-empty {
+  background-color: #be0000 !important;
+}
+
+.marker-pill-arrow-broken {
+  background-color: #64748b !important;
+}

@@ -122,20 +122,19 @@ const getStationIcon = (
   if (isBroken) {
     pillVariant = 'marker-pill-broken';
     arrowVariant = 'marker-pill-arrow-broken';
-    statusIndicatorHtml = '<span class="w-2 h-2 rounded-full bg-slate-300 shrink-0"></span>';
-  } else if (isFavorite) {
-    pillVariant = 'marker-pill-favorite';
-    arrowVariant = 'marker-pill-arrow-favorite';
-    statusIndicatorHtml =
-      '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="#78350f" stroke="#78350f" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+    statusIndicatorHtml = '<span class="w-1.5 h-1.5 rounded-full bg-slate-300 shrink-0"></span>';
   } else if (bikesNum === 0) {
+    // Estación vacía (0 bicis): Roja
     pillVariant = 'marker-pill-empty';
     arrowVariant = 'marker-pill-arrow-empty';
     statusIndicatorHtml = '<span class="w-1.5 h-1.5 rounded-full bg-white/90 shrink-0"></span>';
-  } else if (bikesNum <= 4) {
-    pillVariant = 'marker-pill-low';
+  } else {
+    // Estación con bicis: Azul corporativo con iconito verde
+    pillVariant = 'marker-pill-normal';
     arrowVariant = 'marker-pill-arrow-normal';
-    statusIndicatorHtml = '<span class="w-2 h-2 rounded-full bg-[#fbbf24] shrink-0"></span>';
+    statusIndicatorHtml = isFavorite
+      ? '<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" stroke-width="2" class="shrink-0"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'
+      : '<span class="w-2 h-2 rounded-full bg-[#55b73e] shrink-0"></span>';
   }
 
   const selectedClass = isSelected ? 'selected' : '';
@@ -144,7 +143,7 @@ const getStationIcon = (
   return L.divIcon({
     html: `
       <div class="relative flex flex-col items-center justify-center">
-        ${isSelected ? `<span class="absolute -top-1 inline-flex h-8 w-11 animate-ping rounded-full ${isFavorite ? 'bg-amber-400/35' : 'bg-[#2f3b5c]/30'}"></span>` : ''}
+        ${isSelected ? `<span class="absolute -top-1 inline-flex h-8 w-11 animate-ping rounded-full bg-[#2f3b5c]/30"></span>` : ''}
         <div class="relative marker-pill ${pillVariant} ${selectedClass}">
           ${statusIndicatorHtml}
           <span>${displayValue}</span>
@@ -1367,10 +1366,6 @@ export default function App() {
                     <span className="inline-flex items-center gap-1.5">
                       <span className="w-2.5 h-2.5 rounded-full bg-[#55b73e]" />
                       <span>{t.legendOptimal}</span>
-                    </span>
-                    <span className="inline-flex items-center gap-1.5">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#f59e0b]" />
-                      <span>{t.legendLow}</span>
                     </span>
                     <span className="inline-flex items-center gap-1.5">
                       <span className="w-2.5 h-2.5 rounded-full bg-[#be0000]" />
