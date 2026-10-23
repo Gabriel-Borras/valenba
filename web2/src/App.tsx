@@ -905,16 +905,16 @@ export default function App() {
             backgroundSize: '28px 28px'
           }}
         />
-        <div className="max-w-7xl mx-auto relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div className="max-w-7xl mx-auto relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-white">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-black tracking-tight text-white">
               {t.heroTitle}
             </h1>
           </div>
 
-          {/* Telemetría agregada en vivo de las 276 estaciones */}
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 px-3 py-1.5 rounded-xl backdrop-blur-xs">
+          {/* Telemetría agregada en vivo de las 276 estaciones (alineadas en una sola fila) */}
+          <div className="flex items-center gap-2 sm:gap-2.5 flex-nowrap overflow-x-auto scrollbar-none pb-0.5">
+            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 px-3 py-1.5 rounded-xl backdrop-blur-xs whitespace-nowrap shrink-0">
               <span className="w-2 h-2 rounded-full bg-[#55b73e] animate-pulse shrink-0" />
               <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-blue-100">
                 {t.networkActiveStations}:
@@ -924,7 +924,7 @@ export default function App() {
               </span>
             </div>
 
-            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 px-3 py-1.5 rounded-xl backdrop-blur-xs">
+            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 px-3 py-1.5 rounded-xl backdrop-blur-xs whitespace-nowrap shrink-0">
               <span className="text-xs font-mono font-extrabold text-[#7be362] tabular-nums">
                 {networkStats.totalBikes.toLocaleString()}
               </span>
@@ -933,7 +933,7 @@ export default function App() {
               </span>
             </div>
 
-            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 px-3 py-1.5 rounded-xl backdrop-blur-xs">
+            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 px-3 py-1.5 rounded-xl backdrop-blur-xs whitespace-nowrap shrink-0">
               <span className="text-xs font-mono font-extrabold text-sky-300 tabular-nums">
                 {networkStats.totalFreeDocks.toLocaleString()}
               </span>
