@@ -1392,7 +1392,7 @@ export default function App() {
 
                 {/* CONTENEDOR LEAFLET */}
                 <div className="flex-1 w-full h-full relative z-0">
-                  <MapContainer center={mapCenter} zoom={mapZoom} preferCanvas={true} style={{ height: '100%', width: '100%', zIndex: 0 }}>
+                  <MapContainer center={mapCenter} zoom={mapZoom} style={{ height: '100%', width: '100%', zIndex: 0 }}>
                     <ChangeMapView center={mapCenter} zoom={mapZoom} />
                     {mapStyle === 'osm' ? (
                       <TileLayer
