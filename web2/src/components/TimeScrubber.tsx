@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { CalendarClock, SlidersHorizontal, Sun, Moon, Sunrise, Sunset, ChevronDown } from 'lucide-react';
+import { CalendarClock, ChevronDown } from 'lucide-react';
 import { Translations, Language } from '../translations';
 
 interface TimeScrubberProps {
@@ -35,7 +35,7 @@ export const TimeScrubber: React.FC<TimeScrubberProps> = ({
     return isNaN(d.getTime()) ? new Date() : d;
   }, [value]);
 
-  // Reloj reactivo: se actualiza periódicamente para refrescar automáticamente los días al cruzar la medianoche
+  // Reloj reactivo: se actualiza periódicamente
   const [now, setNow] = useState(() => new Date());
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export const TimeScrubber: React.FC<TimeScrubberProps> = ({
     };
   }, []);
 
-  // Si la fecha seleccionada quedó en el pasado al pasar las 00:00, auto-ajustar a hoy
+  // Si la fecha seleccionada quedó en el pasado al pasar las 00:00, auto-ajustar
   useEffect(() => {
     if (value) {
       const selectedTime = new Date(value).getTime();
@@ -114,7 +114,7 @@ export const TimeScrubber: React.FC<TimeScrubberProps> = ({
         return i;
       }
     }
-    return 0; // Por defecto Hoy
+    return 0;
   }, [currentDate, threeDays]);
 
   // Minuto del día actual (0 a 1425)
@@ -122,17 +122,13 @@ export const TimeScrubber: React.FC<TimeScrubberProps> = ({
     return currentDate.getHours() * 60 + currentDate.getMinutes();
   }, [currentDate]);
 
-  // Mínimo minuto permitido para el slider:
-  // Si es Hoy, empieza desde ahora (redondeado a 15 min); si es Mañana o el Día 3, empieza desde 0 (00:00).
   const minMinuteOfDay = selectedDayIndex === 0 ? nowMinuteRounded : 0;
 
-  // Manejar cambio en el selector de los 3 días (Flecha Rosa)
   const handleSelectDay = (dayIndex: number) => {
     const targetBase = new Date(threeDays[dayIndex].date);
     let hour = currentDate.getHours();
     let minute = currentDate.getMinutes();
 
-    // Si selecciona Hoy y la hora actual era anterior al momento actual, ajustar al momento actual
     if (dayIndex === 0) {
       const selectedTotalMins = hour * 60 + minute;
       if (selectedTotalMins < nowMinuteRounded) {
@@ -145,7 +141,6 @@ export const TimeScrubber: React.FC<TimeScrubberProps> = ({
     onChange(formatISO(targetBase));
   };
 
-  // Manejar cambio en el deslizador de hora del día (Flecha Amarilla)
   const handleMinuteSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const minutes = parseInt(e.target.value, 10);
     const target = new Date(threeDays[selectedDayIndex].date);
@@ -155,7 +150,6 @@ export const TimeScrubber: React.FC<TimeScrubberProps> = ({
     onChange(formatISO(target));
   };
 
-  // Presets rápidos adaptados al rango de 3 días
   const applyPresetMinutes = (minutesFromNow: number) => {
     const target = new Date(Date.now() + minutesFromNow * 60 * 1000);
     onChange(formatISO(target));
@@ -168,36 +162,11 @@ export const TimeScrubber: React.FC<TimeScrubberProps> = ({
     onChange(formatISO(target));
   };
 
-  // Contexto del momento del día (Mañana, Mediodía, Tarde, Noche)
-  const timeContext = useMemo(() => {
-    const h = currentDate.getHours();
-
-    let period = t.periodAfternoon;
-    let icon = <Sun className="w-4 h-4 text-amber-500" />;
-
-    if (h >= 6 && h < 12) {
-      period = t.periodMorning;
-      icon = <Sunrise className="w-4 h-4 text-orange-400" />;
-    } else if (h >= 12 && h < 16) {
-      period = t.periodMidday;
-      icon = <Sun className="w-4 h-4 text-amber-500" />;
-    } else if (h >= 16 && h < 21) {
-      period = t.periodAfternoon;
-      icon = <Sunset className="w-4 h-4 text-rose-400" />;
-    } else {
-      period = t.periodNight;
-      icon = <Moon className="w-4 h-4 text-indigo-400" />;
-    }
-
-    return { period, icon };
-  }, [currentDate, t]);
-
   const formattedHours = currentDate.toLocaleTimeString(locale, {
     hour: '2-digit',
     minute: '2-digit'
   });
 
-  // Horizonte relativo (+Xh Ym) para percepción inmediata de distancia temporal
   const relativeHorizon = useMemo(() => {
     const diffMs = currentDate.getTime() - now.getTime();
     const diffMins = Math.round(diffMs / 60000);
@@ -214,106 +183,69 @@ export const TimeScrubber: React.FC<TimeScrubberProps> = ({
   }, [currentDate, now, t.presetNow]);
 
   return (
-    <div className="space-y-4 bg-[#FAF9F5] rounded-2xl border-2 border-[#2f3b5c]/15 p-4 sm:p-5 shadow-xs">
-      {/* 1. CABECERA: Hora en color corporativo (#2f3b5c) + horizonte relativo */}
-      <div className="flex items-center justify-between gap-2 pb-3 border-b border-slate-200/80">
-        <div className="flex items-center gap-2.5 flex-wrap">
-          <span className="text-3xl sm:text-4xl font-extrabold font-mono text-[#2f3b5c] tracking-tight tabular-nums">
-            {formattedHours}
-          </span>
-
-          {/* Badge del momento del día */}
-          <span className="inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-lg bg-white text-slate-700 border border-slate-200 shadow-2xs">
-            {timeContext.icon}
-            <span>{timeContext.period}</span>
-          </span>
-
-          {/* Píldora de horizonte relativo (+Xh Ym) */}
-          <span className="inline-flex items-center text-[11px] font-mono font-bold px-2 py-0.5 rounded-md bg-[#2f3b5c]/10 text-[#2f3b5c] tabular-nums">
-            {relativeHorizon}
-          </span>
-        </div>
-
-        {/* Botón para ajuste manual opcional */}
-        <button
-          type="button"
-          onClick={() => setShowManualInput(!showManualInput)}
-          className="text-xs font-bold text-slate-600 hover:text-[#2f3b5c] bg-white hover:bg-slate-50 px-2.5 py-1.5 rounded-xl border border-slate-200/90 flex items-center gap-1.5 transition-all shrink-0 shadow-2xs cursor-pointer"
-        >
-          <SlidersHorizontal className="w-3.5 h-3.5 text-slate-400" />
-          <span className="hidden sm:inline">{showManualInput ? t.hideManualSelector : t.manualSelector}</span>
-          <ChevronDown className={`w-3 h-3 transition-transform ${showManualInput ? 'rotate-180' : ''}`} />
-        </button>
+    <div className="bg-[#FAF9F5]/70 rounded-xl border border-slate-200/80 p-3.5 space-y-3">
+      {/* 1. Selector de Día Minimalista */}
+      <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-200/50 rounded-xl">
+        {threeDays.map((d) => {
+          const isSelected = selectedDayIndex === d.index;
+          return (
+            <button
+              key={d.index}
+              type="button"
+              onClick={() => handleSelectDay(d.index)}
+              className={`py-1.5 px-2 rounded-lg text-center font-bold text-xs transition-all cursor-pointer ${
+                isSelected
+                  ? 'bg-white text-[#2f3b5c] shadow-2xs'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <span className="block leading-tight">{d.label}</span>
+              <span className={`text-[10px] font-mono leading-none block mt-0.5 ${isSelected ? 'text-[#1a84ce]' : 'text-slate-400'}`}>
+                {d.dateStr}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
-      {/* INPUT MANUAL OPCIONAL (DESPLEGABLE) */}
-      {showManualInput && (
-        <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1.5 animate-in fade-in slide-in-from-top-1 duration-150">
-          <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500" htmlFor="manual_datetime">
-            {t.exactDateTime}
-          </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <CalendarClock className="h-4 w-4 text-slate-400" />
-            </div>
+      {/* 2. Visualización de Hora y Deslizador */}
+      <div className="space-y-2 pt-1">
+        <div className="flex items-baseline justify-between">
+          <div className="flex items-baseline gap-2">
+            <span className="text-2xl sm:text-3xl font-black font-mono text-[#2f3b5c] tabular-nums tracking-tight">
+              {formattedHours}
+            </span>
+            <span className="text-[11px] font-semibold text-slate-500">
+              {relativeHorizon}
+            </span>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setShowManualInput(!showManualInput)}
+            className="text-xs text-slate-500 hover:text-[#2f3b5c] flex items-center gap-1 transition-colors cursor-pointer py-1"
+          >
+            <CalendarClock className="w-3.5 h-3.5 text-slate-400" />
+            <span className="text-[11px]">{showManualInput ? t.hideManualSelector : t.manualSelector}</span>
+            <ChevronDown className={`w-3 h-3 transition-transform ${showManualInput ? 'rotate-180' : ''}`} />
+          </button>
+        </div>
+
+        {/* Input manual desplegable */}
+        {showManualInput && (
+          <div className="pt-1 pb-1 animate-in fade-in duration-150">
             <input
               id="manual_datetime"
               type="datetime-local"
-              min={minDate}
-              max={maxDate}
               value={value}
               onChange={(e) => onChange(e.target.value)}
-              className="block w-full pl-9 pr-3 py-2 text-sm font-mono border border-slate-300 rounded-xl bg-[#FAF9F5] focus:bg-white focus:ring-2 focus:ring-[#2f3b5c] outline-none font-bold text-[#2f3b5c]"
+              className="w-full text-xs font-mono p-2 border border-slate-300 rounded-lg bg-white text-[#2f3b5c] outline-none focus:border-[#2f3b5c]"
             />
           </div>
-        </div>
-      )}
+        )}
 
-      {/* 2. SELECTOR DE DÍA (HOY, MAÑANA Y DÍA 3) */}
-      <div className="space-y-1.5">
-        <div className="flex items-center justify-between">
-          <label className="block text-[11px] font-extrabold uppercase tracking-wider text-slate-500">
-            {t.forecastDay}
-          </label>
-          <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">
-            {t.limit72hBadge}
-          </span>
-        </div>
-        <div className="grid grid-cols-3 gap-2 p-1 bg-slate-200/60 rounded-xl border border-slate-200/90">
-          {threeDays.map((d) => {
-            const isSelected = selectedDayIndex === d.index;
-            return (
-              <button
-                key={d.index}
-                type="button"
-                onClick={() => handleSelectDay(d.index)}
-                className={`py-2 px-2 rounded-lg text-center font-bold text-xs transition-all flex flex-col items-center justify-center gap-0.5 cursor-pointer ${
-                  isSelected
-                    ? 'bg-[#2f3b5c] text-white shadow-sm'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-white/90'
-                }`}
-              >
-                <span className="text-xs font-extrabold leading-tight">{d.label}</span>
-                <span className={`text-[10px] font-mono font-semibold leading-none ${isSelected ? 'text-blue-200' : 'text-slate-400'}`}>
-                  {d.dateStr}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* 3. DESLIZADOR PARA SELECCIONAR LA HORA DEL DÍA */}
-      <div className="space-y-2 pt-1">
-        <div className="flex justify-between items-center text-[11px] font-mono font-bold text-slate-400 tabular-nums">
-          <span>{selectedDayIndex === 0 ? t.presetNow : '00:00'}</span>
-          <span>06:00</span>
-          <span>12:00</span>
-          <span>18:00</span>
-          <span>23:45</span>
-        </div>
-
-        <div className="relative py-1">
+        {/* Slider continuo */}
+        <div className="pt-1">
           <input
             type="range"
             min={minMinuteOfDay}
@@ -321,55 +253,57 @@ export const TimeScrubber: React.FC<TimeScrubberProps> = ({
             step={15}
             value={currentMinuteOfDay}
             onChange={handleMinuteSliderChange}
-            className="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-[#2f3b5c] focus:outline-none transition-all"
+            className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-[#2f3b5c]"
           />
+          <div className="flex justify-between text-[10px] font-mono text-slate-400 pt-1">
+            <span>{selectedDayIndex === 0 ? t.presetNow : '00:00'}</span>
+            <span>12:00</span>
+            <span>23:45</span>
+          </div>
         </div>
       </div>
 
-      {/* 4. CHIPS DE ACCESO RÁPIDO (PRESETS) */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pt-2 pb-0.5 scrollbar-none text-xs border-t border-slate-200/70">
-        <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 shrink-0 mr-1">
-          {t.quickPresets}
-        </span>
+      {/* 3. Atajos Rápidos */}
+      <div className="flex items-center gap-1.5 overflow-x-auto pt-2 border-t border-slate-200/60 scrollbar-none">
         <button
           type="button"
           onClick={() => applyPresetMinutes(0)}
-          className="px-2.5 py-1 rounded-lg font-mono font-bold bg-white hover:bg-[#2f3b5c] hover:text-white text-slate-700 border border-slate-200/90 whitespace-nowrap transition-colors cursor-pointer"
+          className="px-2 py-0.5 rounded-md font-mono text-[11px] font-medium bg-white hover:bg-[#2f3b5c] hover:text-white text-slate-600 border border-slate-200/80 whitespace-nowrap transition-colors cursor-pointer"
         >
           {t.presetNow}
         </button>
         <button
           type="button"
           onClick={() => applyPresetMinutes(30)}
-          className="px-2.5 py-1 rounded-lg font-mono font-bold bg-white hover:bg-[#2f3b5c] hover:text-white text-slate-700 border border-slate-200/90 whitespace-nowrap transition-colors cursor-pointer"
+          className="px-2 py-0.5 rounded-md font-mono text-[11px] font-medium bg-white hover:bg-[#2f3b5c] hover:text-white text-slate-600 border border-slate-200/80 whitespace-nowrap transition-colors cursor-pointer"
         >
           {t.preset30m}
         </button>
         <button
           type="button"
           onClick={() => applyPresetMinutes(60)}
-          className="px-2.5 py-1 rounded-lg font-mono font-bold bg-white hover:bg-[#2f3b5c] hover:text-white text-slate-700 border border-slate-200/90 whitespace-nowrap transition-colors cursor-pointer"
+          className="px-2 py-0.5 rounded-md font-mono text-[11px] font-medium bg-white hover:bg-[#2f3b5c] hover:text-white text-slate-600 border border-slate-200/80 whitespace-nowrap transition-colors cursor-pointer"
         >
           {t.preset1h}
         </button>
         <button
           type="button"
           onClick={() => applyPresetMinutes(180)}
-          className="px-2.5 py-1 rounded-lg font-mono font-bold bg-white hover:bg-[#2f3b5c] hover:text-white text-slate-700 border border-slate-200/90 whitespace-nowrap transition-colors cursor-pointer"
+          className="px-2 py-0.5 rounded-md font-mono text-[11px] font-medium bg-white hover:bg-[#2f3b5c] hover:text-white text-slate-600 border border-slate-200/80 whitespace-nowrap transition-colors cursor-pointer"
         >
           {t.preset3h}
         </button>
         <button
           type="button"
           onClick={() => applyTomorrowAt(9, 0)}
-          className="px-2.5 py-1 rounded-lg font-mono font-bold bg-white hover:bg-[#2f3b5c] hover:text-white text-slate-700 border border-slate-200/90 whitespace-nowrap transition-colors cursor-pointer"
+          className="px-2 py-0.5 rounded-md font-mono text-[11px] font-medium bg-white hover:bg-[#2f3b5c] hover:text-white text-slate-600 border border-slate-200/80 whitespace-nowrap transition-colors cursor-pointer"
         >
           {t.presetTomorrow9}
         </button>
         <button
           type="button"
           onClick={() => applyTomorrowAt(14, 0)}
-          className="px-2.5 py-1 rounded-lg font-mono font-bold bg-white hover:bg-[#2f3b5c] hover:text-white text-slate-700 border border-slate-200/90 whitespace-nowrap transition-colors cursor-pointer"
+          className="px-2 py-0.5 rounded-md font-mono text-[11px] font-medium bg-white hover:bg-[#2f3b5c] hover:text-white text-slate-600 border border-slate-200/80 whitespace-nowrap transition-colors cursor-pointer"
         >
           {t.presetTomorrow14}
         </button>

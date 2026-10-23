@@ -952,7 +952,7 @@ export default function App() {
         <motion.section 
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          className="lg:col-span-5 bg-white rounded-2xl shadow-md shadow-slate-900/5 border-2 border-[#2f3b5c]/12 overflow-hidden self-start"
+          className="lg:col-span-5 bg-white rounded-2xl shadow-md shadow-slate-900/5 border border-slate-200/90 shadow-xs overflow-hidden self-start"
         >
           <div className="p-5 sm:p-7">
             <div className="flex items-center justify-between pb-4 mb-5 border-b border-slate-100">
@@ -977,12 +977,7 @@ export default function App() {
               {/* PASO 01: SELECTOR DE ESTACIÓN */}
               <div className="space-y-2.5">
                 <div className="flex justify-between items-center">
-                  <label className="flex items-center gap-2 text-xs font-extrabold text-slate-700 uppercase tracking-wider">
-                    <span className="font-mono text-[11px] bg-[#2f3b5c] text-white px-2 py-0.5 rounded-md">
-                      01
-                    </span>
-                    <span>{t.formStationLabel}</span>
-                  </label>
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">{t.formStationLabel}</label>
                   <div className="flex items-center gap-2">
                     {favorites.length > 0 && (
                       <button
@@ -1160,12 +1155,7 @@ export default function App() {
 
               {/* PASO 02: SELECTOR TEMPORAL CONTINUO (TIME SCRUBBER) */}
               <div className="space-y-2.5">
-                <label className="flex items-center gap-2 text-xs font-extrabold text-slate-700 uppercase tracking-wider">
-                  <span className="font-mono text-[11px] bg-[#2f3b5c] text-white px-2 py-0.5 rounded-md">
-                    02
-                  </span>
-                  <span>{t.formDateLabel}</span>
-                </label>
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block">{t.formDateLabel}</label>
                 <TimeScrubber
                   value={dateTime}
                   onChange={setDateTime}
@@ -1198,7 +1188,7 @@ export default function App() {
                 id="boton_predecir"
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-[#2f3b5c] hover:bg-[#232d48] text-white py-4 px-6 rounded-xl font-extrabold text-base tracking-wide shadow-[0_4px_0_0_#18233C] hover:shadow-[0_3px_0_0_#18233C] hover:translate-y-[1px] active:translate-y-[3px] active:shadow-none transition-all flex items-center justify-center gap-2.5 disabled:opacity-70 disabled:cursor-not-allowed group cursor-pointer"
+                className="w-full bg-[#2f3b5c] hover:bg-[#232d48] text-white py-3.5 px-5 rounded-xl font-bold text-sm tracking-wide shadow-xs transition-all flex items-center justify-center gap-2.5 disabled:opacity-70 disabled:cursor-not-allowed group cursor-pointer"
               >
                 {isLoading ? (
                   <>
