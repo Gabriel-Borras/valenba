@@ -32,7 +32,7 @@ import {
   Layers,
   ArrowRight
 } from 'lucide-react';
-import { MapContainer, TileLayer, Marker, Popup, Tooltip, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { DEFAULT_STATIONS, MapStation } from './defaultStations';
 import L from 'leaflet';
@@ -1447,35 +1447,6 @@ export default function App() {
                             },
                           }}
                         >
-                          {/* HOVER TOOLTIP */}
-                          <Tooltip direction="top" offset={[0, -26]} opacity={0.98}>
-                            <div className="font-sans text-xs p-1.5 space-y-1 min-w-[175px]">
-                              <div className="flex items-center justify-between gap-2">
-                                <span className="font-mono text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-[#2f3b5c] text-white">
-                                  #{station.id}
-                                </span>
-                                <span className="font-mono text-[10px] font-bold text-slate-400">
-                                  {t.predCapacity}: {station.cap}
-                                </span>
-                              </div>
-                              <p className="font-extrabold text-[#2f3b5c] leading-snug pt-0.5">{station.name}</p>
-                              {station.currentBikes !== undefined && (
-                                <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-100 font-mono text-[11px] font-bold">
-                                  <span className={station.currentBikes === 0 ? 'text-[#be0000]' : 'text-[#3b8a28]'}>
-                                    {station.currentBikes} {t.availableBikes}
-                                  </span>
-                                  <span className="text-[#1a84ce]">
-                                    {freeDocks} {t.liveFreeDocks}
-                                  </span>
-                                </div>
-                              )}
-                              {isBroken && (
-                                <span className="inline-flex items-center gap-1 text-[#be0000] font-bold uppercase text-[9px] bg-red-50 px-1.5 py-0.5 rounded mt-1">
-                                  {t.mapMaintenanceTag}
-                                </span>
-                              )}
-                            </div>
-                          </Tooltip>
 
                           {/* POPUP CARD */}
                           <Popup>
