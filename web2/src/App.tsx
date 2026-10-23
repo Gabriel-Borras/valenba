@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Bike, 
@@ -106,6 +106,9 @@ const getDistanceMeters = (lat1: number, lon1: number, lat2: number, lon2: numbe
 };
 
 // Marcador Píldora Dinámico con número de bicicletas en tiempo real (Inspirado en Valenbisi / Transit)
+// Caché en memoria de iconos Leaflet para evitar re-crear 276 objetos DOM en cada render
+const iconCache = new Map<string, L.DivIcon>();
+
 const getStationIcon = (
   stationId: string,
   cap: number,
@@ -114,7 +117,12 @@ const getStationIcon = (
   currentBikes?: number,
   isBroken?: boolean
 ) => {
-  const bikesNum = currentBikes !== undefined ? currentBikes : cap;
+  const bikesNum = isBroken ? -1 : (currentBikes !== undefined ? currentBikes : cap);
+  const cacheKey = `${bikesNum}_${isSelected ? 1 : 0}_${isFavorite ? 1 : 0}_${isBroken ? 1 : 0}`;
+  
+  const cached = iconCache.get(cacheKey);
+  if (cached) return cached;
+
   let pillVariant = 'marker-pill-normal';
   let arrowVariant = 'marker-pill-arrow-normal';
   let statusIndicatorHtml = '<span class="w-2 h-2 rounded-full bg-[#55b73e] shrink-0"></span>';
@@ -124,12 +132,10 @@ const getStationIcon = (
     arrowVariant = 'marker-pill-arrow-broken';
     statusIndicatorHtml = '<span class="w-1.5 h-1.5 rounded-full bg-slate-300 shrink-0"></span>';
   } else if (bikesNum === 0) {
-    // Estación vacía (0 bicis): Roja
     pillVariant = 'marker-pill-empty';
     arrowVariant = 'marker-pill-arrow-empty';
     statusIndicatorHtml = '<span class="w-1.5 h-1.5 rounded-full bg-white/90 shrink-0"></span>';
   } else {
-    // Estación con bicis: Azul corporativo con iconito verde
     pillVariant = 'marker-pill-normal';
     arrowVariant = 'marker-pill-arrow-normal';
     statusIndicatorHtml = isFavorite
@@ -140,7 +146,7 @@ const getStationIcon = (
   const selectedClass = isSelected ? 'selected' : '';
   const displayValue = isBroken ? '—' : bikesNum;
 
-  return L.divIcon({
+  const icon = L.divIcon({
     html: `
       <div class="relative flex flex-col items-center justify-center">
         ${isSelected ? `<span class="absolute -top-1 inline-flex h-8 w-11 animate-ping rounded-full bg-[#2f3b5c]/30"></span>` : ''}
@@ -157,18 +163,24 @@ const getStationIcon = (
     popupAnchor: [0, -30],
     tooltipAnchor: [0, -28]
   });
+
+  iconCache.set(cacheKey, icon);
+  return icon;
 };
 
 // Map visual view-changer helper component
 function ChangeMapView({ center, zoom }: { center: [number, number]; zoom: number }) {
   const map = useMap();
+  const prevRef = useRef({ lat: center[0], lng: center[1], zoom });
+
   useEffect(() => {
-    map.setView(center, zoom);
-    const timer = setTimeout(() => {
-      map.invalidateSize();
-    }, 100);
-    return () => clearTimeout(timer);
+    const prev = prevRef.current;
+    if (prev.lat !== center[0] || prev.lng !== center[1] || prev.zoom !== zoom) {
+      prevRef.current = { lat: center[0], lng: center[1], zoom };
+      map.setView(center, zoom, { animate: true });
+    }
   }, [center, zoom, map]);
+
   return null;
 }
 
@@ -1380,7 +1392,7 @@ export default function App() {
 
                 {/* CONTENEDOR LEAFLET */}
                 <div className="flex-1 w-full h-full relative z-0">
-                  <MapContainer center={mapCenter} zoom={mapZoom} style={{ height: '100%', width: '100%', zIndex: 0 }}>
+                  <MapContainer center={mapCenter} zoom={mapZoom} preferCanvas={true} style={{ height: '100%', width: '100%', zIndex: 0 }}>
                     <ChangeMapView center={mapCenter} zoom={mapZoom} />
                     {mapStyle === 'osm' ? (
                       <TileLayer
@@ -1436,7 +1448,7 @@ export default function App() {
                           }}
                         >
                           {/* HOVER TOOLTIP */}
-                          <Tooltip direction="top" offset={[0, -26]} opacity={0.98} sticky>
+                          <Tooltip direction="top" offset={[0, -26]} opacity={0.98}>
                             <div className="font-sans text-xs p-1.5 space-y-1 min-w-[175px]">
                               <div className="flex items-center justify-between gap-2">
                                 <span className="font-mono text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-[#2f3b5c] text-white">
